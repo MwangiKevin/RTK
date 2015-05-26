@@ -171,3 +171,4 @@ ERROR - 2015-05-26 10:50:40 --> Severity: Notice --> Undefined variable: full_na
 ERROR - 2015-05-26 10:50:40 --> Severity: Notice --> Undefined variable: full_name /opt/lampp/htdocs/HCMP/application/views/scmlt/fcdrr_edit.php 524
 ERROR - 2015-05-26 10:50:40 --> Severity: Notice --> Undefined variable: order_date /opt/lampp/htdocs/HCMP/application/views/scmlt/fcdrr_edit.php 525
 ERROR - 2015-05-26 11:05:40 --> Severity: Notice --> Undefined index: micro_under_test /opt/lampp/htdocs/HCMP/application/views/scmlt/fcdrr_edit.php 69
+ERROR - 2015-05-26 11:37:58 --> Severity: Parsing Error --> syntax error, unexpected end of file /opt/lampp/htdocs/HCMP/application/views/scmlt/fcdrr_edit.php 741

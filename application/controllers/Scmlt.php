@@ -183,8 +183,7 @@ class Scmlt extends CI_Controller {
 		$data['county_name'] = $county_name;
 		$data['order_details'] = $order_details;
 		$data['count_categories'] = count($lab_categories);         
-		$data['county_name'] = $county_name;
-		$data['county_name'] = $county_name;
+		$data['county_name'] = $county_name;		
 
 		$data['count_categories'] = count($lab_categories);         
 		$data['all_details'] = $lab_details_all;         
@@ -206,11 +205,11 @@ class Scmlt extends CI_Controller {
 
 	function migrate_order_details()
 	{
-		// ini_set(MAX_EXECUTION_TIME, -1);
+		ini_set(MAX_EXECUTION_TIME, -1);
 		$a = 0;
 		$b = 50;
-		// while($b<=65050){
-		while($b<=100){
+		while($b<=65050){
+		// while($b<=){
 		
 			$this->load->model("Lab_orders_model",'orders_model');		
 			$this->load->model("Lab_details_model",'details_model');				

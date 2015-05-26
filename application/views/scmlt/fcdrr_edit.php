@@ -121,29 +121,32 @@
                     <tr>
                         <td colspan = "14" style = "text-align:left"><b><?php echo $lab_category['category_name']; ?></b></td>            
                     </tr>                    
-                    <?php foreach ($lab_commodities_categories as $lab_commodities) { ?>
-                    <tr commodity_id="<?php echo $checker ?>"><input type="hidden" id="commodity_id_<?php echo $checker ?>" name="commodity_id[<?php echo $checker ?>]" value="<?php echo $lab_commodities['id']; ?>" >
+                    <?php foreach ($all_details as $detail) {?>
+                        <tr commodity_id="<?php echo $checker ?>"><input type="hidden" id="commodity_id[<?php echo $checker?>]" name="commodity_id[<?php echo $checker?>]" value="<?php echo $detail['commodity_id']; ?>" >
                         <input type="hidden" id="facilityCode" name="facilityCode">
                         <input type="hidden" id="district" name="district" value="<?php echo $district_id; ?>">
-                        <input type="hidden" id="unit_of_issue_<?php echo $checker ?>" name = "unit_of_issue[<?php echo $checker ?>]" value="<?php echo $lab_commodities['unit_of_issue']; ?>">
-                        <td class="commodity_names" id="commodity_name_<?php echo $checker;?>" colspan = "2" style = "text-align:left"></b><?php echo $lab_commodities['commodity_name']; ?></td>
-                        <td style = "color:#000; border:none; text; text-align:center"><?php //echo $lab_commodities['unit_of_issue'];  ?>TESTS</td>
-                        <td><input id="b_balance_<?php echo $checker ?>" data-uiid="<?php echo $checker ?>" name = "b_balance[<?php echo $checker ?>]" class='bbal' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="q_received_<?php echo $checker ?>" name = "q_received[<?php echo $checker ?>]" class='qty_rcvd' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="q_used_<?php echo $checker ?>" name = "q_used[<?php echo $checker ?>]" class='qty_used' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="tests_done_<?php echo $checker ?>" name = "tests_done[<?php echo $checker ?>]" class='tests_done' size="10" value="0" type="text" style = "text-align:center"/></td>
-                        <td><input id="losses_<?php echo $checker ?>" name = "losses[<?php echo $checker ?>]" class='losses' size="10" type="text" value="0" style = "text-align:center" /></td>
-                        <td><input id="pos_adj_<?php echo $checker ?>" name = "pos_adj[<?php echo $checker ?>]" class='pos_adj' size="10" type="text" value="0" style = "text-align:center"/></td>  
-                        <td><input id="neg_adj_<?php echo $checker ?>" name = "neg_adj[<?php echo $checker ?>]" class='neg_adj' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="physical_count_<?php echo $checker ?>"  name = "physical_count[<?php echo $checker ?>]" class='phys_count' value="0" size="10" type="text" style = "text-align:center"/></td>
-                        <td><input id="q_expiring_<?php echo $checker ?>" name = "q_expiring[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center"/></td>
-                        <td><input id="days_out_of_stock_<?php echo $checker ?>" name = "days_out_of_stock[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center"/></td>  
-                        <td><input id="q_requested_<?php echo $checker ?>" data-uiid="<?php echo $checker ?>"name = "q_requested[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center"/></td>                  
+                        <input type="hidden" id="unit_of_issue[<?php echo $checker?>]" name = "unit_of_issue[<?php echo $checker?>]" value="<?php echo $detail['unit_of_issue']; ?>">
+                        <input type="hidden" id="detail_id[<?php echo $checker?>]" name = "detail_id[<?php echo $checker?>]" value="<?php echo $detail['id']; ?>">                        
+                        <td class="commodity_names" id="commodity_name_<?php echo $checker;?>" colspan = "2" style = "text-align:left"></b><?php echo $detail['commodity_name']; ?></td>
+                        <td style = "text-align:center" readonly="readonly"><?php echo $detail['unit_of_issue']; ?></td> 
+                        <td><input id="b_balance_<?php echo $checker ?>" name = "b_balance[<?php echo $checker ?>]" class='bbal' size="10" type="text" value="<?php echo $detail['beginning_bal']; ?>" style = "text-align:center"/></td>
+                        <td><input id="q_received_<?php echo $checker ?>" name = "q_received[<?php echo $checker ?>]" class='qty_rcvd' size="10" type="text" value="<?php echo $detail['q_received']; ?>" style = "text-align:center"/></td>
+                        <td><input id="q_used_<?php echo $checker ?>" name = "q_used[<?php echo $checker ?>]" class='qty_used' size="10" type="text" value="<?php echo $detail['q_used']; ?>" style = "text-align:center"/></td>
+                        <td><input id="tests_done_<?php echo $checker ?>" name = "tests_done[<?php echo $checker ?>]" class='tests_done' size="10" value="<?php echo $detail['no_of_tests_done']; ?>" type="text" style = "text-align:center"/></td>
+                        <td><input id="losses_<?php echo $checker ?>" name = "losses[<?php echo $checker ?>]" class='loses' size="10" type="text" value="<?php echo $detail['positive_adj']; ?>" style = "text-align:center" /></td>
+                        <td><input id="pos_adj_<?php echo $checker ?>" name = "pos_adj[<?php echo $checker ?>]" class='pos_adj' size="10" type="text" value="<?php echo $detail['positive_adj']; ?>" style = "text-align:center"/></td>  
+                        <td><input id="neg_adj_<?php echo $checker ?>" name = "neg_adj[<?php echo $checker ?>]" class='neg_adj' size="10" type="text" value="<?php echo $detail['negative_adj']; ?>" style = "text-align:center"/></td>
+                        <td><input id="physical_count_<?php echo $checker ?>"  name = "physical_count[<?php echo $checker ?>]" class='phys_count' value="<?php echo $detail['closing_stock']; ?>" size="10" type="text" style = "text-align:center"/></td>
+                        <td><input id="q_expiring_<?php echo $checker ?>" name = "q_expiring[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center" value="<?php echo $detail['q_expiring']; ?>"/></td>
+                        <td><input id="days_out_of_stock_<?php echo $checker ?>" name = "days_out_of_stock[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center" value="<?php echo $detail['days_out_of_stock']; ?>"/></td>  
+                        <td><input id="q_requested_<?php echo $checker ?>" name = "q_requested[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center" value="<?php echo $detail['q_requested']; ?>"/></td>                  
                     </tr>
                     <?php $checker++;
-                }
+            }
             }
             ?>
+            
+            
             <tr>
                 <td colspan = "14"><br/></td>
             </tr>
@@ -151,7 +154,7 @@
                 <td colspan = "14" style = "text-align:left;background: #EEE;">Explain Losses and Adjustments</td>
             </tr>
             <tr>                        
-                <td colspan = "16"><input colspan = "16" id="explanation" name="explanation" size="210" type="text" value="" style=" width: 90%;"/></td>
+                <td colspan = "16"><input colspan = "16" id="explanation" name="explanation" size="210" type="text" value="<?php echo $order_details['explanation']?>" style=" width: 90%;"/></td>
             </tr>
             <tr></tr>
 
@@ -175,7 +178,7 @@
                 <td colspan = "1"></td>
                 <td colspan = "2" style = "text-align:left">Date:</td>
             </tr>
-            <tr><td ><input class='user2'id="compiled_by" name="compiled_by" size="10" type="text" colspan = "3"/>
+            <tr><td ><input class='user2'id="compiled_by" name="compiled_by" size="10" type="text" colspan = "3" value="<?php echo $order_details['compiled_by']?>"/>
                 <span style="color: #f33;font-size: 10px;">* Required Field</span></td>
                 <td colspan = "2"><br/></td>
                 <td><input class='user2'id="compiled_tel" name="compiled_tel" size="10" type="text" colspan = "2"/></td>
@@ -201,7 +204,7 @@
                 <td colspan = "1"></td>
                 <td colspan = "2" style ="text-align:left">Date:</td>
             </tr>
-            <tr>                    <td><input class='user2'id="approved_by" name="approved_by" size="10" type="text" colspan = "2"/>
+            <tr>                    <td><input class='user2'id="approved_by" name="approved_by" size="10" type="text" colspan = "2" value="<?php echo $order_details['approved_by']?>"/>
                 <span style="color:#f33;font-size: 10px;">* Required Field</span></td>            
                 <td colspan = "2"><br/></td>
                 <td><input class='user2'id="approved_tel" name="approved_tel" size="10" type="text" colspan = "2"/></td>
