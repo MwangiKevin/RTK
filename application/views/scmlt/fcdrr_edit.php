@@ -5,9 +5,9 @@
 <div id="dialog-form" title="Enter the lab commodity details here">
     <form >
         <table id="fcdrr_table_example" width="10%" class="data-table">
-        	<thead>
+            <thead>
             <input  type="hidden" name="facility_name" colspan = "3" style = "color:#000; border:none" value="<?php echo $facility_name ?>"></td>
-        	<input  type="hidden" name="district_id" colspan = "3" style = "color:#000; border:none" value="<?php echo $district_id ?>"></td>
+            <input  type="hidden" name="district_id" colspan = "3" style = "color:#000; border:none" value="<?php echo $district_id ?>"></td>
             <input type="hidden" name="facility_code" colspan = "2" style = "color:#000; border:none" value="<?php echo $facility_code ?>"></td>
             <input type="hidden" name="district_name" colspan = "2" style = "color:#000; border:none" value="<?php echo $district_name ?>"></td>
             <input type="hidden" name="county" colspan = "3" style = "color:#000; border:none" value="<?php echo $county_name ?>"></td>
@@ -16,9 +16,9 @@
                 <td colspan = "2"><?php echo $facility_name ?></td>
                 <td rowspan = "8" style="background: #fff;"></td>
                 <td colspan = "3"><b>Applicable to HIV Test Kits Only</b></td>
-                <td colspan = "2"></td>
-                <td colspan = "4" style="text-align:center"><b>Applicable to Malaria Testing Only</b></td>
                 <td colspan = "1" rowspan = "8" style="background: #fff;"></td>
+                <td colspan = "6" style="text-align:center"><b>Applicable to Malaria Testing Only</b></td>
+                
             </tr>
             <tr ><td colspan = "2" style = "text-align:left"><b>MFL Code:</b></td>
                 <td><?php echo $facility_code ?></td>
@@ -33,57 +33,57 @@
             <tr><td colspan = "2" style = "text-align:left"><b>Sub-County:</b></td>
                 <td><?php echo $district_name ?></td>
                 <td colspan = "2"><b>VCT</b></td>
-                <td><input class='user2'class='user2' id="vct" name="vct" colspan = "2" style = "color:#000" value=0></td>
+                <td><input class='user2'class='user2' id="vct" name="vct" colspan = "2" style = "color:#000" value="<?php echo $order_details['vct'];?>"/></td>
                 <td colspan = "2"></td>
                 <td rowspan = "3">RDT</td>
                 <td style = "text-align:left">Patients&nbsp;<u>under</u> 5&nbsp;years</td>
-                <td><input class='user2'id="rdt_under_tests" name="rdt_under_tests" size="10" type="text"/></td>
-                <td><input class='user2'id="rdt_under_positive" name="rdt_under_positive" size="10" type="text"/></td>                          
+                <td><input class='user2'id="rdt_under_tests" name="rdt_under_tests" size="10" type="text" value="<?php echo $order_details['rdt_under_tests'];?>"/></td>
+                <td><input class='user2'id="rdt_under_positive" name="rdt_under_positive" size="10" type="text" value="<?php echo $order_details['rdt_under_pos'];?>"/></td>                          
 
             </tr>
             <tr><td colspan = "2" style = "text-align:left"><b>County:</b></td>                     
                 <td><?php echo $county_name ?></td>
                 <td colspan = "2"><b>PITC</b></td>
-                <td><input class='user2'class='user2' id="pitc" name="pitc" colspan = "2" style = "color:#000" value=0></td>
+                <td><input class='user2'class='user2' id="pitc" name="pitc" colspan = "2" style = "color:#000" value="<?php echo $order_details['pitc'];?>"/></td>
                 <td colspan = "2"></td>
                 <td style = "text-align:left">Patients&nbsp;aged 5-14&nbsp;yrs</td>
-                <td><input class='user2'id="rdt_to_tests" name="rdt_to_tests" size="10" type="text"/></td>
-                <td><input class='user2'id="rdt_to_positive" name="rdt_to_positive" size="10" type="text"/></td>                        </tr>
+                <td><input class='user2'id="rdt_to_tests" name="rdt_to_tests" size="10" type="text"  value="<?php echo $order_details['rdt_btwn_tests'];?>"/></td>
+                <td><input class='user2'id="rdt_to_positive" name="rdt_to_positive" size="10" type="text"  value="<?php echo $order_details['rdt_btwn_pos'];?>"/></td>                        </tr>
                 <tr><td colspan = "2" style = "text-align:right"><b>Beginning:</b></td> 
                     <td><input class='my_date'id="begin_date" name="begin_date" colspan = "2" size="10" type="text"/></td>
                     <td colspan = "2"><b>PMTCT</b></td>
-                    <td><input class='user2'class='user2' id="pmtct" name="pmtct" colspan = "2" style = "color:#000" value=0></td>
+                    <td><input class='user2'class='user2' id="pmtct" name="pmtct" colspan = "2" style = "color:#000" value="<?php echo $order_details['pmtct'];?>"/></td>
                     <td colspan = "2"></td>
                     <td style = "text-align:left">Patients&nbsp;<u>over</u> 14&nbsp;years</td>
-                    <td><input class='user2'id="rdt_over_tests" name="rdt_over_tests" size="10" type="text"/></td>
-                    <td><input class='user2'id="rdt_over_positive" name="rdt_over_positive" size="10" type="text"/></td>
+                    <td><input class='user2'id="rdt_over_tests" name="rdt_over_tests" size="10" type="text" value="<?php echo $order_details['rdt_over_tests'];?>"/></td>    
+                    <td><input class='user2'id="rdt_over_positive" name="rdt_over_positive" size="10" type="text" value="<?php echo $order_details['rdt_over_pos'];?>"/></td>
 
                 </tr>
                 <tr><td colspan = "2" style = "text-align:right"><b>Ending:</b></td>
                     <td><input class='my_date'id="end_date" name="end_date" colspan = "2" size="10" type="text"/></td>
                     <td colspan = "2"><b>Blood&nbsp;Screening</b></td>
-                    <td><input class='user2'class='user2' id="blood_screening" name="blood_screening" colspan = "2" style = "color:#000" value=0></td>
+                    <td><input class='user2'class='user2' id="blood_screening" name="blood_screening" colspan = "2" style = "color:#000" value="<?php echo $order_details['b_screening'];?>"/></td>
                     <td colspan = "2"></td>
                     <td rowspan = "3">Microscopy</td>
                     <td style = "text-align:left">Patients&nbsp;<u>under</u> 5&nbsp;years</td>
-                    <td><input class='user2'id="micro_under_tests" name="micro_under_tests" size="10" type="text"/></td>
-                    <td><input class='user2'id="micro_under_positive" name="micro_under_positive" size="10" type="text"/></td>                          
+                    <td><input class='user2'id="micro_under_tests" name="micro_under_tests" size="10" type="text" value="<?php echo $order_details['micro_under_tests'];?>"/></td>
+                    <td><input class='user2'id="micro_under_positive" name="micro_under_positive" size="10" type="text" value="<?php echo $order_details['micro_under_pos'];?>"/></td>                          
                 </tr>
                 <tr ><td colspan = "3"></td>
                     <td colspan = "2"><b>Other&nbsp;(Please&nbsp;Specify)</b></td>
-                    <td><input class='user2'class='user2' id="other2" name="other2" colspan = "2" style = "color:#000" value=0></td>    
+                    <td><input class='user2'class='user2' id="other2" name="other2" colspan = "2" style = "color:#000" value="<?php echo $order_details['other'];?>"/></td>    
                     <td colspan = "2"></td>
                     <td style = "text-align:left">Patients&nbsp;aged 5-14&nbsp;yrs</td>
-                    <td><input class='user2'id="micro_to_tests" name="micro_to_tests" size="10" type="text"/></td>
-                    <td><input class='user2'id="micro_to_positive" name="micro_to_positive" size="10" type="text"/></td>
+                    <td><input class='user2'id="micro_to_tests" name="micro_to_tests" size="10" type="text" value="<?php echo $order_details['micro_btwn_tests'];?>"/></td>
+                    <td><input class='user2'id="micro_to_positive" name="micro_to_positive" size="10" type="text" value="<?php echo $order_details['micro_btwn_pos'];?>"/></td>
                 </tr>
                 <tr><td colspan = "3"></td>
                     <td colspan = "2"><b>Specify&nbsp;Here:</b></td>
-                    <td><input class='user2'class='user2' id="specification" name="specification" colspan = "2" style = "color:#000"></td>  
+                    <td><input class='user2'class='user2' id="specification" name="specification" colspan = "2" style = "color:#000" value="<?php echo $order_details['specification'];?>"/></td>  
                     <td colspan = "2"></td>
                     <td style = "text-align:left">Patients&nbsp;<u>over</u> 14&nbsp;years</td>
-                    <td><input class='user2'id="micro_over_tests" name="micro_over_tests" size="10" type="text"/></td>
-                    <td><input class='user2'id="micro_over_positive" name="micro_over_positive" size="10" type="text"/></td>
+                    <td><input class='user2'id="micro_over_tests" name="micro_over_tests" size="10" type="text" value="<?php echo $order_details['micro_over_tests'];?>"/></td>
+                    <td><input class='user2'id="micro_over_positive" name="micro_over_positive" size="10" type="text" value="<?php echo $order_details['micro_over_pos'];?>"/></td>
                 </tr>
 
 
@@ -241,17 +241,17 @@
 </div><!-- /.modal -->
 
 <style type="text/css">
-	#scmlt_contents{
-		margin-top: 2%;
-		padding-top: 1%;
-		background-color: #ffffff;
+    #scmlt_contents{
+        margin-top: 2%;
+        padding-top: 1%;
+        background-color: #ffffff;
 
-	}
-	#scmlt_table_example{
-		font-size: 11px;
-		margin-left: 1%;
-	}
-	input{
+    }
+    #scmlt_table_example{
+        font-size: 11px;
+        margin-left: 1%;
+    }
+    input{
         width: 70px;
     }
     .button>a{
@@ -259,7 +259,7 @@
         color: #FFFFFF;        
     }
     .form-control{
-    	height: 24px;
+        height: 24px;
     }
     div#next_report {
       display: none;
@@ -278,21 +278,21 @@
 
 </style>
 <script type="text/javascript">
-	$(document).ready(function (e){					
-		$('#fcdrr_table_example input').addClass("form-control");
-		$('#fcdrr_table_example').tablecloth({
-	        bordered: true,
-	        condensed: true,
-	        striped: true,            
-	        clean: true,                
-	    });
-		
-	});
-	
+    $(document).ready(function (e){                 
+        $('#fcdrr_table_example input').addClass("form-control");
+        $('#fcdrr_table_example').tablecloth({
+            bordered: true,
+            condensed: true,
+            striped: true,            
+            clean: true,                
+        });
+        
+    });
+    
 </script>
 
 
-	
+    
 </div>
 
 

@@ -1,27 +1,26 @@
 <?php
-    $attributes = array('name' => 'myform', 'id' => 'myform');
-    echo form_open('Scmlt_management/submit_report', $attributes);
+    // $attributes = array('name' => 'myform', 'id' => 'myform');
+    // echo form_open('Scmlt_management/submit_report', $attributes);
 ?>
 <div id="dialog-form" title="Enter the lab commodity details here">
-    <form >
-        <table id="fcdrr_table_example" width="10%" class="data-table">
-        	<thead>
-            <input  type="hidden" name="facility_name" colspan = "3" style = "color:#000; border:none" value="<?php echo $facility_name ?>"></td>
-        	<input  type="hidden" name="district_id" colspan = "3" style = "color:#000; border:none" value="<?php echo $district_id ?>"></td>
-            <input type="hidden" name="facility_code" colspan = "2" style = "color:#000; border:none" value="<?php echo $facility_code ?>"></td>
-            <input type="hidden" name="district_name" colspan = "2" style = "color:#000; border:none" value="<?php echo $district_name ?>"></td>
-            <input type="hidden" name="county" colspan = "3" style = "color:#000; border:none" value="<?php echo $county_name ?>"></td>
+    <table id="fcdrr_table_example" width="10%" class="data-table">
+        <input  type="hidden" name="facility_name" class="facility_name" colspan = "3" style = "color:#000; border:none"></td>
+            <input type="hidden" name="facility_code" class="facility_code" id="facility_code" colspan = "2" style = "color:#000; border:none"></td>
+            <input type="hidden" name="district_name" class="district_name" colspan = "2" style = "color:#000; border:none"></td>
+            <input type="hidden" name="county" class="county_name" colspan = "3" style = "color:#000; border:none"></td>
 
-            <tr><td style = "text-align:left"><b>Name of Facility:</b></td>
-                <td colspan = "2"><?php echo $facility_name ?></td>
+            <tr>
+                <td colspan = "3"><b>Facility Details</b></td>
+                
                 <td rowspan = "8" style="background: #fff;"></td>
                 <td colspan = "3"><b>Applicable to HIV Test Kits Only</b></td>
                 <td colspan = "2"></td>
                 <td colspan = "4" style="text-align:center"><b>Applicable to Malaria Testing Only</b></td>
                 <td colspan = "1" rowspan = "8" style="background: #fff;"></td>
             </tr>
-            <tr ><td colspan = "2" style = "text-align:left"><b>MFL Code:</b></td>
-                <td><?php echo $facility_code ?></td>
+            <tr >
+                <td style = "text-align:left"><b>Name of Facility:</b></td>
+                <td colspan = "2" class="facility_name"></td>            
                 <td colspan = "2" style="text-align:center"><b>Type of Service</b></td>
                 <td colspan = "1" style="text-align:center"><b>No. of Tests Done</b></td>
                 <td colspan = "2"></td>
@@ -30,8 +29,8 @@
                 <td colspan = "1"><b>No. of Tests Performed</b></td>
                 <td colspan = "1"><b>No. Positive</b></td>                          
             </tr>
-            <tr><td colspan = "2" style = "text-align:left"><b>Sub-County:</b></td>
-                <td><?php echo $district_name ?></td>
+            <tr><td colspan = "2" style = "text-align:left"><b>MFL Code:</b></td>
+                <td class="facility_code"></td>
                 <td colspan = "2"><b>VCT</b></td>
                 <td><input class='user2'class='user2' id="vct" name="vct" colspan = "2" style = "color:#000" value=0></td>
                 <td colspan = "2"></td>
@@ -41,16 +40,16 @@
                 <td><input class='user2'id="rdt_under_positive" name="rdt_under_positive" size="10" type="text"/></td>                          
 
             </tr>
-            <tr><td colspan = "2" style = "text-align:left"><b>County:</b></td>                     
-                <td><?php echo $county_name ?></td>
+            <tr><td colspan = "2" style = "text-align:left"><b>Sub-County:</b></td>
+                <td class="district_name"></td>
                 <td colspan = "2"><b>PITC</b></td>
                 <td><input class='user2'class='user2' id="pitc" name="pitc" colspan = "2" style = "color:#000" value=0></td>
                 <td colspan = "2"></td>
                 <td style = "text-align:left">Patients&nbsp;aged 5-14&nbsp;yrs</td>
                 <td><input class='user2'id="rdt_to_tests" name="rdt_to_tests" size="10" type="text"/></td>
                 <td><input class='user2'id="rdt_to_positive" name="rdt_to_positive" size="10" type="text"/></td>                        </tr>
-                <tr><td colspan = "2" style = "text-align:right"><b>Beginning:</b></td> 
-                    <td><input class='my_date'id="begin_date" name="begin_date" colspan = "2" size="10" type="text"/></td>
+                <tr><td colspan = "2" style = "text-align:left"><b>County:</b></td>                     
+                <td  class="county_name"></td>
                     <td colspan = "2"><b>PMTCT</b></td>
                     <td><input class='user2'class='user2' id="pmtct" name="pmtct" colspan = "2" style = "color:#000" value=0></td>
                     <td colspan = "2"></td>
@@ -59,8 +58,8 @@
                     <td><input class='user2'id="rdt_over_positive" name="rdt_over_positive" size="10" type="text"/></td>
 
                 </tr>
-                <tr><td colspan = "2" style = "text-align:right"><b>Ending:</b></td>
-                    <td><input class='my_date'id="end_date" name="end_date" colspan = "2" size="10" type="text"/></td>
+                <tr><td colspan = "2" style = "text-align:right"><b>Beginning:</b></td> 
+                    <td><input class='my_date'id="begin_date" name="begin_date" colspan = "2" size="10" type="text"/></td>
                     <td colspan = "2"><b>Blood&nbsp;Screening</b></td>
                     <td><input class='user2'class='user2' id="blood_screening" name="blood_screening" colspan = "2" style = "color:#000" value=0></td>
                     <td colspan = "2"></td>
@@ -69,7 +68,8 @@
                     <td><input class='user2'id="micro_under_tests" name="micro_under_tests" size="10" type="text"/></td>
                     <td><input class='user2'id="micro_under_positive" name="micro_under_positive" size="10" type="text"/></td>                          
                 </tr>
-                <tr ><td colspan = "3"></td>
+                <tr ><td colspan = "2" style = "text-align:right"><b>Ending:</b></td>
+                    <td><input class='my_date'id="end_date" name="end_date" colspan = "2" size="10" type="text"/></td>                    
                     <td colspan = "2"><b>Other&nbsp;(Please&nbsp;Specify)</b></td>
                     <td><input class='user2'class='user2' id="other2" name="other2" colspan = "2" style = "color:#000" value=0></td>    
                     <td colspan = "2"></td>
@@ -114,132 +114,10 @@
                     <td>Positive</td>
                     <td>Negative</td>
                 </tr>
-                <?php
-                $checker = 0;
-                foreach ($lab_categories as $lab_category) {
-                    ?>
-                    <tr>
-                        <td colspan = "14" style = "text-align:left"><b><?php echo $lab_category['category_name']; ?></b></td>            
-                    </tr>                    
-                    <?php foreach ($lab_commodities_categories as $lab_commodities) { ?>
-                    <tr commodity_id="<?php echo $checker ?>"><input type="hidden" id="commodity_id_<?php echo $checker ?>" name="commodity_id[<?php echo $checker ?>]" value="<?php echo $lab_commodities['id']; ?>" >
-                        <input type="hidden" id="facilityCode" name="facilityCode">
-                        <input type="hidden" id="district" name="district" value="<?php echo $district_id; ?>">
-                        <input type="hidden" id="unit_of_issue_<?php echo $checker ?>" name = "unit_of_issue[<?php echo $checker ?>]" value="<?php echo $lab_commodities['unit_of_issue']; ?>">
-                        <td class="commodity_names" id="commodity_name_<?php echo $checker;?>" colspan = "2" style = "text-align:left"></b><?php echo $lab_commodities['commodity_name']; ?></td>
-                        <td style = "color:#000; border:none; text; text-align:center"><?php //echo $lab_commodities['unit_of_issue'];  ?>TESTS</td>
-                        <td><input id="b_balance_<?php echo $checker ?>" data-uiid="<?php echo $checker ?>" name = "b_balance[<?php echo $checker ?>]" class='bbal' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="q_received_<?php echo $checker ?>" name = "q_received[<?php echo $checker ?>]" class='qty_rcvd' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="q_used_<?php echo $checker ?>" name = "q_used[<?php echo $checker ?>]" class='qty_used' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="tests_done_<?php echo $checker ?>" name = "tests_done[<?php echo $checker ?>]" class='tests_done' size="10" value="0" type="text" style = "text-align:center"/></td>
-                        <td><input id="losses_<?php echo $checker ?>" name = "losses[<?php echo $checker ?>]" class='losses' size="10" type="text" value="0" style = "text-align:center" /></td>
-                        <td><input id="pos_adj_<?php echo $checker ?>" name = "pos_adj[<?php echo $checker ?>]" class='pos_adj' size="10" type="text" value="0" style = "text-align:center"/></td>  
-                        <td><input id="neg_adj_<?php echo $checker ?>" name = "neg_adj[<?php echo $checker ?>]" class='neg_adj' size="10" type="text" value="0" style = "text-align:center"/></td>
-                        <td><input id="physical_count_<?php echo $checker ?>"  name = "physical_count[<?php echo $checker ?>]" class='phys_count' value="0" size="10" type="text" style = "text-align:center"/></td>
-                        <td><input id="q_expiring_<?php echo $checker ?>" name = "q_expiring[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center"/></td>
-                        <td><input id="days_out_of_stock_<?php echo $checker ?>" name = "days_out_of_stock[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center"/></td>  
-                        <td><input id="q_requested_<?php echo $checker ?>" data-uiid="<?php echo $checker ?>"name = "q_requested[<?php echo $checker ?>]" class='user2' size="10" type="text" style = "text-align:center"/></td>                  
-                    </tr>
-                    <?php $checker++;
-                }
-            }
-            ?>
-            <tr>
-                <td colspan = "14"><br/></td>
-            </tr>
-            <tr>                    
-                <td colspan = "14" style = "text-align:left;background: #EEE;">Explain Losses and Adjustments</td>
-            </tr>
-            <tr>                        
-                <td colspan = "16"><input colspan = "16" id="explanation" name="explanation" size="210" type="text" value="" style=" width: 90%;"/></td>
-            </tr>
-            <tr></tr>
-
-
-            <tr>
-                <td colspan = "3" style = "text-align:left"><b>Order for Extra LMIS tools:<br/> To be requested only when your data collection or reporting tools are nearly full. Indicate quantity required for each tool type.</b></td>
-                <td><input class='user2'id="order_extra" name="order_extra" size="10" type="text"/></td>
-                <td colspan = "4"><b>(1) Daily Activity Register for Laboratory Reagents and Consumables (MOH 642):</b></td>
-                <td><input class='user2'id="moh_642" name="moh_642" size="10" type="text"/></td>
-                <td colspan = "3"><b>(2) F-CDRR for Laboratory Commodities (MOH 643):</b></td>
-                <td colspan = "2"><input class='user2' id="moh_643" name="moh_643" size="10" type="text"/></td>
-            </tr>   
-
-
-            <tr>                    <td colspan = "3" style = "text-align:left">Compiled by:</td>
-                <td colspan = "2" style = "text-align:left">Tel:</td>
-                <td colspan = "1"></td>
-                <td colspan = "2" style = "text-align:left">Designation:</td>
-                <td colspan = "1"></td>
-                <td colspan = "2" style = "text-align:left">Sign:</td>
-                <td colspan = "1"></td>
-                <td colspan = "2" style = "text-align:left">Date:</td>
-            </tr>
-            <tr><td ><input class='user2'id="compiled_by" name="compiled_by" size="10" type="text" colspan = "3"/>
-                <span style="color: #f33;font-size: 10px;">* Required Field</span></td>
-                <td colspan = "2"><br/></td>
-                <td><input class='user2'id="compiled_tel" name="compiled_tel" size="10" type="text" colspan = "2"/></td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "1"><br/></td>
-                <td><input class='user2'id="compiled_des" name="compiled_des" size="10" type="text" colspan = "2"/></td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "1"><br/></td>
-                <td><input class='user2'id="compiled_sign" name="compiled_sign" size="10" type="text" colspan = "2"/></td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "2"><input class='user2'id="compiled_date" name="compiled_date" size="10" type="text" colspan = "2"/></td>
-            </tr>
-
-            <tr></tr>
-
-            <tr><td colspan = "3" style = "text-align:left">Approved by:</td>
-                <td colspan = "2" style = "text-align:left">Tel:</td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "2" style = "text-align:left">Designation:</td>
-                <td colspan = "1"></td>
-                <td colspan = "2" style = "text-align:left">Sign:</td>
-                <td colspan = "1"></td>
-                <td colspan = "2" style ="text-align:left">Date:</td>
-            </tr>
-            <tr>                    <td><input class='user2'id="approved_by" name="approved_by" size="10" type="text" colspan = "2"/>
-                <span style="color:#f33;font-size: 10px;">* Required Field</span></td>            
-                <td colspan = "2"><br/></td>
-                <td><input class='user2'id="approved_tel" name="approved_tel" size="10" type="text" colspan = "2"/></td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "1"><br/></td>
-                <td><input class='user2'id="approved_des" name="approved_des" size="10" type="text" colspan = "2"/></td>
-                <td colspan = "1"><br/></td>
-                <td colspan = "2"><br/></td>
-                <td><input class='user2'id="approved_sign" name="approved_sign" size="10" type="text" colspan = "2"/></td>
-                <td colspan = "1"><br/></td>                
-                <td colspan = "2"><input class='user2'id="approved_date" name="approved_date" size="10" type="text" colspan = "2"/></td>
-            </tr>
-
-        </table>
-        <div id="validate" type="text" style="margin-left: 0%; width:600px;color:blue;font-size:120%"></div>
-        <div id="message" type="text" style="margin-left: 0%; width:200px;color:blue;font-size:120%"></div>
-        <input class="btn btn-primary" type="submit"   id="save1"  value="Save" style="margin-left: 0%; width:100px" >
-</form>
-<?php form_close(); ?>
-
-<div class="modal fade" id="next_modal">
-  <div class="modal-dialog">
-    <div class="modal-content">      
-      <div class="modal-body">
-        <span id="report_status"></span>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" id="go_home">
-            Back to Home
-        </button>
-        <button type="button" class="btn btn-default" <a id="next_report_btn">
-            Next Report
-        </button>
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
+        </thead>
+        
+    </table>
+</div>
 <style type="text/css">
 	#scmlt_contents{
 		margin-top: 2%;
@@ -254,31 +132,14 @@
 	input{
         width: 70px;
     }
-    .button>a{
-        text-decoration: none;
-        color: #FFFFFF;        
-    }
     .form-control{
     	height: 24px;
     }
-    div#next_report {
-      display: none;
-      position: absolute;
-      width: 280px;
-      padding: 10px;
-      background: #eeeeee;
-      color: #000000;
-      border: 1px solid #1a1a1a;
-      font-size: 90%;
-    }
-
-    #report_status{
-        font-size: 18px;
-    }
-
 </style>
 <script type="text/javascript">
-	$(document).ready(function (e){					
+    var global_mfl = <?php echo "$mfl";?>;
+	$(document).ready(function (e){		
+
 		$('#fcdrr_table_example input').addClass("form-control");
 		$('#fcdrr_table_example').tablecloth({
 	        bordered: true,
@@ -286,39 +147,252 @@
 	        striped: true,            
 	        clean: true,                
 	    });
+        
+        
+        
+        get_all_details();        
+        
+        function get_all_details()
+        {
+            get_facility_details();
+            // get_kits_details();
+            get_commodity_details();   
+            get_navigation();        
+
+        }
+        function get_kits_details()
+        {
+
+        }
+        function get_commodity_details()
+        {
+            var mfl = $('#facility_code').val();
+            $.post("<?php echo base_url() . 'Scmlt_management/get_fcdrr_kits'; ?>", {                
+                mfl: mfl,                                                          
+            }).done(function(data) {
+                var details = JSON.parse(data);
+                var lab_categories = details.lab_categories;
+                var lab_commodities_categories = details.lab_commodities_categories;
+                var district_id = details.district_id;
+               
+                var lab_category = null;            
+                for (var i = 0; i < lab_categories.length; i++)
+                {
+                    lab_category = lab_categories[i].category_name;
+                    var table_comm = '<tr class="removeRow"><td colspan = "14" style = "text-align:left"><b>'+lab_category+'</b></td></tr>';
+                    $('#fcdrr_table_example').append(table_comm);
+
+                    var checker = 0;
+                    for (var j = 0; j < lab_commodities_categories.length; j++)
+                    {
+                        var commodity_name = lab_commodities_categories[checker].commodity_name;
+                        var unit_of_issue = lab_commodities_categories[checker].unit_of_issue;                                            
+                        var table_row = '<tr commodity_id="'+checker+'" class="removeRow"><input type="hidden" id="commodity_id_'+checker+'" name="commodity_id'+checker+'" value="'+commodity_name+'">';
+                        table_row+='<input type="hidden" id="facilityCode" name="facilityCode">';
+                        table_row+='<input type="hidden" id="district" name="district" value="+district_id+">';
+                        table_row+='<input type="hidden" id="unit_of_issue_'+checker+'" name = "unit_of_issue'+checker+'" value="'+unit_of_issue+'">';
+                        table_row+='<td class="commodity_names removeRow" id="commodity_name_'+checker+'" colspan = "2" style = "text-align:left">'+commodity_name+'</b></td>';
+                        table_row+='<td class="removeRow" style = "color:#000; border:none; text; text-align:center">'+unit_of_issue+' Tests</td>';
+                        table_row+='<td class="removeRow"><input id="b_balance_'+checker+'" data-uiid="'+checker+'" name = "b_balance'+checker+'" class=\'bbal\' size="10" type="text" value="0" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="q_received_'+checker+'" name = "q_received'+checker+'" class=\'qty_rcvd\' size="10" type="text" value="0" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="q_used_'+checker+'" name = "q_used'+checker+'" class=\'qty_used\' size="10" type="text" value="0" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="tests_done_'+checker+'" name = "tests_done'+checker+'" class=\'tests_done\' size="10" value="0" type="text" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="losses_'+checker+'" name = "losses'+checker+'" class=\'losses\' size="10" type="text" value="0" style = "text-align:center" /></td>';
+                        table_row+='<td class="removeRow"><input id="pos_adj_'+checker+'" name = "pos_adj'+checker+'" class=\'pos_adj\' size="10" type="text" value="0" style = "text-align:center"/></td>  ';
+                        table_row+='<td class="removeRow"><input id="neg_adj_'+checker+'" name = "neg_adj'+checker+'" class=\'neg_adj\' size="10" type="text" value="0" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="physical_count_'+checker+'"  name = "physical_count'+checker+'" class=\'phys_count\' value="0" size="10" type="text" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="q_expiring_'+checker+'" name = "q_expiring'+checker+'" class=\'user2\' size="10" type="text" style = "text-align:center"/></td>';
+                        table_row+='<td class="removeRow"><input id="days_out_of_stock_'+checker+'" name = "days_out_of_stock'+checker+'" class=\'user2\' size="10" type="text" style = "text-align:center"/></td>  ';
+                        table_row+='<td class="removeRow"><input id="q_requested_'+checker+'" data-uiid="'+checker+'"name = "q_requested'+checker+'" class=\'user2\' size="10" type="text" style = "text-align:center"/></td>';                    
+
+                        $('#fcdrr_table_example').append(table_row);   
+                        checker++;                 
+                    }; 
+                }; 
+
+                var table_rows_other = '<tr class="removeRow"><td colspan = "14"><br/></td></tr>';
+                table_rows_other += '<tr class="removeRow"><td colspan = "14" style = "text-align:left;background: #EEE;">Explain Losses and Adjustments</td></tr>';
+                table_rows_other += '<tr class="removeRow"><td colspan = "16"><input colspan = "16" id="explanation" name="explanation" size="210" type="text" value="" style=" width: 90%;"/></td></tr><tr></tr>';
+
+                table_rows_other += '<tr class="removeRow"><td colspan = "3" style = "text-align:left"><b>Order for Extra LMIS tools:<br/> To be requested only when your data collection or reporting tools are nearly full. Indicate quantity required for each tool type.</b></td>';
+                table_rows_other += '<td class="removeRow"><input class=\'user2\' id="order_extra" name="order_extra" size="10" type="text"/></td>';
+                table_rows_other += '<td class="removeRow" colspan = "4"><b>(1) Daily Activity Register for Laboratory Reagents and Consumables (MOH 642):</b></td>';
+                table_rows_other += '<td class="removeRow"><input class=\'user2\' id="moh_642" name="moh_642" size="10" type="text"/></td>';
+                table_rows_other += '<td class="removeRow" colspan = "3"><b>(2) F-CDRR for Laboratory Commodities (MOH 643):</b></td>';
+                table_rows_other += '<td class="removeRow" colspan = "2"><input class=\'user2\' id="moh_643" name="moh_643" size="10" type="text"/></td></tr>';
+
+                table_rows_other += '<tr class="removeRow"><td colspan = "3" style = "text-align:left">Compiled by:</td><td colspan = "2" style = "text-align:left">Tel:</td>';
+                table_rows_other += '<td class="removeRow" colspan = "1"></td><td colspan = "2" style = "text-align:left">Designation:</td><td colspan = "1"></td>';
+                table_rows_other += '<td class="removeRow" colspan = "2" style = "text-align:left">Sign:</td><td colspan = "1"></td><td colspan = "2" style = "text-align:left">Date:</td></tr>';
+                
+                table_rows_other += '<tr class="removeRow"><td ><input class=\'user2\'id="compiled_by" name="compiled_by" size="10" type="text" colspan = "3"/><span style="color: #f33;font-size: 10px;">* Required Field</span></td>';
+                table_rows_other += '<span style="color: #f33;font-size: 10px;">* Required Field</span></td><td colspan = "2"><br/></td><td><input class=\'user2\' id="compiled_tel" name="compiled_tel" size="10" type="text" colspan = "2"/></td>';
+                table_rows_other += '<td class="removeRow" colspan = "1"><br/></td><td colspan = "1"><br/></td><td><input class=\'user2\' id="compiled_des" name="compiled_des" size="10" type="text" colspan = "2"/></td>';
+                table_rows_other += '<td class="removeRow"colspan = "1"><br/></td><td colspan = "1"><br/></td><td><input class=\'user2\' id="compiled_sign" name="compiled_sign" size="10" type="text" colspan = "2"/></td>';
+                table_rows_other += '<td class="removeRow" colspan = "1"><br/></td><td colspan = "1"><br/></td><td colspan = "2"><input class=\'user2\' id="compiled_date" name="compiled_date" size="10" type="text" colspan = "2"/></td></tr><tr></tr>';
+                   
+                table_rows_other +='<tr class="removeRow"><td colspan = "3" style = "text-align:left">Approved by:</td>';
+                table_rows_other +='<td class="removeRow"colspan = "2" style = "text-align:left">Tel:</td><td colspan = "1"><br/></td>';
+                table_rows_other +='<td class="removeRow"colspan = "2" style = "text-align:left">Designation:</td><td colspan = "1"></td>';
+                table_rows_other +='<td class="removeRow"colspan = "2" style = "text-align:left">Sign:</td>';
+                table_rows_other +='<td class="removeRow"colspan = "1"></td><td colspan = "2" style ="text-align:left">Date:</td></tr>';
+
+                table_rows_other +='<tr class="removeRow"><td><input class=\'user2\'id="approved_by" name="approved_by" size="10" type="text" colspan = "2"/><span style="color:#f33;font-size: 10px;">* Required Field</span></td>';
+                table_rows_other +='<td class="removeRow"colspan = "2"><br/></td><td><input class=\'user2\'id="approved_tel" name="approved_tel" size="10" type="text" colspan = "2"/></td>';
+                table_rows_other +='<td class="removeRow"colspan = "1"><br/></td><td colspan = "1"><br/></td><td><input class=\'user2\'id="approved_des" name="approved_des" size="10" type="text" colspan = "2"/></td>';
+                table_rows_other +='<td class="removeRow" colspan = "2"><br/></td>';
+                table_rows_other +='<td class="removeRow">class="removeRow"<input class=\'user2\'id="approved_sign" name="approved_sign" size="10" type="text" colspan = "2"/></td><td colspan = "1"><br/></td>';
+                table_rows_other +='<td class="removeRow" colspan = "1"><br/></td><td colspan = "2"><input class=\'user2\'id="approved_date" name="approved_date" size="10" type="text" colspan = "2"/></td></tr>';
+                table_rows_other +='</table>';
+
+                var div_append = '<div class="removeRow" id="validate" type="text" style="margin-left: 0%; width:600px;color:blue;font-size:120%"></div>';
+                div_append = '<div class="removeRow" id="message" type="text" style="margin-left: 0%; width:200px;color:blue;font-size:120%"></div>';
+                div_append = '<input class="btn btn-primary removeRow" type="submit"   id="save1"  value="Save" style="margin-left: 0%; width:100px" >';
+
+            
+                $('#fcdrr_table_example').append(table_rows_other);   
+                $('#dialog-form').append(div_append);   
+                $('#fcdrr_table_example input').addClass("form-control");
+
+                var beginning_bal = details.beginning_bal;
+
+                for (var a = 0; a < beginning_bal.length; a++) {            
+                    var current_bal = beginning_bal[a];
+                    $('#b_balance_'+a).attr("value",current_bal); 
+                    $('#physical_count_'+a).attr("value",current_bal); 
+                };  
+
+            });
+        }
+
+        function clear_table()
+        {
+            $('.removeRow').remove();
+        }
+        
+        function get_facility_details()
+        {
+
+            $.post("<?php echo base_url() . 'Scmlt_management/get_fcdrr_details'; ?>", {                
+                mfl: global_mfl,                                                          
+            }).done(function(data) {
+                var details = JSON.parse(data);
+                var facility_name = details.facility_name;
+                var facility_code = details.facility_code;
+                var sub_county = details.district_name;
+                var county = details.county_name;
+                var banner_text = details.banner_text;
+                $('.facility_name').html(facility_name);
+                $('.facility_code').html(facility_code);
+                $('.district_name').html(sub_county);
+                $('.county_name').html(county);
+                $('#banner_text').html(banner_text);
+                global_mfl = facility_code;
+            });         
+        }
+        function get_navigation(){
+            var current_mfl = global_mfl;              
+            var next_mfl = null;
+            $.ajax({
+            url: "<?php echo base_url() . 'Scmlt_management/get_navigation'; ?>",
+            dataType: 'json',
+                success: function(s){
+                    var j=1;
+                    var k;
+                    for (var i = 0; i < s.length; i++) {
+                        j+=i;    
+                        k = j-1;                    
+                        var cur = s[i];    
+                        cur = parseInt(cur);   
+
+                        if(current_mfl===cur){ 
+                            if(j<=s.length){
+                                next_mfl = s[j];                                
+                                if(k>=0){
+                                    prev_mfl = s[k];                                
+                                }
+                            }else{
+                                $('#next').hide();
+                            }                                                                             
+                            
+                        }
+                    };                    
+
+                    $('#current_mfl').val(current_mfl);
+                    $('#next_mfl').val(next_mfl);
+                    $('#previous_mfl').val(prev_mfl);
+                    
+                },
+                error: function(e){
+                    console.log(e.responseText);
+                }
+            });
+
+        }
+
+        $('#next').click(function(e){
+            var mfl = $('#next_mfl').val();
+            global_mfl = mfl; 
+            clear_table();           
+            get_all_details();
+        });
+        $('#previous').click(function(e){
+            var mfl = $('#previous_mfl').val();
+            global_mfl = mfl;
+            clear_table();                       
+            get_all_details();
+        });
 		
 	});
-	
+	$(document).ajaxStart(function(){
+	    $('#loading').show();
+	 }).ajaxStop(function(){
+	    $('#loading').hide();
+	 });
 </script>
 
 
 	
 </div>
+<div class="modal" id="loading">
+	
+</div>
+<style type="text/css">
+	.modal
+	{
+	    display:    none;
+	    position:   fixed;
+	    z-index:    1000;
+	    top:        0;
+	    left:       0;
+	    height:     100%;
+	    width:      100%;
+	    background: rgba( 255, 255, 255, .8 ) 
+	                url('<?php echo base_url();?>assets/img/new_loader.gif') 
+	                50% 50% 
+	                no-repeat;
+	}
 
+	/* When the body has the loading class, we turn
+	   the scrollbar off with overflow:hidden */
+	body.loading {
+	    overflow: hidden;   
+	}
 
+	/* Anytime the body has the loading class, our
+	   modal element will be visible */
+	body.loading .modal {
+	    display: block;
+	}
+
+</style>
 <script type="text/javascript">
     $(function() {
 
         $('#user_order input').addClass("form-control");
 
     //Set the begining Balance for the Comodities    
-    var begining_bal = <?php echo json_encode($beginning_bal);?>;
-
-    for (var a = 0; a < begining_bal.length; a++) {            
-        var current_bal = begining_bal[a];
-        $('#b_balance_'+a).attr("value",current_bal); 
-        $('#physical_count_'+a).attr("value",current_bal); 
-    }; 
-
-    var beg_date = <?php echo json_encode($beg_date);?>;
-    var end_date = <?php echo json_encode($end_date);?>;
-
-    $('#begin_date').val(beg_date);           
-    $('#end_date').val(end_date);           
-
-    //Set the first element uneditable i.e. Screening Determine
-   // $('#tests_done_0').attr("readonly",'true');
-
+    
     //Set the Datepickers
     $("#begin_date").datepicker({
         defaultDate: "",
@@ -634,86 +708,24 @@ function compute_tests_done(){
         return state;
     }
     
+    
 
-function loadRemaining()
-{
-    $.ajax({
-        url: "<?php echo base_url() . 'Scmlt_management/get_remaining_orders'; ?>",
-        dataType: 'json',
-        success: function(s){ 
-           var next_id = s[0]; 
-           var message = 'Report has been Submitted Successfully';          
-           $('#next_modal').modal('show');   
-           $('#report_status').html(message);
-           $('#next_report_btn').attr('value',next_id);                                          
-
-        },
-        error: function(e){
-            console.log(e.responseText);
-        }
-    });
-}
-function loadRemaining2()
-{
-    $.ajax({
-        url: "<?php echo base_url() . 'Scmlt_management/get_remaining_orders'; ?>",
-        dataType: 'json',
-        success: function(s){ 
-           var next_id = s[0]; 
-           var message = 'That Report has Already been Submitted';          
-           $('#next_modal').modal('show');   
-           $('#report_status').html(message);
-           $('#next_report_btn').attr('value',next_id);                                          
-
-        },
-        error: function(e){
-            console.log(e.responseText);
-        }
-    });
-}
-
-$('#next_report_btn').button().click(function(e)
-{
-    var next_id = $('#next_report_btn').val();
-    var url = "<?php echo base_url() . 'Scmlt/get_report/'; ?>";
-    var site_url_link = url+next_id;
-    window.location.href = site_url_link;
-});
-$('#go_home').button().click(function(e)
-{    
-    var url = "<?php echo base_url() . 'Scmlt'; ?>"; 
-    window.location.href = url;
-});
 
 $('#save1').button().click(function(e) {               
-    // e.preventDefault();
+    e.preventDefault();
     var state = check_compiled_approved();
     if(state==false){
-        alert('Error');
+
     }else{        
         $('#message').html('The Report is Being Saved. Please Wait');                                         
         $('#message').css('font-size','13px');                                         
-        $('#message').css('color','green');  
-        var url = "<?php echo base_url() . 'Scmlt_management/submit_report'; ?>";
-        $('#myform').ajaxForm({
-            url : url, // or whatever
-            dataType : 'json',
-                success : function (response) {                    
-                                    
-                    if(response==1)
-                    {
-                        loadRemaining();
-                    }else{
-                        loadRemaining2();
-
-                    }
-                }
-            });       
-        // $.post("<?php echo base_url() . 'Scmlt_management/submit_report'; ?>", {                                                           
-        //     $('#myform').submit();
-        // }).done(function(data) {                     
-        //        console.log(data);
-        // });
+        $('#message').css('color','green'); 
+        var myform = $('#myform').serialize();        
+        $.post("<?php echo base_url() . 'Scmlt_management/submit_report_ajax'; ?>", {                
+                form: myform,                                                          
+            }).done(function(data) {                     
+                alert(data);
+            });
         // $('#myform').submit();      
     }
     

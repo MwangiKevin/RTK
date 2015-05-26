@@ -42,8 +42,11 @@ class User extends CI_Controller {
 
 	function logout()
 	{
-		// $this->session->unset();
-		$this->session->sess_destroy();		
+		$this->session->sess_destroy();
+		// session_destroy();
+		// $ss = $this->session->all_userdata();
+		// echo "<pre>";
+		// print_r($ss);die();
 		$this->db->cache_delete_all();
 		redirect('User');
 		

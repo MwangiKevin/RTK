@@ -1,34 +1,40 @@
-<div id="scmlt_contents">
-	<table id="scmlt_table_example" class="display table table-bordered" cellspacing="0" width="100%">	
-		<thead>
+<div id="orders_contents">
+	<table id="scmlt_table_orders" class="display table table-bordered" cellspacing="0" width="100%">	
+		<thead>		 
 			<tr>
+				<th><b>Reports For</b></th>
 				<th><b>MFL Code</b></th>
 			  	<th><b>Facility Name</b></th>
-			    <th><b>Owner</b></th>
-            	<th ><b>Reports</b></th> 
+			    <th><b>Compiled By</b></th>
+			    <th><b>Approved By</b></th>
+			    <th><b>Order Date</b></th>
+            	<th ><b>Action</b></th> 
 	          </tr>
 	    </thead>
 	    <tfoot>
 	    	<tr>
+				<th><b>Reports For</b></th>
 				<th><b>MFL Code</b></th>
 			  	<th><b>Facility Name</b></th>
-			    <th><b>Owner</b></th>
-            	<th ><b>Reports</b></th> 
+			    <th><b>Compiled By</b></th>
+			    <th><b>Approved By</b></th>
+			    <th><b>Order Date</b></th>
+            	<th ><b>Action</b></th> 
 	          </tr>
 	    </tfoot>	    
 	</table>
 </div>
 <style type="text/css">
-	#scmlt_contents{
+	#orders_contents{
 		margin-top: 2%;
 		padding-top: 1%;
 		background-color: #ffffff;
 
 	}
-	#scmlt_table_example{
+	#scmlt_table_orders{
 		font-size: 11px;
 	}
-	#scmlt_table_example_info{
+	#scmlt_table_orders_info{
 	font-size: 11px; 
 	margin-left: 5%;
 	float: left;
@@ -37,16 +43,15 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function (e){
-		var oTable = $('#scmlt_table_example').dataTable(
+		var oTable = $('#scmlt_table_orders').dataTable(
 		{	
-			"bPaginate":false,	
-			"aaSorting": [[3, "asc"]],    
+			"bPaginate":false,				
 		    "bFilter": true,
 		    "bSearchable":true,
 		    "bInfo":true
 		});				
 		$.ajax({
-			url: "<?php echo base_url() . 'Scmlt_management/get_scmlt_home'; ?>",
+			url: "<?php echo base_url() . 'Scmlt_management/get_scmlt_orders'; ?>",
 			dataType: 'json',
 			success: function(s){
 			// console.log(s);
@@ -56,7 +61,10 @@
 				s[i][0],
 				s[i][1],
 				s[i][2],
-				s[i][3]
+				s[i][3],
+				s[i][4],
+				s[i][5],
+				s[i][6]
 				]);
 				} // End For
 			},
@@ -69,33 +77,6 @@
 			dataType: 'json',
 			success: function(s){
 				$('#alert').html(s);				
-			},
-			error: function(e){
-				console.log(e.responseText);
-			}
-		});
-		var total = 0;
-		var reported = 0;
-		var nonreported = 0;
-		var percentage = 0;
-		$.ajax({
-			url: "<?php echo base_url() . 'Scmlt_management/get_reporting_percentage'; ?>",
-			dataType: 'json',
-			success: function(s){
-				console.log(s);
-				for(var i = 0; i < s.length; i++) {
-					reported = s[i]['reported'];
-					nonreported = s[i]['nonreported'];
-					total = s[i]['total'];
-					percentage = s[i]['percentage'];
-					$('#remaining_reports').html(nonreported);
-					$('#percentage_reported').html(reported);					
-					$('.progress-bar').css('width', percentage+'%').attr('aria-valuenow', percentage);
-					$( "#report_graph_test" ).progressbar({
-						value: percentage
-					});
-					$( "#perc" ).html(percentage+' %');
-				}
 			},
 			error: function(e){
 				console.log(e.responseText);
@@ -143,5 +124,6 @@
 	body.loading .modal {
 	    display: block;
 	}
+	
 
 </style>

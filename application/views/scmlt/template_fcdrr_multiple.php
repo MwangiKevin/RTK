@@ -3,11 +3,19 @@
 ?>
 <div id="inner_wrapper"> 	
 	<div id="banner">
-		<span id="banner_text" style="width:100%; font-size:13px;">
-			<?php 
-				echo $banner_text;
-			?>
-		</span>		
+		<span id="banner_text"></span>
+		<div id="mfl_nav">						
+				<button id="previous">
+					<input type="hidden" id="previous_mfl"/>
+					<span class="glyphicon glyphicon-backward">Previous&nbsp;</span>
+				</button>
+				
+				<button id="next">
+					<input type="hidden" id="next_mfl"/>
+					Next&nbsp;<span class="glyphicon glyphicon-forward"></span>
+				</buttons>					
+			
+		</div>
 	</div>
 	<div id="content">		
 		<div id="content_panel">
@@ -43,7 +51,7 @@
 		width: 96%;		
 		float: left;		
 		margin-left: 2%;
-		margin-top: 5%;
+		margin-top: 8%;
 		overflow: none;
 	}
 	#side_menu ul>li{
@@ -55,15 +63,16 @@
 	}
 
 	#banner{
-		border-bottom:1px solid #ccc;
+		/*border-bottom:1px solid #ccc;*/
 		background-color: #ffffff;
 		width: 100%;
-		float: left;			
+		float: left;
+			
 		padding:1%;
 		font-size: 12px;
 		font-weight: 1px;
 		position: fixed;
-		height:50px;	
+		height:100px;	
 
 	}
 	#fcdrr_table_example{

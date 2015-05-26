@@ -23,7 +23,7 @@
         <script type="text/javascript" language="javascript" src="<?php echo base_url(); ?>assets/tablecloth/assets/js/jquery.tablecloth.js"></script>
         <link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/tablecloth/assets/css/tablecloth.css">
         <script type="text/javascript" language="javascript" src="<?php echo base_url();?>assets/datatable/jquery.dataTables.js"></script>
-
+        <script src="http://malsup.github.com/jquery.form.js"></script> 
         <!-- Place inside the <head> of your HTML -->
         <script type="text/javascript" src="<?php echo base_url();?>assets/tinymce/tinymce.min.js"></script>
         
@@ -62,7 +62,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right" >
-                    <li><a class="" href="<?php echo site_url() . 'Home'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>              
+                    <li><a class="" href="<?php echo site_url() . 'Home_controller'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>              
                     <?php                    
                     $log_status = $this->session->userdata('log_status');
                     if($log_status==0){?>                    
