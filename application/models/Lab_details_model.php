@@ -63,6 +63,12 @@ class Lab_details_model extends CI_Model
 		$this->db->insert('lab_commodity_details', $data); 		
 	}
 
+	function update_order_details($data,$order_id,$commodity_id){
+		$this->db->where('order_id',$order_id);
+		$this->db->where('commodity_id',$commodity_id);
+		$this->db->update('lab_commodity_details', $data); 		
+	}
+
 	function save_order_details_old($data){
 		$this->db->insert('lab_commodity_details', $data); 		
 	}

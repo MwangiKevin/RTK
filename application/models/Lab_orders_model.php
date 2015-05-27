@@ -84,6 +84,12 @@ class Lab_orders_model extends CI_Model
 		return $order_id;
 	}
 
+	function update_order($data,$id)
+	{
+		$this->db->where('id', $id); 
+		$this->db->update('lab_commodity_orders', $data); 		
+	}
+
 	function save_order_old($data)
 	{
 		 $this->db->insert('lab_commodity_orders', $data); 

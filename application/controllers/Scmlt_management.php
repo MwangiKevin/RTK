@@ -42,8 +42,7 @@ class Scmlt_management extends CI_Controller {
 			$facility_name = $value['facility_name'];
 			$compiled_by = $value['compiled_by'];
 			$approved_by = $value['approved_by'];
-			$action = '<a href="'.site_url('Scmlt/edit_order_details/').'/'.$order_id.'" class="link">Edit</a>';
-			$action .= '&nbsp;&nbsp;<a href="'.site_url('Scmlt/view_order_details/').'/'.$order_id.'" class="link">View</a>';			
+			$action = '<a href="'.site_url('Scmlt/view_report_mfl').'/'.$facility_code.'" class="link">Edit/View Report</a>';			
 			$output[] = array($report_for,$facility_code,$facility_name,$compiled_by,$approved_by,$order_date,$action);
 		}		
 		echo json_encode($output);		
@@ -274,6 +273,76 @@ class Scmlt_management extends CI_Controller {
 			echo "2";	    	
 
 		}	    
+	}
+
+	function update_report()
+	{	
+		$lastmonth = date('F', strtotime("last day of previous month"));	    
+	    $drug_id = $_POST['commodity_id'];
+	    $order_id = $_POST['order_id'];
+	    $unit_of_issue = $_POST['unit_of_issue'];
+	    $b_balance = $_POST['b_balance'];
+	    $q_received = $_POST['q_received'];
+	    $q_used = $_POST['q_used'];
+	    $tests_done = $_POST['tests_done'];
+	    $losses = $_POST['losses'];
+	    $pos_adj = $_POST['pos_adj'];
+	    $neg_adj = $_POST['neg_adj'];
+	    $physical_count = $_POST['physical_count'];
+	    $q_expiring = $_POST['q_expiring'];
+	    $days_out_of_stock = $_POST['days_out_of_stock'];
+	    $q_requested = $_POST['q_requested'];
+	    $facility_code = $_POST['facility_code'];
+	    $commodity_count = count($drug_id);
+
+	    $vct = $_POST['vct'];
+	    $pitc = $_POST['pitc'];
+	    $pmtct = $_POST['pmtct'];
+	    $b_screening = $_POST['blood_screening'];
+	    $other = $_POST['other2'];
+	    $specification = $_POST['specification'];
+	    $rdt_under_tests = $_POST['rdt_under_tests'];
+	    $rdt_under_pos = $_POST['rdt_under_positive'];
+	    $rdt_btwn_tests = $_POST['rdt_to_tests'];
+	    $rdt_btwn_pos = $_POST['rdt_to_positive'];
+	    $rdt_over_tests = $_POST['rdt_over_tests'];
+	    $rdt_over_pos = $_POST['rdt_over_positive'];
+	    $micro_under_tests = $_POST['micro_under_tests'];
+	    $micro_under_pos = $_POST['micro_under_positive'];
+	    $micro_btwn_tests = $_POST['micro_to_tests'];
+	    $micro_btwn_pos = $_POST['micro_to_positive'];
+	    $micro_over_tests = $_POST['micro_over_tests'];
+	    $micro_over_pos = $_POST['micro_over_positive'];
+	    $beg_date = $_POST['begin_date'];
+	    $end_date = $_POST['end_date'];
+	    $explanation = $_POST['explanation'];
+	    $compiled_by = $_POST['compiled_by'];
+	    $approved_by = $_POST['approved_by'];
+	    $moh_642 = $_POST['moh_642'];
+	    $moh_643 = $_POST['moh_643'];
+
+	    date_default_timezone_set('EUROPE/Moscow');
+	    $beg_date = date('Y-m-d', strtotime("first day of previous month"));
+	    $end_date = date('Y-m-d', strtotime("last day of previous month"));
+
+	    $user_id = $this->session->userdata('user_id');        
+
+	    $order_date = date('y-m-d');
+	    
+	    $data = array('facility_code' => $facility_code,'compiled_by' => $compiled_by,'approved_by' => $approved_by, 'order_date' => $order_date, 'vct' => $vct, 'pitc' => $pitc, 'pmtct' => $pmtct, 'b_screening' => $b_screening, 'other' => $other, 'specification' => $specification, 'rdt_under_tests' => $rdt_under_tests, 'rdt_under_pos' => $rdt_under_pos, 'rdt_btwn_tests' => $rdt_btwn_tests, 'rdt_btwn_pos' => $rdt_btwn_pos, 'rdt_over_tests' => $rdt_over_tests, 'rdt_over_pos' => $rdt_over_pos, 'micro_under_tests' => $micro_under_tests, 'micro_under_pos' => $micro_under_pos, 'micro_btwn_tests' => $micro_btwn_tests, 'micro_btwn_pos' => $micro_btwn_pos, 'micro_over_tests' => $micro_over_tests, 'micro_over_pos' => $micro_over_pos, 'beg_date' => $beg_date, 'end_date' => $end_date, 'explanation' => $explanation, 'moh_642' => $moh_642, 'moh_643' => $moh_643, 'report_for' => $lastmonth);
+	    // echo "<pre>";
+	    // print_r($data);die();
+	    $this->load->model("Lab_orders_model",'orders_model');				
+	    $this->orders_model->update_order($data,$order_id);
+
+	    $this->load->model("Lab_details_model",'details_model');				  
+	    
+	    for ($i = 0; $i < $commodity_count; $i++) {            
+	        $mydata = array('facility_code' => $facility_code, 'commodity_id' => $drug_id[$i], 'beginning_bal' => $b_balance[$i], 'q_received' => $q_received[$i], 'q_used' => $q_used[$i], 'no_of_tests_done' => $tests_done[$i], 'losses' => $losses[$i], 'positive_adj' => $pos_adj[$i], 'negative_adj' => $neg_adj[$i], 'closing_stock' => $physical_count[$i], 'q_expiring' => $q_expiring[$i], 'days_out_of_stock' => $days_out_of_stock[$i], 'q_requested' => $q_requested[$i]);
+	        $this->details_model->update_order_details($mydata,$order_id,$drug_id[$i]);	        
+	    }
+	   	echo "1";
+			    
 	}
 
 	function submit_report_ajax()
@@ -515,4 +584,95 @@ class Scmlt_management extends CI_Controller {
 		echo json_encode($output);			
 
 	}	
+
+	function print_fcdrr($order_id,$report_type)
+	{
+		$this->load->model("Lab_details_model",'lab_details');	
+		$lab_orders_details = $this->lab_details->get_all_from_order($order_id);
+
+		$table_head = '<style>table.data-table {border: 1px solid #DDD;margin: 10px auto;border-spacing: 0px;}
+	    table.data-table th {border: none;color: #036;text-align: center;background-color: #F5F5F5;border: 1px solid #DDD;border-top: none;max-width: 450px;}
+	    table.data-table td, table th {padding: 4px;}
+	    table.data-table td {border: none;border-left: 1px solid #DDD;border-right: 1px solid #DDD;height: 30px;margin: 0px;border-bottom: 1px solid #DDD;}
+	    .col5{background:#D8D8D8;}</style></table>
+	    <table class="data-table" width="100%">
+	        <thead>
+	            <tr>
+	                <th><strong>Category</strong></th>
+	                <th><strong>Description</strong></th>
+	                <th><strong>Unit of Issue</strong></th>
+	                <th><strong>Beginning Balance</strong></th>
+	                <th><strong>Quantity Received</strong></th>
+	                <th><strong>Quantity Used</strong></th>
+	                <th><strong>Number of Tests Done</strong></th>
+	                <th><strong>Losses</strong></th>
+	                <th><strong>Positive Adjustments</strong></th>
+	                <th><strong>Negative Adjustments</strong></th>
+	                <th><strong>Closing Stock</strong></th>
+	                <th><strong>Quantity Expiring in 6 Months</strong></th>
+	                <th><strong>Days Out of Stock</strong></th>
+	                <th><strong>Quantity Requested</strong></th>
+	            </tr>
+	        </thead>
+	        <tbody>';
+	    $table_body = '';
+        foreach ($lab_orders_details as $detail) {
+            $table_body .= '<tr><td>' . $detail['category_name'] . '</td>';
+            $table_body .= '<td>' . $detail['commodity_name'] . '</td>';
+            $table_body .= '<td>' . $detail['unit_of_issue'] . '</td>';
+            $table_body .= '<td>' . $detail['beginning_bal'] . '</td>';
+            $table_body .= '<td>' . $detail['q_received'] . '</td>';
+            $table_body .= '<td>' . $detail['q_used'] . '</td>';
+            $table_body .= '<td>' . $detail['no_of_tests_done'] . '</td>';
+            $table_body .= '<td>' . $detail['losses'] . '</td>';
+            $table_body .= '<td>' . $detail['positive_adj'] . '</td>';
+            $table_body .= '<td>' . $detail['negative_adj'] . '</td>';
+            $table_body .= '<td>' . $detail['closing_stock'] . '</td>';
+            $table_body .= '<td>' . $detail['q_expiring'] . '</td>';
+            $table_body .= '<td>' . $detail['days_out_of_stock'] . '</td>';
+            $table_body .= '<td>' . $detail['q_requested'] . '</td></tr>';
+        }
+        $table_foot = '</tbody></table>';
+        $report_name = "Lab Commodities Order " . $order_id . " Details";
+        $title = "Lab Commodities Order " . $order_id . " Details";
+        $html_data = $table_head . $table_body . $table_foot;        
+        switch ($report_type) {
+	        case 'excel' :
+	        $this->_generate_lab_report_excel($report_name, $title, $html_data);
+	        break;
+	        case 'pdf' :
+	        $this->_generate_lab_report_pdf($report_name, $title, $html_data);
+	        break;
+	    }
+	}
+
+	function _generate_lab_report_pdf($report_name, $title, $html_data) {
+        $html_title = "<div ALIGN=CENTER><img src='" . base_url() . "assets/img/coat_of_arms-resized.png' height='70' width='70'style='vertical-align: top;' > </img></div>
+       	<div style='text-align:center; font-size: 14px;display: block;font-weight: bold;'>$title</div>
+        <div style='text-align:center; font-family: arial,helvetica,clean,sans-serif;display: block; font-weight: bold; font-size: 14px;'>
+            Ministry of Health</div>
+            <div style='text-align:center; font-family: arial,helvetica,clean,sans-serif;display: block; font-weight: bold;display: block; font-size: 13px;'>Health Commodities Management Platform</div><hr />";
+
+            /*         * ********************************initializing the report ********************* */
+            $this->load->library('pdf');
+            $this->mpdf = new PDF('', 'A4-L', 0, '', 15, 15, 16, 16, 9, 9, '');
+            $this->mpdf->load();
+            // $this->mpdf->SetTitle($title);
+            $this->mpdf->WriteHTML($html_title);
+            // $this->mpdf->simpleTables = true;
+            // $this->mpdf->WriteHTML('<br/>');
+            // $this->mpdf->WriteHTML($html_data);
+            $report_name = $report_name . ".pdf";
+            $this->mpdf->Output($report_name, 'D');
+        }
+
+    //Generate the FCDRR Excel
+        function _generate_lab_report_excel($report_name, $title, $html_data) {
+            $data = $html_data;
+            $filename = $report_name;
+            header("Content-type: application/excel");
+            header("Content-Disposition: attachment; filename=$filename.xls");
+            echo "$data";
+        }
+
 }

@@ -1,12 +1,13 @@
 <?php
     $attributes = array('name' => 'myform', 'id' => 'myform');
-    echo form_open('Scmlt_management/submit_report', $attributes);
+    echo form_open('Scmlt_management/update_report', $attributes);
 ?>
 <div id="dialog-form" title="Enter the lab commodity details here">
     <form >
         <table id="fcdrr_table_example" width="10%" class="data-table">
             <thead>
             <input  type="hidden" name="facility_name" colspan = "3" style = "color:#000; border:none" value="<?php echo $facility_name ?>"></td>
+            <input  type="hidden" name="order_id" id="order_id" colspan = "3" style = "color:#000; border:none" value="<?php echo $order_id ?>"></td>
             <input  type="hidden" name="district_id" colspan = "3" style = "color:#000; border:none" value="<?php echo $district_id ?>"></td>
             <input type="hidden" name="facility_code" colspan = "2" style = "color:#000; border:none" value="<?php echo $facility_code ?>"></td>
             <input type="hidden" name="district_name" colspan = "2" style = "color:#000; border:none" value="<?php echo $district_name ?>"></td>
@@ -221,7 +222,7 @@
         </table>
         <div id="validate" type="text" style="margin-left: 0%; width:600px;color:blue;font-size:120%"></div>
         <div id="message" type="text" style="margin-left: 0%; width:200px;color:blue;font-size:120%"></div>
-        <input class="btn btn-primary" type="submit"   id="save1"  value="Save" style="margin-left: 0%; width:100px" >
+        <input class="btn btn-primary" type="submit"   id="save1"  value="Update" style="margin-left: 0%; width:100px" >
 </form>
 <?php form_close(); ?>
 
@@ -281,7 +282,8 @@
 
 </style>
 <script type="text/javascript">
-    $(document).ready(function (e){                 
+    $(document).ready(function (e){      
+        $('#save1').hide();        
         $('#fcdrr_table_example input').addClass("form-control");
         $('#fcdrr_table_example').tablecloth({
             bordered: true,
@@ -292,17 +294,14 @@
         
     });
     
-</script>
-
-
-    
+</script>    
 </div>
-
-
 <script type="text/javascript">
     $(function() {
 
         $('#user_order input').addClass("form-control");
+        $('.form-control').attr('readonly',true);
+        hideCancel();
 
     //Set the begining Balance for the Comodities    
     var begining_bal = <?php echo json_encode($beginning_bal);?>;
@@ -637,95 +636,83 @@ function compute_tests_done(){
         return state;
     }
     
-
-function loadRemaining()
+function hidePrints()
 {
-    $.ajax({
-        url: "<?php echo base_url() . 'Scmlt_management/get_remaining_orders'; ?>",
-        dataType: 'json',
-        success: function(s){ 
-           var next_id = s[0]; 
-           var message = 'Report has been Submitted Successfully';          
-           $('#next_modal').modal('show');   
-           $('#report_status').html(message);
-           $('#next_report_btn').attr('value',next_id);                                          
-
-        },
-        error: function(e){
-            console.log(e.responseText);
-        }
-    });
+    $('#print_pdf').hide();
+    $('#print_excel').hide();
+    $('#edit_fcdrr').hide();
 }
-function loadRemaining2()
+function showPrints()
 {
-    $.ajax({
-        url: "<?php echo base_url() . 'Scmlt_management/get_remaining_orders'; ?>",
-        dataType: 'json',
-        success: function(s){ 
-           var next_id = s[0]; 
-           var message = 'That Report has Already been Submitted';          
-           $('#next_modal').modal('show');   
-           $('#report_status').html(message);
-           $('#next_report_btn').attr('value',next_id);                                          
-
-        },
-        error: function(e){
-            console.log(e.responseText);
-        }
-    });
+    $('#print_pdf').show();
+    $('#print_excel').show();
+    $('#edit_fcdrr').show();
 }
 
-$('#next_report_btn').button().click(function(e)
+function showCancel()
 {
-    var next_id = $('#next_report_btn').val();
-    var url = "<?php echo base_url() . 'Scmlt/get_report/'; ?>";
-    var site_url_link = url+next_id;
-    window.location.href = site_url_link;
+    $('#cancel_edit').show();        
+}
+
+function hideCancel()
+{
+    $('#cancel_edit').hide();        
+}
+
+$('#cancel_edit').button().click(function(e)
+{
+   hideCancel();
+   showPrints();
+   $('.form-control').attr('readonly',true);
+
 });
-$('#go_home').button().click(function(e)
-{    
-    var url = "<?php echo base_url() . 'Scmlt'; ?>"; 
-    window.location.href = url;
+
+
+$('#edit_fcdrr').button().click(function(e)
+{
+   hidePrints();
+   showCancel();
+   show_save();
+   $('.form-control').attr('readonly',false);
+
 });
+
+
 
 $('#save1').button().click(function(e) {               
     // e.preventDefault();
     var state = check_compiled_approved();
     if(state==false){
         alert('Error');
-    }else{        
-        $('#message').html('The Report is Being Saved. Please Wait');                                         
-        $('#message').css('font-size','13px');                                         
-        $('#message').css('color','green');  
-        var url = "<?php echo base_url() . 'Scmlt_management/submit_report'; ?>";
+    }else{                
+        var url = "<?php echo base_url() . 'Scmlt_management/update_report'; ?>";
         $('#myform').ajaxForm({
             url : url, // or whatever
             dataType : 'json',
-                success : function (response) {                    
-                                    
+                success : function (response) {                                        
                     if(response==1)
-                    {
-                        loadRemaining();
-                    }else{
-                        loadRemaining2();
-
+                    {   
+                        showPrints();
+                        hideCancel();
+                        $('.form-control').attr('readonly',true);
+                        $('#save1').hide();
+                    }else{                                                
+                        hidePrints();
+                        showCancel();
+                        $('.form-control').attr('readonly',false);
                     }
                 }
             });       
-        // $.post("<?php echo base_url() . 'Scmlt_management/submit_report'; ?>", {                                                           
-        //     $('#myform').submit();
-        // }).done(function(data) {                     
-        //        console.log(data);
-        // });
-        // $('#myform').submit();      
-    }
-    
-    // $('#message').html('The Report is Being Saved. Please Wait');                                         
-    // $('#message').css('font-size','13px');                                         
-    // $('#message').css('color','green'); 
-    // $('#myform').submit();  
-
-
+       
+    }   
+   
+});
+$('#print_pdf').button().click(function(e) {               
+    var order_id = $('#order_id').val();
+    var url = "<?php echo base_url() . 'Scmlt_management/print_fcdrr/'; ?>";
+    var final_url = url+order_id+'/pdf'; 
+    alert(final_url);
+   
 });
 $("#dialog").dialog({
     height: 140,
