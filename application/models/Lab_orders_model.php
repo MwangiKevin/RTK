@@ -94,7 +94,7 @@ class Lab_orders_model extends CI_Model
 
 	function get_all_old($a,$b)
 	{
-		$sql = "select * from lab_commodity_orders_old order by id asc limit $a,$b ";
+		$sql = "select distinct id as order_id,lab_commodity_orders_old.* from lab_commodity_orders_old order by id asc limit $a,$b ";
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
