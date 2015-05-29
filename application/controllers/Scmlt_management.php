@@ -654,14 +654,13 @@ class Scmlt_management extends CI_Controller {
             <div style='text-align:center; font-family: arial,helvetica,clean,sans-serif;display: block; font-weight: bold;display: block; font-size: 13px;'>Health Commodities Management Platform</div><hr />";
 
             /*         * ********************************initializing the report ********************* */
-            $this->load->library('pdf');
-            $this->mpdf = new PDF('', 'A4-L', 0, '', 15, 15, 16, 16, 9, 9, '');
-            $this->mpdf->load();
-            // $this->mpdf->SetTitle($title);
+            $this->load->library('mpdf');
+            $this->mpdf = new mPDF('', 'A4-L', 0, '', 15, 15, 16, 16, 9, 9, '');
+            $this->mpdf->SetTitle($title);
             $this->mpdf->WriteHTML($html_title);
-            // $this->mpdf->simpleTables = true;
-            // $this->mpdf->WriteHTML('<br/>');
-            // $this->mpdf->WriteHTML($html_data);
+            $this->mpdf->simpleTables = true;
+            $this->mpdf->WriteHTML('<br/>');
+            $this->mpdf->WriteHTML($html_data);
             $report_name = $report_name . ".pdf";
             $this->mpdf->Output($report_name, 'D');
         }
