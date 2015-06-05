@@ -26,7 +26,7 @@
 <div class="panel panel-default" >
     <div class="panel-heading" id="subcounties">
         <h4 class="panel-title">
-            <a href="<?php echo site_url('Clc/subcounties'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
+            <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
             </span>Sub-Counties</a>
         </h4>
     </div>

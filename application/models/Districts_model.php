@@ -15,9 +15,16 @@ class Districts_model extends CI_Model
 
 	function get_one_id($id)
 	{
-		$sql = "select * from districts where id='$id'";
-		$result = $this->db->query($sql)->result_array();
+		$sql = "select * from districts where id='$id'";		
+		$result = $this->db->query($sql)->result_array();		
 		return $result[0];
+	}
+
+	function get_details_from_id($id)
+	{
+		$sql = "select * from districts where id='$id'";		
+		$result = $this->db->query($sql)->result_array();		
+		return $result;
 	}
 
 	function get_one_name($name)
@@ -43,8 +50,13 @@ class Districts_model extends CI_Model
 	}
 
 	function get_all_from_county($county_id){
-		$sql = "SELECT districts.* FROM districts,counties WHERE districts.county = counties.id
-        		AND counties.id = '$county_id' order by districts.id asc";
+		$sql = "SELECT DISTINCT districts.* FROM districts,counties WHERE districts.county= '$county_id'";
+        $result = $this->db->query($sql)->result_array();
+        return $result;
+	}
+
+	function get_first_from_county($county_id){
+		$sql = "SELECT districts.* FROM districts,counties WHERE districts.county= '$county_id' LIMIT 0,1";
         $result = $this->db->query($sql)->result_array();
         return $result;
 	}

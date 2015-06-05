@@ -175,8 +175,7 @@ class Clc_management extends CI_Controller {
 	        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
 	    }  	
 	    echo json_encode($stock_details);
-	    // echo "<pre>";
-	    // print_r($stock_details);die();
+	    
 	}
 
 
@@ -185,15 +184,151 @@ class Clc_management extends CI_Controller {
 		$this->load->model("Lab_details_model",'lab_details');			
 		$county_id = $this->session->userdata('county_id');				
 		$highest_stocks = $this->lab_details->get_county_highest_stocks($commodity_id,$county_id);
-		for ($i=0; $i <count($highest_stocks) ; $i++) {            
-            $mfl = $highest_stocks[$i]['facility_code'];                    
-            $endbal = $highest_stocks[$i]['closing_stock'];                    
-            $facility_name = $highest_stocks[$i]['facility_name'];                                
-	        $highest_stocks_details[$i] = array($mfl,$facility_name,$endbal);            
-        }
+		if(count($highest_stocks)>0){
+			for ($i=0; $i <count($highest_stocks) ; $i++) {            
+	            $mfl = $highest_stocks[$i]['facility_code'];                    
+	            $endbal = $highest_stocks[$i]['closing_stock'];                    
+	            $facility_name = $highest_stocks[$i]['facility_name'];                                
+		        $highest_stocks_details[$i] = array($mfl,$facility_name,$endbal);            
+	        }
+	    }
 	    echo json_encode($highest_stocks_details);        
 	}
 	
+
+	function sub_county_early_vs_late($district_id=null)
+	{			
+		$this->load->model("Districts_model",'districts_model');
+		$this->load->model("Lab_orders_model",'orders');				
+		$this->load->model("Date_Settings_model",'date_settings');
+		$previous_month_details =$this->date_settings->get_previous_month();	
+
+		$county_id = $this->session->userdata('county_id');						
+		if($district_id==0)
+		{
+			$districts_details = $this->districts_model->get_all_from_county($county_id);
+			$district_id = $districts_details[0]['id'];
+		}		
+		$late_reports = $this->orders->get_late_district_reports($district_id);
+		$early_reports = $this->orders->get_early_district_reports($district_id);
+		$count_late = count($late_reports);
+		$count_early = count($early_reports);
+		$count_all = $count_early + $count_late;
+		$englishdate = $previous_month_details['englishdate'];                                 
+		$statistics_details = array('all_reports'=>$count_all,'late_reports'=>$count_late,'early_reports'=>$early_reports,'englishdate'=>$englishdate);
+		echo json_encode($statistics_details);
+
+	}
+
+	function sub_county_get_dets($district_id = null)
+	{
+		
+		$this->load->model("Districts_model",'districts_model');										
+		$this->load->model("Amcs_model",'amc_details');	
+		$county_id = $this->session->userdata('county_id');					
+		if($district_id==0)
+		{
+			$districts_details = $this->districts_model->get_first_from_county($county_id);			
+		}else{
+			$districts_details = $this->districts_model->get_details_from_id($district_id);						
+		}			
+		foreach ($districts_details as $key => $value) {
+			$id = $value['id'];
+			$district_name = $value['district'];	
+			$fac_link = '<a href="'.site_url().'Clc/view_facilities/'.$id.'">View Facilities</a>';				
+			$location = 'You are on RTK-> County -> '.$district_name.' Sub-County  ['.$fac_link.']';	
+			echo json_encode($location);
+		}			
+			
+		
+	}
+
+	function fac_county_get_dets($district_id,$mfl = null)
+	{	
+		$this->load->model("Districts_model",'districts_model');											
+		$this->load->model("Facilities_model",'facilities_model');	
+		$districts_details = $this->districts_model->get_details_from_id($district_id);					
+		$district_name = $districts_details[0]['district'];		
+
+		if($mfl==0)
+		{
+			$facility_details = $this->facilities_model->get_first_in_district($district_id);			
+		}else{
+			$facility_details = $this->facilities_model->get_one_mfl($mfl);						
+		}			
+		foreach ($facility_details as $key => $value) {
+			$id = $value['id'];
+			$facility_name = $value['facility_name'];				
+			$fname_link = $facility_name.' ('.$district_name.' Sub-County)';			
+			$location = 'You are on RTK-> County -> '.$district_name.' Sub-County -> '.$facility_name.' (Facility)';	
+			$output = array('facility_name'=>$fname_link,'location'=>$location);
+			echo json_encode($output);
+		}			
+			
+		
+	}
+
+	function sub_county_get_stock_card($district_id = null)
+	{
+		$this->load->model("Districts_model",'districts_model');						
+		$this->load->model("Facilities_model",'facilities');				
+		$this->load->model("Lab_details_model",'lab_details');	
+		$this->load->model("Amcs_model",'amc_details');	
+		$county_id = $this->session->userdata('county_id');					
+		if($district_id==0)
+		{
+			$districts_details = $this->districts_model->get_all_from_county($county_id);
+			$district_id = $districts_details[0]['id'];
+			$district_name = $districts_details[0]['district'];
+		}	
+						
+		$facil_amcs = $this->amc_details->get_district_amc($district_id);		
+		$facil_endbals = $this->lab_details->get_ending_balance_district($district_id);	
+		$count = count($facil_amcs);
+    	$stock_details = array();
+    	for ($i=0; $i < $count; $i++) { 
+	        $comm_id = $facil_amcs[$i]['id'];
+	        $comm_name = $facil_amcs[$i]['commodity_name'];
+	        $amc = $facil_amcs[$i]['amc'];
+	        $endbal = $facil_endbals[$i]['end_bal'];
+	        if($amc==0){
+	        	$ratio = 0;
+	        }else{
+	        	$ratio = round(($endbal/$amc),0);
+	        }
+	        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
+	    }  	
+	    echo json_encode($stock_details);
+	    
+	}
+	
+	function sub_county_reported_vs_nonreported($district_id=null)
+	{	
+		$this->load->model("Districts_model",'districts_model');
+		$this->load->model("Lab_orders_model",'orders');				
+		$this->load->model("Date_Settings_model",'date_settings');
+		$previous_month_details =$this->date_settings->get_previous_month();		
+		$this->load->model("Facilities_model",'facilities');		
+		$englishdate = $previous_month_details['englishdate']; 
+		$county_id = $this->session->userdata('county_id');						
+		if(is_null($district_id))
+		{
+			$districts_details = $this->districts_model->get_all_from_county($county_id);
+			$district_id = $districts_details[0]['id'];
+			$district_name = $districts_details[0]['district'];
+		}		
+
+		$reported_facilities = $this->orders->get_all_reported_district($district_id);
+		$all_facilities = $this->facilities->get_all_reporting_in_district($district_id);		
+		$count_reported = count($reported_facilities);
+		$count_all = count($all_facilities);
+		$count_nonreported = $count_all - $count_reported;
+		$statistics_details = array('all_facilities'=>$count_all,'reported_facilities'=>$count_reported,'nonreported_facilities'=>$count_nonreported,'englishdate'=>$englishdate);
+		echo json_encode($statistics_details);
+
+	}
+	
+
 
 	function get_highest_expiries($commodity_id)
 	{

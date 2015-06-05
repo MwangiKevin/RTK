@@ -38,6 +38,18 @@ class Amcs_model extends CI_Model
 		return $result;
 	}
 
+	function get_district_amc($district_id)
+	{
+		$sql = "select lab_commodities.id,lab_commodities.commodity_name,sum(facility_amc.amc) as amc 
+			    from  lab_commodities,facility_amc,facilities,districts,counties 
+			    where  lab_commodities.id = facility_amc.commodity_id and lab_commodities.category = '1' 
+			    and facility_amc.facility_code = facilities.facility_code and facilities.district = districts.id 
+			    and districts.id = '$district_id'
+			    group by lab_commodities.id order by lab_commodities.id asc";
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
+
 }
 
 ?>
