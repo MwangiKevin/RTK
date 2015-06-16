@@ -157,10 +157,8 @@ class Scmlt extends CI_Controller {
 		$this->load->model("Lab_orders_model",'lab_orders');						
 		$this->load->model("Lab_categories_model",'categories');						
 		$order_details = $this->lab_orders->get_order_details($order_id);
-		$lab_details_all = $this->lab_details->get_all_from_order($order_id);
-		// echo "<pre>";
-		// print_r($order_details);die();
-		$mfl = $order_details['facility_code'];
+		$lab_details_all = $this->lab_details->get_all_from_order($order_id);		
+		$mfl = $order_details['facility_code'];		
 		$lab_commodities = $this->categories->get_active();
 
 		$lab_details_begining_bal = $this->lab_details->get_begining_balance($mfl);	
@@ -170,8 +168,8 @@ class Scmlt extends CI_Controller {
 
 		$previous_month_details =$this->date_settings->get_previous_month();		
 		
-		$template='scmlt/template_fcdrr';
-		$data['title'] = 'SCMLT Home ';
+		$template='scmlt/template_edit';
+		$data['title'] = 'SCMLT FCDRR Edit/ Download';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$district_name.' Sub-County Home';
 		$data['content_view'] = 'scmlt/fcdrr_edit';
 		$data['facility_code'] = $facility_code;
@@ -184,6 +182,7 @@ class Scmlt extends CI_Controller {
 		$data['order_details'] = $order_details;
 		$data['count_categories'] = count($lab_categories);         
 		$data['county_name'] = $county_name;		
+		$data['order_id'] = $order_id;		
 
 		$data['count_categories'] = count($lab_categories);         
 		$data['all_details'] = $lab_details_all;         

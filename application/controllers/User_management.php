@@ -46,7 +46,7 @@ class User_management extends CI_Controller{
 		$this->load->model("User_model",'user');
 		$result = $this->user->login($username,$password);
 		if(count($result>0))
-		{
+		{			
 			$user_id = $result['id'];
 			$fname = $result['fname'];
 			$lname = $result['lname'];
@@ -69,7 +69,7 @@ class User_management extends CI_Controller{
 	       		'county_id'=>$county_id,
 	       		'telephone'=>$telephone,
 	       		'usertype_id'=>$usertype_id,       		
-	       		'facility'=>$facility,
+	       		'facility'=>$facility,	     
 	       		'log_status'=>$log_status);			
 			$this ->session->set_userdata($session_data);
 			redirect("Home_controller");

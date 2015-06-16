@@ -47,14 +47,16 @@ class Date_settings_model extends CI_Model
     	$first_day_text = date('D F Y', strtotime("first day of previous month"));
     	$last_day_text= date('D F Y', strtotime("last day of previous month"));
 
-    	$month = date('mY', strtotime("first day of previous month"));
-    	$year = substr($month, -4);    	
-    	$month = substr_replace($month, "", -4);       	
+    	$month_year_full = date('mY', strtotime("first day of previous month"));
+    	$year = substr($month_year_full, -4);    	
+    	$month = substr_replace($month_year_full, "", -4);       	
     	$num_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);    		
     	
     	$today = date('Y-m-d', time());
     	$today_last_month = date('d', time());    	
     	$today_last_month_text = date("D F Y", strtotime("$today -1 month"));
+
+        $englishdate = date('F, Y', strtotime("first day of previous month"));
 
     	$month_year = date('mY', strtotime("first day of previous month"));
     	$previous_month = array('first_date_full'=>$first_date_full,
@@ -67,23 +69,36 @@ class Date_settings_model extends CI_Model
     							'first_day_text'=>$first_day_text,
     							'last_day_text'=>$last_day_text,
     							'month_year'=>$month_year,
-    							'today_next_month'=>$today_last_month,
+                                'today_next_month'=>$today_last_month,
+                                'year'=>$year,
+                                'month_year_full'=>$month_year_full,
+                                'month'=>$month,
+    							'englishdate'=>$englishdate,
     							'today_next_month_text'=>$today_last_month_text);
     	return $previous_month;
 	}
 
 	function get_current_month()
 	{
-		$first_date_full = date('Y-m-d', strtotime("first day of this month"));		
-    	$last_date_full = date('Y-m-d', strtotime("last day of this month"));    	
 
-    	$first_day_num = date('d', strtotime("first day of this month"));
-    	$last_day_num = date('d', strtotime("last day of this month"));
+        $month_year = $this->session->userdata('month_year'); 
+        if($month_year!='')         
+        {
+            $month = $month_year;
+        }else{
+            $month = date('mY', strtotime("first day of this month"));
+            $first_date_full = date('Y-m-d', strtotime("first day of this month"));     
+            $last_date_full = date('Y-m-d', strtotime("last day of this month"));      
 
-    	$first_day_text = date('D F Y', strtotime("first day of this month"));
-    	$last_day_text= date('D F Y', strtotime("last day of this month"));
+            $first_day_num = date('d', strtotime("first day of this month"));
+            $last_day_num = date('d', strtotime("last day of this month"));
 
-    	$month = date('mY', strtotime("first day of this month"));
+            $first_day_text = date('D F Y', strtotime("first day of this month"));
+            $last_day_text= date('D F Y', strtotime("last day of this month"));
+        }
+		
+        $englishdate = date('F, Y', strtotime("first day of this month"));
+
     	$year = substr($month, -4);    	
     	$month = substr_replace($month, "", -4);       	
     	$num_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);    		
@@ -101,6 +116,7 @@ class Date_settings_model extends CI_Model
     							'month_year'=>$month_year,
     							'today'=>$today,
     							'today_text'=>$today_text,
+                                'englishdate'=>$englishdate,
                                 'year'=>$year,
                                 'month'=>$month);
     	return $current_month;
