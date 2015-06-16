@@ -28,7 +28,7 @@ class Scmlt extends CI_Controller {
 		$district_id = $this->session->userdata('district_id');
 		$district_details = $this->district->get_one_id($district_id);
 		$district_name = $district_details['district'];
-
+		
 		$template='scmlt/template';
 		$data['title'] = 'SCMLT Home ';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$district_name.' Sub-County Home';

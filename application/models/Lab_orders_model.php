@@ -130,13 +130,31 @@ class Lab_orders_model extends CI_Model
 		$month = $current_month_details['month'];		
 		$deadline_date = $this->date_settings->generate_full_date($year,$month,10);
 		$last_date = $current_month_details['last_date_full'];
-		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl
-				FROM   lab_commodity_orders, facilities, districts, counties
-				WHERE facilities.facility_code = lab_commodity_orders.facility_code
-				AND districts.id = facilities.district
-				AND counties.id = districts.county
-				AND counties.id = '$county_id'
-				AND order_date between '$deadline_date' and '$last_date'";		
+		$sql = "SELECT  DISTINCT(lab_commodity_orders.facility_code) as mfl
+                FROM   lab_commodity_orders WHERE order_date between '$deadline_date' and '$last_date'
+                and lab_commodity_orders.facility_code in 
+                (select facilities.facility_code from facilities, districts 
+                		where facilities.district = districts.id 
+                		and districts.county = '$county_id')";		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
+
+	function get_early_county_reports($county_id)
+	{
+		$this->load->model('Date_settings_model','date_settings');
+		$current_month_details = $this->date_settings->get_previous_month();
+		$first_date = $current_month_details['first_date_full'];
+		$year = $current_month_details['year'];
+		$month = $current_month_details['month'];		
+		$deadline_date = $this->date_settings->generate_full_date($year,$month,10);
+		$last_date = $current_month_details['last_date_full'];
+		$sql = "SELECT  DISTINCT(lab_commodity_orders.facility_code) as mfl
+                FROM   lab_commodity_orders WHERE order_date between '$first_date' and '$last_date'
+                and lab_commodity_orders.facility_code in 
+                (select facilities.facility_code from facilities, districts 
+                		where facilities.district = districts.id 
+                		and districts.county = '$county_id'";		
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}	
@@ -170,18 +188,43 @@ class Lab_orders_model extends CI_Model
 		return $result;
 	}	
 
+	function get_all_reported_district($district_id)
+	{
+		$this->load->model('Date_settings_model','date_settings');
+		$current_month_details = $this->date_settings->get_current_month();
+		$previous_month_details = $this->date_settings->get_previous_month();
+		if(isset($month)){           
+            $year = substr($month, -4);
+            $month = substr($month, 0,2);            
+            $monthyear = $year . '-' . $month . '-1';                         
+        }else{
+            $month = $previous_month_details['month'];                                 
+            $englishdate = $previous_month_details['englishdate'];  
+            $first_date = $previous_month_details['first_date_full']; 
+			$last_date = $previous_month_details['last_date_full'];
+            $year = $previous_month_details['year'];
+			$month = $previous_month_details['month'];	                                          
+        }		
+			
+		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl
+				FROM   lab_commodity_orders, facilities, districts, counties
+				WHERE facilities.facility_code = lab_commodity_orders.facility_code
+				AND districts.id = '$district_id'
+				AND order_date between '$first_date' and '$last_date'";		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}	
+
 	function get_all_district_reports($district_id)
 	{
 		$this->load->model('Date_settings_model','date_settings');
 		$current_month_details = $this->date_settings->get_current_month();
 		$first_date = $current_month_details['first_date_full'];
 		$last_date = $current_month_details['last_date_full'];
-		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl, lab_commodity_orders.*
-				FROM   lab_commodity_orders, facilities, districts, counties
-				WHERE facilities.facility_code = lab_commodity_orders.facility_code
-				AND districts.id = facilities.district				
-				AND districts.id = '$district_id'
-				AND order_date between '$first_date' and '$last_date'";
+		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl, lab_commodity_orders.id as order_id
+                FROM  lab_commodity_orders WHERE order_date between '$first_date' and '$last_date'			
+				AND lab_commodity_orders.facility_code IN 
+				(select facilities.facility_code from facilities where district='$district_id')";
 
 		$result = $this->db->query($sql)->result_array();
 		return $result;
@@ -196,17 +239,32 @@ class Lab_orders_model extends CI_Model
 		$month = $current_month_details['month'];
 		$deadline_date = $this->date_settings->generate_full_date($year,$month,10);
 		$last_date = $current_month_details['last_date_full'];
-		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl, lab_commodity_orders.*
-				FROM   lab_commodity_orders, facilities, districts, counties
-				WHERE facilities.facility_code = lab_commodity_orders.facility_code
-				AND districts.id = facilities.district
-				AND districts.id = facilities.district				
-				AND districts.id = '$district_id'
-				AND order_date between '$deadline_date' and '$last_date'";
+		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl, lab_commodity_orders.id as order_id
+                FROM  lab_commodity_orders WHERE order_date between '$deadline_date' and '$last_date'			
+				AND lab_commodity_orders.facility_code IN 
+				(select facilities.facility_code from facilities where district='$district_id')";
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
+
+	function get_early_district_reports($district_id)
+	{
+		$this->load->model('Date_settings_model','date_settings');
+		$current_month_details = $this->date_settings->get_current_month();
+		$first_date = $current_month_details['first_date_full'];
+		$year = $current_month_details['year'];
+		$month = $current_month_details['month'];
+		$deadline_date = $this->date_settings->generate_full_date($year,$month,10);
+		$last_date = $current_month_details['last_date_full'];
+		$sql = "SELECT DISTINCT (lab_commodity_orders.facility_code) as mfl, lab_commodity_orders.id as order_id
+                FROM  lab_commodity_orders WHERE order_date between '$first_date' and '$deadline_date'			
+				AND lab_commodity_orders.facility_code IN 
+				(select facilities.facility_code from facilities where district='$district_id')";
 
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
+
 
 
 	function reporting_rates($County = NULL,$year = NULL, $month = NULL) {		

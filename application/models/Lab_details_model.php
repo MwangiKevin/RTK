@@ -76,6 +76,22 @@ class Lab_details_model extends CI_Model
 	    return $result;
 	}
 
+	function get_ending_balance_district($district_id) 
+	{		
+	    $firstdate = date('Y-m-d', strtotime("first day of previous month"));
+	    $lastdate = date('Y-m-d', strtotime("last day of previous month"));
+	    $sql = "SELECT lab_commodities.id, lab_commodities.commodity_name,SUM(lab_commodity_details.closing_stock) AS end_bal
+				FROM lab_commodities,lab_commodity_details,districts, counties, facilities
+				WHERE  lab_commodities.category = '1' AND lab_commodity_details.commodity_id = lab_commodities.id
+        		AND lab_commodity_details.created_at BETWEEN '$firstdate' AND '$lastdate'
+        		AND  lab_commodity_details.facility_code = facilities.facility_code 
+        		AND facilities.rtk_enabled = '1' AND facilities.district = '$district_id'
+				GROUP BY lab_commodities.id
+				ORDER BY lab_commodities.id ASC";		
+	    $result = $this->db->query($sql)->result_array();
+	    return $result;
+	}
+
 	function save_order_details($data){
 		$this->db->insert('lab_commodity_details', $data); 		
 	}

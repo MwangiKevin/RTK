@@ -15,51 +15,22 @@
         </h4>
     </div>
 </div>
-<div class="panel panel-default" >
-    <div class="panel-heading" id="statistics">
-        <h4 class="panel-title" id="dpp_stats">                        
-            <a href="<?php echo base_url('Clc/statistics'); ?>" href="#collapseOne" id="notifications"><span class="glyphicon glyphicon-stats">
-            </span>Statistics</a>
-        </h4>
-    </div>
+<div id="my_new_menu" style="margin-top:1%;width:19%;height:400px;position:fixed;overflow-y:scroll;overflow-x:hidden;">
+    <?php 
+    
+    foreach ($menu as $key => $value) {
+        $link = $value['menu'];
+        $did = $value['id'];?>
+        <div class="panel panel-default" >
+            <div class="panel-heading" id="<?php echo $did;?>">
+                <h6 class="panel-title menu_fonts">                        
+                    <?php echo $link;?>                    
+                </h6>
+            </div>
+        </div>
+    <?php }?>
+    
 </div>
-<div class="panel panel-default" >
-    <div class="panel-heading" id="subcounties">
-        <h4 class="panel-title">
-            <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
-            </span>Sub-Counties</a>
-        </h4>
-    </div>
-</div>
-<div class="panel panel-default" >
-    <div class="panel-heading" id="management">
-        <h4 class="panel-title">
-            <a href="<?php echo site_url('Clc/management'); ?>" href="#collapseThree" id="expiries"><span class="glyphicon glyphicon-transfer">
-            </span>Management</a>
-        </h4>
-    </div>
-</div>
-<div class="panel panel-default" >
-    <div class="panel-heading" id="reports">
-        <h4 class="panel-title">
-            <a href="<?php echo site_url('Reports/clc'); ?>" href="#collapseThree" id="expiries"><span class="glyphicon glyphicon-file">
-            </span>Reports</a>&nbsp;&nbsp;&nbsp;&nbsp;<span id="sub_reports" class="glyphicon toggleSpan"></span>
-            <br/>
-            <div id="submit_reports_sub">
-                <ul>
-                    <li>
-                        <a href="<?php echo site_url(''); ?>" href="#collapseThree" id="expiries" class="sub_menu_links"></span>Submit One</a><br/>               
-                    </li>
-                    <li>
-                        <a href="<?php echo site_url(''); ?>" href="#collapseThree" id="expiries" class="sub_menu_links"></span>Submit Multiple</a>                
-                    </li>
-                </ul>             
-                
-            </div>            
-        </h4>
-    </div>
-</div>
-
 
 </div>
 <style type="text/css">
@@ -71,6 +42,19 @@
 		text-align: center;
 		list-style-type: none;
 	}
+    .menu_fonts{
+        font-size: 12px;
+        padding-left: 2%;
+    }
+     #my_new_menu{        
+        top:220;
+        bottom:3;
+        position:fixed;
+        overflow-y:scroll;
+        overflow-x:hidden;
+        height: 100px;
+    }
+
 	#sub_reports
     {
         float: right;

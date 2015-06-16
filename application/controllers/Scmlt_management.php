@@ -511,11 +511,12 @@ class Scmlt_management extends CI_Controller {
 		$this->load->model("Lab_orders_model",'orders');		
 		$district_id = $this->session->userdata('district_id');
 		$late_reports = $this->orders->get_late_district_reports($district_id);
+		$early_reports = $this->orders->get_early_district_reports($district_id);
 		$all_reports = $this->orders->get_all_district_reports($district_id);
 		$count_late = count($late_reports);
-		$count_all = count($all_reports);
-		$early_reports = $count_all - $count_late;
-		$statistics_details = array('all_reports'=>$count_all,'late_reports'=>$count_late,'early_reports'=>$early_reports);
+		$count_early = count($early_reports);
+		$count_all = count($all_reports);		
+		$statistics_details = array('all_reports'=>$count_all,'late_reports'=>$count_late,'early_reports'=>$count_early);
 		echo json_encode($statistics_details);
 
 	}	
@@ -554,29 +555,15 @@ class Scmlt_management extends CI_Controller {
 	function get_stats_column()
 	{
 		$this->load->model("Lab_orders_model",'orders');		
-		$this->load->model("Facilities_model",'facilities');		
+		$this->load->model("Percentages_model",'percentage_model');		
 		$this->load->model("Districts_model",'districts');		
 		$county_id = $this->session->userdata('county_id');
 		$districts_in_county = $this->districts->get_all_from_county($county_id);		
 		foreach ($districts_in_county as $key => $district) {
-			$district_id = $district['id'];
+			$district_id = $district['id'];			
 			$district_name = $district['district'];
-			$facility_details = $this->facilities->get_all_in_district($district_id);				
-			$total_facilities = count($facility_details);
-		    $reported = 0;
-		    $nonreported = 0;
-		    foreach ($facility_details as $key => $value) {
-		    	$mfl = $value['facility_code'];	    	
-	            $lab_count = $this->orders->get_recent_lab_orders($mfl);            
-	            if ($lab_count > 0) {
-	                $reported = $reported + 1;  	    		
-	            } else {
-	                $nonreported = $nonreported + 1;                                
-
-	            }           
-
-		    }	   
-		    $percentage = ceil(($reported/$total_facilities)*100);			
+			$percentage_details = $this->percentage_model->get_district_percentage($district_id);				
+		    $percentage = intval($percentage_details['percentage']);
 			$districts[] = array($district_name);
 			$percentages[] = array($percentage);			
 		}

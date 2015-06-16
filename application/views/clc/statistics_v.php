@@ -189,33 +189,33 @@
 </style>
 <script type="text/javascript">
 	$(document).ready(function (e){		
-		// var oTable = $('#stock_card_table').dataTable(
-		// {	
-		// 	"bPaginate":false,	
-		// 	"aaSorting": [[0, "asc"]],    
-		//     "bFilter": false,
-		//     "bSearchable":false,
-		//     "bInfo":false
-		// });				
-		// $.ajax({
-		// 	url: "<?php echo base_url() . 'Clc_management/get_stock_card'; ?>",
-		// 	dataType: 'json',
-		// 	success: function(s){
-		// 	// console.log(s);
-		// 	oTable.fnClearTable();
-		// 	for(var i = 0; i < s.length; i++) {
-		// 		oTable.fnAddData([
-		// 		s[i][0],
-		// 		s[i][1],
-		// 		s[i][2],
-		// 		s[i][3]
-		// 		]);
-		// 		} // End For
-		// 	},
-		// 	error: function(e){
-		// 		console.log(e.responseText);
-		// 	}
-		// });
+		var oTable = $('#stock_card_table').dataTable(
+		{	
+			"bPaginate":false,	
+			"aaSorting": [[0, "asc"]],    
+		    "bFilter": false,
+		    "bSearchable":false,
+		    "bInfo":false
+		});				
+		$.ajax({
+			url: "<?php echo base_url() . 'Clc_management/get_stock_card'; ?>",
+			dataType: 'json',
+			success: function(s){
+			// console.log(s);
+			oTable.fnClearTable();
+			for(var i = 0; i < s.length; i++) {
+				oTable.fnAddData([
+				s[i][0],
+				s[i][1],
+				s[i][2],
+				s[i][3]
+				]);
+				} // End For
+			},
+			error: function(e){
+				console.log(e.responseText);
+			}
+		});
 		get_highest_stocks(4);
 		get_highest_stocks(5);
 		get_highest_stocks(6);
