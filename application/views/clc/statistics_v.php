@@ -1,26 +1,27 @@
 <div id="clc_contents">
-	<h6>Stock Card</h6>
-	<div id="stock_card" class="table_divs" >		
-		<table id="stock_card_table" class="display table table-bordered" cellspacing="0" width="98%">
+	<div id="stock_card" class="table_divs panel panel-success">
+	  <!-- Default panel contents -->
+	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Stock Card</div>
+	  	<table id="stock_card_table" class="display table table-bordered" cellspacing="0" width="100%">
 			<thead>
-				<tr>
+				<tr class="header_tr">
+					<th colspan="4" id="stock_period"><b>Stocks as At End of April 2015</b></th>
+				</tr>
+				<tr class="header_tr">					
 					<th>Commodity Name</th>
 					<th>AMC</th>
 					<th>Stock on Hand at Facility</th>
 					<th>MOS Central</th>					
-				</tr>
-				<tr>
-					<th colspan="4" id="stock_period"><b>Stocks as At End of April 2015</b></th>
-				</tr>
+				</tr>				
 			</thead>			
 		</table>
 	</div>
-	<div id="expiries_stocks" >
-		<h6>Facilities with the Highest Stocks</h6>
-		<div id="highest_stocks" class="table_divs_stocks" >
-			<table id="screening_highest" class="highest_stocks_table display table table-bordered" cellspacing="0" width="98%">
+	<div id="highest_stocks" class="table_divs_stocks panel panel-success" style="width:49%;">
+	  <!-- Default panel contents -->
+	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities with Highest Stocks</div>
+	  	<table id="screening_highest" class="highest_stocks_table display table " cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Screening KHB Stocks</b></th>
 					</tr>
 					<tr>
@@ -32,9 +33,9 @@
 				</thead>			
 			</table>
 
-			<table id="confirmatory_highest" class="highest_stocks_table display table table-bordered" cellspacing="0" width="98%">
+			<table id="confirmatory_highest" class="highest_stocks_table display table" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Confirmatory Unigold Stocks</b></th>
 					</tr>
 					<tr>
@@ -46,9 +47,9 @@
 				</thead>			
 			</table>
 
-			<table id="tiebreaker_highest" class="highest_stocks_table display table table-bordered" cellspacing="0" width="98%">
+			<table id="tiebreaker_highest" class="highest_stocks_table display table" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Tie-breaker Stocks</b></th>
 					</tr>
 					<tr>
@@ -59,12 +60,13 @@
 					
 				</thead>			
 			</table>
-		</div>
-		<h6 style="margin-top:-2%;float:right;">Facilities with the Highest Expiries (Expiring in 6 Months)</h6>
-		<div id="highest_stocks" class="table_divs_expiries" >
-			<table id="screening_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="98%">
+	</div>		
+	<div id="highest_expiries" class="table_divs_expiries panel panel-success" style="width:49%;">
+	  <!-- Default panel contents -->
+	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities with Highest Expiries</div>
+	  	<table id="screening_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Screening KHB Expiries</b></th>
 					</tr>
 					<tr>
@@ -76,9 +78,9 @@
 				</thead>			
 			</table>
 
-			<table id="confirmatory_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="98%">
+			<table id="confirmatory_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Confirmatory Unigold Expiries</b></th>
 					</tr>
 					<tr>
@@ -90,9 +92,9 @@
 				</thead>			
 			</table>
 
-			<table id="tiebreaker_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="98%">
+			<table id="tiebreaker_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="100%">
 				<thead>
-					<tr>
+					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Tie-breaker Expiries</b></th>
 					</tr>
 					<tr>
@@ -103,23 +105,23 @@
 					
 				</thead>			
 			</table>
-		</div>	
-	</div>
-	<br/>
-	<h6 style="margin-top:2%;float:left;">Facilities Not-Reported</h6>
-	<div id="non-reported" class="table_divs_non_reported" >		
-		<table id="stock_card_table" class="display table table-bordered" cellspacing="0" width="98%">
+	</div>		
+	<div id="non-reported" class="table_divs_non_reported panel panel-success">
+	  <!-- Default panel contents -->
+	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities Not-Reported</div>
+	  	<table id="stock_card_table" class="display table table-bordered" cellspacing="0" width="100%">
 			<thead>
+				<tr class="header_tr">
+					<th colspan="4" id="stock_period"><b>Facilities Not Reported for April 2015</b></th>
+				</tr>
 				<tr>
 					<th>MFL</th>
 					<th>Facility Name</th>					
 				</tr>
-				<tr>
-					<th colspan="4" id="stock_period"><b>Facilities Not Reported for April 2015</b></th>
-				</tr>
+				
 			</thead>			
 		</table>
-	</div>
+	</div>	
 		
 </div>
 <style type="text/css">
@@ -128,7 +130,9 @@
 		/*margin: 1%;	*/
 		width: 100%;	
 	}
-
+	.header_tr{
+		background-color:#f5f5f5;
+	}
 	.table th{
 		text-align: center;
 	}
@@ -146,14 +150,14 @@
 	.table_divs{
 		margin-top: 1%;
 		margin-left: 1%;
-		border: 1px dotted green;
+		/*border: 1px dotted green;*/
 		width: 100%;
 		height: auto;
 	}
 	.table_divs_stocks{
 		/*margin-top: 1%;*/
 		margin-left: 1%;
-		border: 1px dotted green;
+		/*border: 1px dotted green;*/
 		width: 49%;
 		float: left;
 		min-height: 250px;
@@ -168,9 +172,9 @@
 		margin-top: 1%;
 	}
 	.table_divs_expiries{
-		margin-top: 1%;
+		/*margin-top: 1%;*/
 		margin-left: 1%;
-		border: 1px dotted green;
+		/*border: 1px dotted green;*/
 		width: 49%;
 		float: right;
 		min-height: 250px;
@@ -179,7 +183,7 @@
 	.table_divs_non_reported{
 		margin-top: 2%;
 		margin-left: 1%;
-		border: 1px dotted green;
+		/*border: 1px dotted green;*/
 		width: 100%;
 		float: left;
 		min-height: 350px;
