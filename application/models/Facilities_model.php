@@ -97,6 +97,69 @@ class Facilities_model extends CI_Model
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
+
+	function monthly_facility_reports($mfl, $monthyear = null)
+	{
+	    $conditions = '';
+	    if (isset($monthyear)) {
+	        $year = substr($monthyear, -4);
+	        $month = substr_replace($monthyear, "", -4);
+	        $firstdate = $year . '-' . $month . '-01';
+	        $num_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+	        $lastdate = $year . '-' . $month . '-' . $num_days;
+	        $conditions=" AND lab_commodity_orders.order_date
+	        BETWEEN  '$firstdate'
+	        AND  '$lastdate'";
+	    }
+
+	    $sql = "select distinct lab_commodity_orders.order_date,lab_commodity_orders.compiled_by,lab_commodity_orders.id,
+	    facilities.facility_name,districts.district,districts.id as district_id, counties.county,counties.id as county_id
+	    FROM lab_commodity_orders,facilities,districts,counties
+	    WHERE lab_commodity_orders.facility_code = facilities.facility_code
+	    AND facilities.district = districts.id
+	    AND counties.id = districts.county
+	    AND facilities.facility_code =$mfl $conditions 
+	    group by lab_commodity_orders.order_date";        
+
+
+	    $sql .=' Order by lab_commodity_orders.order_date desc';
+	    // echo "$sql";die();
+	    $res = $this->db->query($sql);
+	    $sum_facilities = array();
+	    $facility_arr = array();
+
+	    foreach ($res->result_array() as $key => $value) {
+	        $facility_arr = $value;
+	        $details = $this->fcdrr_values($value['id']);       
+	        array_push($facility_arr, $details);
+	        array_push($sum_facilities, $facility_arr);
+	    }
+	   
+	    return $sum_facilities;
+	}
+	function fcdrr_values($order_id, $commodity = null)
+	{  
+	    $q = "SELECT * 
+	    FROM lab_commodities, lab_commodity_details_old, facility_amc
+	    WHERE lab_commodity_details_old.order_id ='$order_id'
+	    AND facility_amc.facility_code = lab_commodity_details_old.facility_code
+	    AND facility_amc.commodity_id = lab_commodity_details_old.commodity_id    
+	    AND lab_commodity_details_old.commodity_id = lab_commodities.id 
+	    AND lab_commodities.category='1'";
+
+	    // echo "$q";die();
+	    if (isset($commodity)) {
+	        $q = "SELECT * 
+	        FROM lab_commodities, lab_commodity_details_old
+	        WHERE lab_commodity_details_old.order_id ='$order_id'
+	        AND lab_commodity_details_old.commodity_id = lab_commodities.id
+	        AND commodity_id='$commodity'";
+	    }   
+	    // echo "$q";die();
+	    $q_res = $this->db->query($q);
+	    $returnable = $q_res->result_array();
+	    return $returnable;
+	}
 }
 
 ?>
