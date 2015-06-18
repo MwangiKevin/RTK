@@ -2,7 +2,7 @@
 	<div id="stock_card" class="table_divs panel panel-success">
 	  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Stock Card</div>
-	  	<table id="stock_card_table" class="display table table-bordered" cellspacing="0" width="100%">
+	  	<table id="stock_card_table" class="display table" cellspacing="0" width="100%">
 			<thead>
 				<tr class="header_tr">
 					<th colspan="4" id="stock_period"><b>Stocks as At End of April 2015</b></th>
@@ -64,7 +64,7 @@
 	<div id="highest_expiries" class="table_divs_expiries panel panel-success" style="width:49%;">
 	  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities with Highest Expiries</div>
-	  	<table id="screening_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="100%">
+	  	<table id="screening_expiries" class="highest_expiries_table display table" cellspacing="0" width="100%">
 				<thead>
 					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Screening KHB Expiries</b></th>
@@ -78,7 +78,7 @@
 				</thead>			
 			</table>
 
-			<table id="confirmatory_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="100%">
+			<table id="confirmatory_expiries" class="highest_expiries_table display table" cellspacing="0" width="100%">
 				<thead>
 					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Confirmatory Unigold Expiries</b></th>
@@ -92,7 +92,7 @@
 				</thead>			
 			</table>
 
-			<table id="tiebreaker_expiries" class="highest_expiries_table display table table-bordered" cellspacing="0" width="100%">
+			<table id="tiebreaker_expiries" class="highest_expiries_table display table " cellspacing="0" width="100%">
 				<thead>
 					<tr class="header_tr">
 						<th colspan="4" id="stock_period"><b>Tie-breaker Expiries</b></th>
@@ -109,7 +109,7 @@
 	<div id="non-reported" class="table_divs_non_reported panel panel-success">
 	  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities Not-Reported</div>
-	  	<table id="stock_card_table" class="display table table-bordered" cellspacing="0" width="100%">
+	  	<table id="non-reported" class="display table table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr class="header_tr">
 					<th colspan="4" id="stock_period"><b>Facilities Not Reported for April 2015</b></th>
@@ -166,10 +166,12 @@
 
 	.highest_stocks_table{
 		margin-top: 1%;
+		height: 300px;		
 	}
 
 	.highest_expiries_table{
 		margin-top: 1%;
+		height: 300px;
 	}
 	.table_divs_expiries{
 		/*margin-top: 1%;*/
