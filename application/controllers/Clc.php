@@ -77,7 +77,7 @@ class Clc extends CI_Controller {
 		$data['title'] = 'CLC Sub_Counties ';
 		$data['menu'] = $menu_list;
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
-		$data['content_view'] = 'clc/subcounty_v';		
+		$data['content_view'] = 'clc/subcounty_v';				
 		$data['active_link'] = 'statistics';		
 		$this->load->view($template,$data);
 

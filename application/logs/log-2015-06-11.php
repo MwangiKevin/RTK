@@ -17,3 +17,8 @@ ERROR - 2015-06-11 08:08:41 --> Severity: Notice --> Undefined offset: 1 /opt/la
 ERROR - 2015-06-11 08:08:41 --> Severity: Notice --> Undefined offset: 2 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
 ERROR - 2015-06-11 08:08:41 --> Severity: Notice --> Undefined offset: 3 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
 ERROR - 2015-06-11 08:08:41 --> Severity: Notice --> Undefined offset: 4 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
+ERROR - 2015-06-11 08:11:00 --> Severity: Notice --> Undefined offset: 0 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
+ERROR - 2015-06-11 08:11:00 --> Severity: Notice --> Undefined offset: 1 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
+ERROR - 2015-06-11 08:11:00 --> Severity: Notice --> Undefined offset: 2 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
+ERROR - 2015-06-11 08:11:00 --> Severity: Notice --> Undefined offset: 3 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
+ERROR - 2015-06-11 08:11:00 --> Severity: Notice --> Undefined offset: 4 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 293
