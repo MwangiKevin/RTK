@@ -156,15 +156,15 @@ class Scmlt extends CI_Controller {
 		$this->load->model("Lab_details_model",'lab_details');						
 		$this->load->model("Lab_orders_model",'lab_orders');						
 		$this->load->model("Lab_categories_model",'categories');						
-		$order_details = $this->lab_orders->get_order_details($order_id);
-		$lab_details_all = $this->lab_details->get_all_from_order($order_id);		
+		$order_details = $this->lab_orders->get_order_details($order_id);		
+		$lab_details_all = $this->lab_details->get_all_from_order($order_id);				
 		$mfl = $order_details['facility_code'];		
 		$lab_commodities = $this->categories->get_active();
 
 		$lab_details_begining_bal = $this->lab_details->get_begining_balance($mfl);	
-		$facility_details = $this->facilities->get_one_mfl($mfl);
-		$facility_name = $facility_details['facility_name'];
-		$facility_code = $facility_details['facility_code'];	
+		$facility_details = $this->facilities->get_one_mfl($mfl);		
+		$facility_name = $facility_details[0]['facility_name'];
+		$facility_code = $facility_details[0]['facility_code'];	
 
 		$previous_month_details =$this->date_settings->get_previous_month();		
 		
@@ -195,10 +195,9 @@ class Scmlt extends CI_Controller {
 	function view_report_mfl($mfl)
 	{		
 		$this->load->model("Lab_orders_model",'orders_model');	;
-		$order_details = $this->orders_model->get_latest_lab_orders($mfl);		
+		$order_details = $this->orders_model->get_latest_lab_orders($mfl);			
 		$link = 'Scmlt/view_report/'.$order_details['order_id'];
 		redirect($link);		
-
 	}
 
 

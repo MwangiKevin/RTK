@@ -2,7 +2,7 @@
 	<div id="facility_details">
 		<span id="fname"></span>
 		<span id="factions">
-			<button class="btn btn-primary my_navs" id="edit_fcdrr">Edit</button>		
+			<button class="btn btn-primary my_navs" id="edit_facility_btn"  data-toggle="modal" data-target="#edit_facility">Edit Facility</button>		
 			<button class="btn btn-primary my_navs" id="cancel_edit">Cancel</button>
 		</span>
 	</div>
@@ -13,6 +13,33 @@
 	  	</div>
 	</div>	
 </div>
+
+<div id="edit_facility" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Edit Facility</h4>
+            </div>
+            <div class="modal-body">
+                <form id="edit_facility">
+                	<label for="facility_name_edit">Facility Name</label>
+                	<input type="text" id="facility_name_edit" class="form-control" width="100%" />                	
+                	<label for="facility_subcounty_edit"></label>                		
+                	<select id="facility_subcounty_edit" class="form-control" width="100%">
+                		<option>Select Sub-County</option>
+                	</select>        
+                	<br/>
+                	<span id="eit_form_status"></span>        	
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary my_navs" data-dismiss="modal">Close</button>
+                <button type="button" id="save_edit_form" class="btn btn-primary my_navs">Save Changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 <style type="text/css">	
 	.table{
 		font-size: 11px;
@@ -66,15 +93,41 @@
 	
 </style>
 <script type="text/javascript">
-	$(document).ready(function (e){			
-		
+	$(document).ready(function (e){					
 		$('.menu_link').click(function(f){
 			var mfl = f.target.id;
 			get_facility_details(mfl);			
 			get_monthly_records(mfl);			
 		});
+
+		$('#save_edit_form').click(function(f){
+			var fcode = $('#facility_code_hidden').val();						
+			var facility_name = $('#facility_name_edit').val();
+			var district_id = $('#facility_subcounty_edit').val();
+			var district_id_old = "<?php echo $district_id?>";			
+			if(facility_name=='')
+			{
+				$('#edit_form_status').html('Please Fill in the Facility Name.');
+			}else if(district_id==0)
+			{
+				$('#eit_form_status').html('Please Select the Sub-County before Saving.');
+			}else{
+				$.post("<?php echo base_url() . 'Clc_management/update_facility_details'; ?>", {
+		           facility_code: fcode,                        
+		           facility_name: facility_name,                        
+		           district_id: district_id,                        		           
+		        }).done(function(data) {		
+					$('#edit_form_status').html('Please Select the Sub-County before Saving.');
+					var new_url = "<?php echo base_url() . 'Clc/view_facilities/'; ?>";
+					var url = new_url+district_id_old;
+		        	window.location = url;
+		        });
+			}
+		});
+
+
 		get_facility_details(null);
-		get_monthly_records(null);
+		get_monthly_records(null);		
 
 		function get_facility_details(mfl)
 		{
@@ -87,6 +140,8 @@
 				success: function(s){							
 					$('#fname').html(s.facility_name);
 					$('#location').html(s.location);
+					get_facility_edit_form_dets();
+
 				},
 				error: function(e){
 					console.log(e.responseText);
@@ -94,6 +149,24 @@
 			});
 		}	
 
+		function get_facility_edit_form_dets()
+		{
+			var fcode = $('#facility_code_hidden').val();			
+			var baseurl = "<?php echo base_url() . 'Clc_management/get_edit_facility_form/'; ?>";						
+			var url = baseurl+fcode;
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				success: function(s){						
+					$('#facility_name_edit').val(s.facility_name);
+					$('#facility_subcounty_edit').html(s.districts);			
+				},
+				error: function(e){
+					console.log(e.responseText);
+				}
+			});
+			
+		}
 		function get_monthly_records(mfl)
 		{
 			var baseurl = "<?php echo base_url() . 'Clc_management/get_facility_records/'; ?>";			
@@ -113,12 +186,16 @@
 		
 	});
 
+	$('#edit_facility').click(function(e){
 
-	$(document).ajaxStart(function(){
-	    $('#loading').show();
-	 }).ajaxStop(function(){
-	    $('#loading').hide();
-	 });
+	});
+
+
+	// $(document).ajaxStart(function(){
+	//     $('#loading').show();
+	//  }).ajaxStop(function(){
+	//     $('#loading').hide();
+	//  });
 	 // $("#report_table").dataTable();
 	 // $("#report_table").tablecloth({
 		//   theme: "default",
@@ -135,36 +212,3 @@
 
 	
 </div>
-<div class="modal" id="loading">
-	
-</div>
-<style type="text/css">
-	.modal
-	{
-	    display:    none;
-	    position:   fixed;
-	    z-index:    1000;
-	    top:        0;
-	    left:       0;
-	    height:     100%;
-	    width:      100%;
-	    background: rgba( 255, 255, 255, .8 ) 
-	                url('<?php echo base_url();?>assets/img/new_loader.gif') 
-	                50% 50% 
-	                no-repeat;	    
-	}
-
-	/* When the body has the loading class, we turn
-	   the scrollbar off with overflow:hidden */
-	body.loading {
-	    overflow: hidden;   
-	}
-
-	/* Anytime the body has the loading class, our
-	   modal element will be visible */
-	body.loading .modal {
-	    display: block;
-	}
-
-</style>
-	

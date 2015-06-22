@@ -62,7 +62,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right" >
-                    <li><a class="" href="<?php echo site_url() . 'Home'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>              
+                    <li><a class="" href="<?php echo site_url() . 'Home_controller'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>              
                     <?php                    
                     $log_status = $this->session->userdata('log_status');
                     if($log_status==0){?>                    

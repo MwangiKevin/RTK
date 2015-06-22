@@ -31,15 +31,15 @@
         </h4>
     </div>
 </div>
-<div class="panel panel-default" >
+<!--div class="panel panel-default" >
     <div class="panel-heading" id="allocations">
         <h4 class="panel-title">
             <a href="<?php echo site_url('Scmlt/allocations'); ?>" href="#collapseThree" id="expiries"><span class="glyphicon glyphicon-transfer">
             </span>Allocation</a>
         </h4>
     </div>
-</div>
-<div class="panel panel-default" >
+</div-->
+<!--div class="panel panel-default" >
     <div class="panel-heading" id="reports_multiple">
         <h4 class="panel-title">
             <a href="<?php echo site_url('rtk_management/scmlt_allocations'); ?>" href="#collapseThree" id="expiries"><span class="glyphicon glyphicon-file">
@@ -58,7 +58,7 @@
             </div>            
         </h4>
     </div>
-</div>
+</div-->
 <div class="panel panel-default" id="report_progress">
     <div class="panel-heading" style="background-color:#fff">
         <h6 class="panel-title" style="font-size:12px" id="report_percentage"><span id="percentage_reported"></span> Reports Submitted (<span id="remaining_reports"></span> Remaining)</h6>

@@ -22,9 +22,9 @@ class Lab_orders_model extends CI_Model
 		$current_month_details = $this->date_settings->get_current_month();
 		$first_date = $current_month_details['first_date_full'];
 		$last_date = $current_month_details['last_date_full'];
-		$sql = "select distinct id as order_id,order_date from lab_commodity_orders where facility_code='$mfl' and order_date between '$first_date' AND '$last_date'";		
+		$sql = "select distinct id as order_id,order_date from lab_commodity_orders_temp where facility_code='$mfl' and order_date between '$first_date' AND '$last_date'";		
 		$result = $this->db->query($sql)->result_array();		
-		return $result[0];
+		return $result;
 	}
 
 	function get_order_details($order_id)
@@ -73,7 +73,7 @@ class Lab_orders_model extends CI_Model
 				where lab_commodity_orders.facility_code = facilities.facility_code 
 				and facilities.district = dist.id and dist.id = '$district' order by lab_commodity_orders.id desc";
 		
-		$result = $this->db->query($sql)->result_array();
+		$result = $this->db->query($sql)->result_array();		
 		return $result;
 	}
 	function save_order($data)
