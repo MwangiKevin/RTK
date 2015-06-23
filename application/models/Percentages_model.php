@@ -42,6 +42,22 @@ class Percentages_model extends CI_Model
 		return $result[0];
 	}
 
+	function get_all_county_percentage()
+	{
+		$month = date('mY', strtotime('-1 month'));
+		$m =substr($month, 0,2);
+		$y = substr($month, 2);
+		$new_month = $y.'-'.$m.'-01';
+		$d = new DateTime("$new_month");    
+		$d->modify( 'last day of next month' );
+		$month_db =  $d->format( 'mY' );  
+
+		$sql ="select * from rtk_county_percentage
+    			where month = '$month_db'";
+    			echo "$sql";
+		$result = $this->db->query($sql)->result_array();
+		return $result[0];
+	}
 
 	function get_district_percentage($district_id)
 	{		
