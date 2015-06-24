@@ -7,38 +7,48 @@
     <div class="panel-heading" id="summary" >
         <a href="<?php echo base_url('Admin'); ?>" href="#collapseTwo" id="notifications" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title" id="dpp_stats">                                    
-               <span class="glyphicon glyphicon-home"></span>
-                Summary
+               <span class="glyphicon glyphicon-arrow-left"></span>
+                Back to Homepage
+            </h4>
+        </a>          
+    </div>
+</div>
+<div class="panel panel-default"  >
+    <div class="panel-heading" id="summary" >
+        <a href="<?php echo base_url('Admin/trend'); ?>" href="#collapseTwo" id="notifications" style="color:#000;text-decoration:none;display:block;">        
+            <h4 class="panel-title" id="dpp_stats">                                    
+               <span class="glyphicon glyphicon-stats"></span>
+                National Trend
             </h4>
         </a>          
     </div>
 </div>
 <div class="panel panel-default" >
     <div class="panel-heading" id="reports">
-        <a href="<?php echo base_url('Reports'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+        <a href="<?php echo base_url('Admin/users'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title" id="dpp_stats">                                    
-                <span class="glyphicon glyphicon-stats"></span>
-                Reports
+                <span class="glyphicon glyphicon-user"></span>
+                User Management
             </h4>
         </a>        
     </div>
 </div>
 <div class="panel panel-default" >
     <div class="panel-heading" id="admin_management">
-        <a href="<?php echo site_url('Admin/management'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+        <a href="<?php echo site_url('Admin/facilities'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title">            
                 <span class="glyphicon glyphicon-cog"></span>
-                Admin Management
+                Facilities Management
             </h4>
         </a>
     </div>
 </div>
 <div class="panel panel-default" id="stock_status">
   <div class="panel-heading dropdown dropdown-toggle accordion-group">
-    <a href="<?php echo site_url('Admin/stock_status'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+    <a href="<?php echo site_url('Admin/logs'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
         <h4 class="panel-title ">            
             <span class="glyphicon glyphicon-shopping-cart"></span>
-           </span>Stock Status
+           </span>Activity Log
         </h4>    
     </span>
   </div> 

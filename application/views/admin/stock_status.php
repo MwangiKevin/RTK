@@ -37,7 +37,7 @@
 	.table{
 		font-size: 11px;
 		/*margin: 1%;	*/
-		width: 98%;	
+		width: 100%;	
 	}
 
 	.table th{
@@ -54,7 +54,7 @@
 	.charts{
 		min-height: 500px;
 		height: auto;
-		width: 100%;
+		width: 98%;
 		/*border: 1px dotted green;*/
 		float: left;
 		margin-left: 2%;

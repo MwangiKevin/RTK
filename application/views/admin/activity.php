@@ -1,12 +1,17 @@
 <div id="clc_contents">	
-	<div id="main_filter" class="graphs table_divs panel panel-info" style="margin-top:-10px;">		  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Main Filter</div>
+	<!-- <div id="main_filter" class="graphs table_divs panel panel-info" style="margin-top:-10px;">		  <!-- Default panel contents --> 
+	  <!-- <div class="panel-heading" style="font-size:13px;font-weight:bold">Main Filter</div> -->
 	  <!-- <div class="panel-body"></div> -->
-	</div>
+	<!-- </div> -->
 
 	<div id="main_graph" class="graphs table_divs panel panel-success">		  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">National County Reporting Summary for: <span id="report_period_header"></span></div>
-	  <div id="main_chart_body" class="panel-body" style="height:1800px;"></div>
+	  <div id="tabs" style="font-size:13px;font-weight:bold">
+	  	<a id="trend_tab" href="<?php echo base_url().'rtk_management/rtk_manager'; ?>" data-tab="1" class="tab">Own Activity</a>
+		<a id="users_tab" href="<?php echo base_url().'rtk_management/rtk_manager_users'; ?>" data-tab="1" class="tab">Reports</a>	
+		<a id="facilities_tab" href="<?php echo base_url().'rtk_management/rtk_manager_facilities/A';?>" data-tab="1" class="tab">User Activity</a>					
+		<a id="activity_tab" href="<?php echo base_url().'rtk_management/rtk_manager_activity'; ?>" data-tab="2" class="tab">Facility Activity</a>
+	  </div>
+	  <div id="main_chart_body" class="panel-body" style="min-height:400px;height:auto;"></div>
 	</div>
 </div>
 <style type="text/css">
@@ -49,6 +54,36 @@
 		margin-left: 3%;
 		margin-top: 2%;
 	}	
+	#tabs{
+		height: 40px;
+		background:#F9F9F9; 
+	}
+	.tab {
+		float: left;
+		display: block;
+		padding: 10px 20px;
+		text-decoration: none;
+		border-radius: 5px 5px 0 0;
+		background: #F9F9F9;
+		color: #777;		
+	}
+	#tabs a,#switch_tab a{		
+		text-decoration: none;
+		font-style: normal;		
+	}
+	#tabs a:hover,#switch_tab:hover{
+		border-radius: 5px 5px 0 0;
+		background: #CCCCCC;
+	}
+	.tab_switch {
+		float: right;
+		display: block;
+		padding: 10px 20px;
+		text-decoration: none;
+		border-radius: 5px 5px 0 0;
+		background: #F9F9F9;
+		color: #777;
+	}
 	
 </style>
 
@@ -70,7 +105,7 @@
 		// 		console.log(e.responseText);
 		// 	}
 		// });	
-		load_main_graph();
+		// load_main_graph();
 		function load_main_graph()
 		{
 			$.ajax({

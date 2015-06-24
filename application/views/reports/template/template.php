@@ -45,7 +45,7 @@
 	}
 	#side_menu{
 		width: 20%;
-		padding: %;
+		padding-top:1px;
 		float: left;
 		min-height: 1450px;
 		min-height: 100%;

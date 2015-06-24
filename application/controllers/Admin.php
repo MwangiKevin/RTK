@@ -58,6 +58,58 @@ class Admin extends CI_Controller {
 
 	}
 
+	function management()
+	{	
+		redirect('Admin/trend');
+	}
+
+	function trend()
+	{		
+		$template='admin/template_management';
+		$data['title'] = 'Admin Management';
+		$data['banner_text'] = 'Rapid Test Kit National Reporting Trend';
+		$data['content_view'] = 'admin/national_trend';
+		$data['location'] = 'You are on RTK-> National Trend';
+		$data['active_link'] = 'management';		
+		$this->load->view($template,$data);
+
+	}
+	function logs()
+	{		
+		$template='admin/template_management';
+		$data['title'] = 'Admin Management';
+		$data['banner_text'] = 'Rapid Test Kit National Activity';
+		$data['content_view'] = 'admin/activity';
+		$data['location'] = 'You are on RTK-> National Logs';
+		$data['active_link'] = 'management';		
+		$this->load->view($template,$data);
+
+	}
+
+	function facilities()
+	{		
+		$template='admin/template_management';
+		$data['title'] = 'Admin Management';
+		$data['banner_text'] = 'Rapid Test Kit National Facilities';
+		$data['content_view'] = 'admin/facilities';
+		$data['location'] = 'You are on RTK-> National Facilities';
+		$data['active_link'] = 'management';		
+		$this->load->view($template,$data);
+
+	}
+
+	function users()
+	{		
+		$template='admin/template_management';
+		$data['title'] = 'Admin Management';
+		$data['banner_text'] = 'Rapid Test Kit National Users';
+		$data['content_view'] = 'admin/users';
+		$data['location'] = 'You are on RTK-> National Users';
+		$data['active_link'] = 'management';		
+		$this->load->view($template,$data);
+
+	}
+
 	function sub_county()
 	{		
 		$this->load->model("Counties_model",'county');		

@@ -5,14 +5,58 @@ class Reports extends CI_Controller
 {
 		
  function index() {	
-    
-    $data['content_view'] = "reports/national/national_reports";
-    $data['title'] = "Reports";
-    $data['link'] = "home";
-    
-    $this->load->view('reports/template/template', $data);
 
-	}
+    $usertype_id = $this->session->userdata('usertype_id');     
+    switch ($usertype_id) 
+    {
+        case '1':
+            redirect('Reports/scmlt_home');              
+            break;
+        case '2':
+            redirect('Reports/clc_home');                
+            break;
+        case '3':
+            redirect('Reports/partner_home');              
+            break;
+        case '4':
+            redirect('Reports/partner_admin_home');              
+            break;
+        case '5':
+            redirect('Reports/admin_home');                              
+            break;
+        case '6':
+            redirect('Reports/allocation_home');                                                      
+            break;
+        case '7':
+            redirect('Reports/pepfar_home');                                                                          
+            break;
+        
+        default:
+            # code...
+            break;
+    }   
+
+}
+
+    function scmlt_home(){
+        $data['content_view'] = "reports/scmlt/national_reports";
+        $data['title'] = "SCMLT Reports";
+        $data['link'] = "home";        
+        $this->load->view('reports/template/template', $data);
+    }
+    function clc_home(){
+        $data['content_view'] = "reports/clc/national_reports";
+        $data['title'] = "CLC Reports";
+        $data['link'] = "home";        
+        $this->load->view('reports/template/template', $data);
+    }
+    function admin_home(){
+        $data['content_view'] = "reports/national/national_reports";
+        $data['title'] = "Administrator Reports";
+        $data['link'] = "home";        
+        $this->load->view('reports/template/template', $data);
+    }
+
 	function national_clc() {	
     
     $data['content_view'] = "reports/national/county_reports";

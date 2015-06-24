@@ -1,5 +1,12 @@
-<div class="panel-group " id="accordion" style="padding: 0;"> 
-
+<div class="panel-group " id="accordion" style="padding: 0;margin-top:2px;"> 
+<div class="panel panel-default"  >
+    <div class="panel-heading" id="home" >
+        <h4 class="panel-title">
+            <a href="<?php echo base_url('Home_controller'); ?>" href="#collapseOne" id="notifications"><span class="glyphicon glyphicon-arrow-left">
+            </span>Back to Homepage</a>
+        </h4>
+    </div>
+</div>
 <div class="panel panel-default"  >
     <div class="panel-heading" id="home" >
         <h4 class="panel-title">
