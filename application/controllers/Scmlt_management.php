@@ -42,7 +42,7 @@ class Scmlt_management extends CI_Controller {
 			$facility_name = $value['facility_name'];
 			$compiled_by = $value['compiled_by'];
 			$approved_by = $value['approved_by'];
-			$action = '<a href="'.site_url('Scmlt/view_report_mfl').'/'.$facility_code.'" class="link">Edit/View Report</a>';			
+			$action = '<a href="'.site_url('Scmlt/view_report').'/'.$order_id.'" class="link">Edit/View Report</a>';			
 			$output[] = array($report_for,$facility_code,$facility_name,$compiled_by,$approved_by,$order_date,$action);
 		}		
 		echo json_encode($output);		

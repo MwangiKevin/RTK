@@ -136,6 +136,69 @@ class Lab_details_model extends CI_Model
 	    $expiries = $this->db->query($sql)->result_array();
 	    return $expiries;
 	}
+	function get_total_summary($year, $month){
+		$returnable = array();
+
+        // $firstdate = $year . '-' . $month . '-01';
+        $firstdate = $year . '-04-01';
+        $firstday = date("Y-m-d", strtotime("$firstdate Month "));
+
+        // $month = date("m", strtotime("$firstdate  Month "));
+        // $year = date("Y", strtotime("$firstdate  Month "));
+        $num_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+        // $lastdate = $year . '-' . $month . '-' . $num_days;    
+        $lastdate = $year . '-04-' . $num_days;    
+        // echo "First".$firstdate."and ".$lastdate;
+
+        $sql = "SELECT 
+                counties.county,
+                counties.id,
+                lab_commodities.commodity_name,
+                SUM(lab_commodity_details_old.beginning_bal) AS sum_opening,
+                SUM(lab_commodity_details_old.q_received) AS sum_received,
+                SUM(lab_commodity_details_old.q_used) AS sum_used,
+                SUM(lab_commodity_details_old.no_of_tests_done) AS sum_tests,
+                SUM(lab_commodity_details_old.closing_stock) AS sum_closing_bal,
+                SUM(lab_commodity_details_old.q_requested) AS sum_requested,
+                SUM(lab_commodity_details_old.q_expiring) AS sum_expiring
+            FROM
+                lab_commodities,
+                lab_commodity_details_old,
+                facilities,
+                districts,
+                counties
+            WHERE
+                lab_commodity_details_old.commodity_id = lab_commodities.id
+                    AND lab_commodity_details_old.facility_code = facilities.facility_code
+                    AND facilities.district = districts.id
+                    AND districts.county = counties.id
+                    AND lab_commodity_details_old.created_at BETWEEN '$firstdate' AND '$lastdate'";                   
+            //         and lab_commodities.id between 0 and 6
+            // group by counties.id,lab_commodities.id";            
+            //$returnable = $this->db->query($sql)->result_array();
+        $sql2 = $sql . " AND lab_commodities.id = 1 Group By counties.county";
+        $res = $this->db->query($sql2)->result_array();
+        array_push($returnable, $res);
+
+        $sql3 = $sql . " AND lab_commodities.id = 2 Group By counties.county";
+        $res2 = $this->db->query($sql3)->result_array();
+        array_push($returnable, $res2);
+
+        $sql4 = $sql . " AND lab_commodities.id = 4 Group By counties.county";
+        $res3 = $this->db->query($sql4)->result_array();
+        array_push($returnable, $res3);
+
+        $sql5 = $sql . " AND lab_commodities.id = 5 Group By counties.county";
+        $res4 = $this->db->query($sql5)->result_array();
+        array_push($returnable, $res4);
+
+        $sql6 = $sql . " AND lab_commodities.id = 6 Group By counties.county";
+        $res5 = $this->db->query($sql6)->result_array();
+        array_push($returnable, $res5);
+        
+      // echo "<pre>";print_r($returnable);die;
+        return $returnable;
+	}
 
 }
 

@@ -59,13 +59,7 @@
                     <span style="font-size:1.2em;">Health Commodities Management Platform (HCMP)</span><br/>	
                     <span style="font-size:1.2em;">Rapid Test Kit System - RTKs</span>	
                 </div>
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav navbar-right" >
-                    <li><a class="" href="<?php echo site_url() . 'Home'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>                                           
-                    
-                </ul>         
-            </div>
+            </div>            
         </div>
 
     </div>

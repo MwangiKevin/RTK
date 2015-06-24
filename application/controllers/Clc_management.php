@@ -257,6 +257,41 @@ class Clc_management extends CI_Controller {
   	
 		echo json_encode($div_details);
 	}
+
+	function update_facility_details()
+	{
+		$facility_code = $this->input->post('facility_code');
+		$facility_name = $this->input->post('facility_name');
+		$district_id = $this->input->post('district_id');
+		$sql = "update facilities set facility_name = '$facility_name', district = '$district_id' where facility_code='$facility_code'";
+		if($this->db->query($sql)){
+			echo "Facility Updated Successfully";
+		}else{
+			echo "Facility Not Updated Successfully";
+		}	
+	}
+
+	function get_edit_facility_form($mfl)
+	{	
+		$this->load->model("Districts_model",'districts_model');													
+		$this->load->model("Facilities_model",'facilities_model');													
+		$county_id = $this->session->userdata('county_id');							
+		$facility_details = $this->facilities_model->get_one_mfl($mfl);
+		$option = '';						
+		foreach ($facility_details as $key => $value) {
+			$facility_code = $value['facility_code'];							
+			$facility_name = $value['facility_name'];							
+		}					
+  		$option.='<option id="0">Select Sub-County</option>';
+  		$districts = $this->districts_model->get_all_from_county($county_id);
+  		foreach ($districts as $key => $value) {
+  			$id = $value['id'];
+  			$district = $value['district'];
+  			$option.='<option value="'.$id.'">'.$district.'</option>';
+  		}
+  		$output = array('facility_name'=>$facility_details[0]['facility_name'],'districts'=>$option);
+		echo json_encode($output);
+	}
 	
 
 	function sub_county_early_vs_late($district_id=null)
@@ -423,6 +458,8 @@ class Clc_management extends CI_Controller {
 		}
 		echo json_encode($option);
 	}
+
+
 	function fac_county_get_dets($district_id,$mfl = null)
 	{	
 		$this->load->model("Districts_model",'districts_model');											
@@ -440,7 +477,7 @@ class Clc_management extends CI_Controller {
 			$id = $value['id'];
 			$facility_name = $value['facility_name'];							
 			$facility_code = $value['facility_code'];							
-			$fname_link = $facility_name.' (<i> MFL:'.$facility_code.'</i>)';			
+			$fname_link = $facility_name.'(<input id="facility_code_hidden" type="hidden" value="'.$facility_code.'"/><i> MFL:'.$facility_code.'</i>)';			
 			$location = 'You are on RTK-> County -> '.$district_name.' Sub-County -> '.$facility_name.' (Facility)';	
 			$output = array('facility_name'=>$fname_link,'location'=>$location);
 			echo json_encode($output);

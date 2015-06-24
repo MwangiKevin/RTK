@@ -2,65 +2,56 @@
 <div class="panel panel-default active-panel alert"  id="system_alert_div" style="margin-top:4px;">    
     <p class="panel-title alert"  id="system_alert"></p>    
 </div>
-<div class="panel panel-default" id="switch_county_main">    
-        <select class="panel-title form-control" id="switch_county">
-        </select>
- </div>
 
 <div class="panel panel-default"  >
-    <div class="panel-heading" id="home" >
-        <a href="<?php echo base_url('Clc'); ?>" href="#collapseTwo" id="notifications" style="color:#000;text-decoration:none;display:block;">        
+    <div class="panel-heading" id="summary" >
+        <a href="<?php echo base_url('Admin'); ?>" href="#collapseTwo" id="notifications" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title" id="dpp_stats">                                    
-               <span class="glyphicon glyphicon-home"></span>
-                Home
+               <span class="glyphicon glyphicon-arrow-left"></span>
+                Back to Homepage
+            </h4>
+        </a>          
+    </div>
+</div>
+<div class="panel panel-default"  >
+    <div class="panel-heading" id="summary" >
+        <a href="<?php echo base_url('Admin/trend'); ?>" href="#collapseTwo" id="notifications" style="color:#000;text-decoration:none;display:block;">        
+            <h4 class="panel-title" id="dpp_stats">                                    
+               <span class="glyphicon glyphicon-stats"></span>
+                National Trend
             </h4>
         </a>          
     </div>
 </div>
 <div class="panel panel-default" >
-    <div class="panel-heading" id="statistics">
-        <a href="<?php echo base_url('Clc/statistics'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+    <div class="panel-heading" id="reports">
+        <a href="<?php echo base_url('Admin/users'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title" id="dpp_stats">                                    
-                <span class="glyphicon glyphicon-stats"></span>
-                Stastistics
+                <span class="glyphicon glyphicon-user"></span>
+                User Management
             </h4>
         </a>        
     </div>
 </div>
 <div class="panel panel-default" >
-    <div class="panel-heading" id="subcounties">
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+    <div class="panel-heading" id="admin_management">
+        <a href="<?php echo site_url('Admin/facilities'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title">            
-                <span class="glyphicon glyphicon-shopping-cart"></span>
-                Sub-Counties
+                <span class="glyphicon glyphicon-cog"></span>
+                Facilities Management
             </h4>
         </a>
     </div>
 </div>
-<div class="panel panel-default" id="management">
+<div class="panel panel-default" id="stock_status">
   <div class="panel-heading dropdown dropdown-toggle accordion-group">
-    <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#report" style="color:#000;text-decoration:none;display:block;">
-        <h4 class="panel-title accordion-heading">            
-            <span class="glyphicon glyphicon-shopping-cart">
-           </span>Management
+    <a href="<?php echo site_url('Admin/logs'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+        <h4 class="panel-title ">            
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+           </span>Activity Log
         </h4>    
     </span>
   </div> 
-  <div id="report" class="accordion-body collapse" style="padding-left:2%;">
-      <div class="panel-body">    
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
-        </span>User Management</a>
-        
-      </div>
-      <div class="panel-body">     
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
-        </span>Facilities Mapping</a>    
-      </div>
-      <div class="panel-body">
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
-        </span>Account Management</a>
-      </div >
-</div>
 </div>
 
 

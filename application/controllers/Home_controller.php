@@ -37,7 +37,7 @@ class Home_controller extends CI_Controller {
 				redirect('Partner_admin');				
 				break;
 			case '5':
-				redirect('Rtk_admin');				
+				redirect('Admin');				
 				break;
 			case '6':
 				redirect('Allocation');				
