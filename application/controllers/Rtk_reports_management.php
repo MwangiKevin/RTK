@@ -160,7 +160,8 @@ class Rtk_reports_management extends CI_Controller
                 AND lab_commodity_details.commodity_id = '$commodity_id' $conditions
                 HAVING closing_stock > 0 
                 ORDER BY lab_commodity_details.closing_stock DESC , facilities.facility_code ASC LIMIT 0,10";          
-        $highest_stocks = $this->db->query($sql)->result_array();      
+        $highest_stocks = $this->db->query($sql)->result_array();   
+
         if(count($highest_stocks)>0){
             for ($i=0; $i <count($highest_stocks) ; $i++) {            
                 $mfl = $highest_stocks[$i]['facility_code'];                    
@@ -168,6 +169,8 @@ class Rtk_reports_management extends CI_Controller
                 $facility_name = $highest_stocks[$i]['facility_name'];                                
                 $highest_stocks_details[$i] = array($mfl,$facility_name,$endbal);            
             }
+        }else{
+            $highest_stocks_details[] = array('No Data','No Data',0);            
         }
         echo json_encode($highest_stocks_details);        
     }
