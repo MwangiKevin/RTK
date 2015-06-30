@@ -3,21 +3,30 @@
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Main Filter</div>
 	  <!-- <div class="panel-body"></div> -->
 	</div>
-
 	<div id="main_graph" class="graphs table_divs panel panel-success">		  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">National Reporting Trend for: <span id="report_period_header"></span></div>
-	  <div id="main_chart_body" class="panel-body" style="height:400px;"></div>	  	  	
-	  <div id="main_chart_bar" class="panel-body" style="height:60px;width:100%;">
-	  	<div style="height:30px;width:100%;">
-          Countrywide Progress: <span id="country_progress_bar"></span> %
-          <div class="progress">
-          	<div class="progress-bar progress-bar-success progress-bar-striped active" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" >
-          	</div>
-          </div>
-        </div>
-
-	  </div>	  	  	
+	  <div class="panel-heading" style="font-size:13px;font-weight:bold">
+	  	Users
+	  	&nbsp;
+	  	<button class="btn btn-primary" data-toggle="modal" data-target="#add_facility">Add New</button>	  	
+	  </div>
+	  <div id="main_chart_body" class="panel-body" style="min-height:400px;height:auto">
+	  	<table id="users_table" class="display table table-bordered" cellspacing="0" width="100%" style="font-size:11px;">
+			<thead>				
+				<tr class="header_tr">					
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Email</th>
+					<th>User Type</th>
+					<th>Facility Name</th>
+					<th>Status</th>
+					<th>Action</th>					
+				</tr>				
+			</thead>			
+		</table>
+	  </div>	  	  		  
 	</div>		
+	
+</div>	
 	
 </div>
 <style type="text/css">
@@ -80,73 +89,40 @@
 		// 		console.log(e.responseText);
 		// 	}
 		// });	
-		load_main_graph();
-		function load_main_graph()
+		load_facilities();
+		
+		function load_facilities()
 		{
+			var oTable = $('#users_table').dataTable(
+			{	
+				"bPaginate":false,				
+			    "bFilter": true,
+			    "bSearchable":true,
+			    "bInfo":true
+			});				
 			$.ajax({
-			url: "<?php echo base_url() . 'Admin_management/get_national_trend/042015/'; ?>",
-			dataType: 'json',
-			success: function(s){		
-				var jsony = s.jsony;
-				var jsonx = s.jsonx;
-				var jsonx1 = s.jsonx1;
-				var country_progress_bar = s.reporting_rate;
-				var englishdate = s.englishdate;				
-				$('#country_progress_bar').html(country_progress_bar);
-				$('#report_period_header').html(englishdate);
-				$('.progress-bar').css('width', country_progress_bar+'%').attr('aria-valuenow', country_progress_bar); 
-				// $('#report_period_header').html(header_month);
-				console.log(s);		
-				 $('#main_chart_body').highcharts({
-			        chart: {
-	                    type: 'line'
-	                },
-	                title: {
-	                    text: 'RTK Reporting Trends'
-	                },
-	                subtitle: {
-	                    text: 'Live Data from RTK Sytem'
-	                },
-	                xAxis: {
-	                    categories:jsony
-	                },
-	                yAxis: {
-	                    min: 0,
-	                    title: {
-	                        text: 'F-CDRR Reports'
-	                    }
-	                },
-	                tooltip: {
-	                    headerFormat: '<span style="font-size:3px">{point.key}</span><table>',
-	                    pointFormat: '<tr><td style="color:{series.color};padding:0;font-size:11px;">{series.name}: </td>' +
-	                    '<td style="padding:0;font-size:11px;"><b>{point.y:.0f} Reports</b></td></tr>',
-	                    footerFormat: '</table>',
-	                    shared: true,
-	                    useHTML: true
-	                },
-	                plotOptions: {
-	                    column: {
-	                        pointPadding: 0.2,
-	                        borderWidth: 0
-	                    }
-	                },
-	                credits: false,
-	                series: [{	                	
-	                    name: 'Culmulative Trend',
-	                    data: jsonx1
-	                },
-	                {
-	                	color:'green',
-	                    name: 'Daily Trend',
-	                    data: jsonx
-	                }]
-	            });
-			        				
-			},
-			error: function(e){
-				console.log(e.responseText);
-			}
-		});	
+				url: "<?php echo base_url() . 'Admin_management/get_national_users'; ?>",
+				dataType: 'json',
+				success: function(s){
+				// console.log(s);
+				oTable.fnClearTable();
+				for(var i = 0; i < s.length; i++) {
+					oTable.fnAddData([
+					s[i][0],
+					s[i][1],
+					s[i][2],
+					s[i][3],
+					s[i][4],
+					s[i][5],					
+					s[i][6]
+
+					]);
+					} // End For
+				},
+				error: function(e){
+					console.log(e.responseText);
+				}
+			});
 		}
 	    
 	});

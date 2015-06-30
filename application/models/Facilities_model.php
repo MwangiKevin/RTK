@@ -98,6 +98,12 @@ class Facilities_model extends CI_Model
 		return $result;
 	}
 
+	function change_reporting_status($mfl,$type)
+	{
+		$sql = "update facilities set rtk_enabled = '$type' where facility_code='$mfl'";		
+		$this->db->query($sql);
+	}
+
 	function monthly_facility_reports($mfl, $monthyear = null)
 	{
 	    $conditions = '';
@@ -159,6 +165,19 @@ class Facilities_model extends CI_Model
 	    $q_res = $this->db->query($q);
 	    $returnable = $q_res->result_array();
 	    return $returnable;
+	}
+
+	function get_all_with_conditions($conditions = null)
+	{
+		if($conditions==0)
+		{
+			$conditions = '';
+		}
+		$sql = "select facilities.id,facilities.partner,counties.county,districts.district,facilities.facility_code,facilities.rtk_enabled,facilities.facility_name from 
+				facilities,districts,counties where facilities.district = districts.id and districts.county>0 and districts.county = counties.id $conditions limit 0,50";		 
+		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
 	}
 }
 

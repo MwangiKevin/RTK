@@ -31,6 +31,34 @@ class Migration_controller extends CI_Controller {
     {
 
     }
+
+    function migrate_zones()
+    {
+        $sql = "select distinct district,zone from facilities where facilities.district>0 order by district asc";
+        $facilities = $this->db->query($sql)->result_array();        
+        foreach ($facilities as $key => $value) {
+            $did = $value['district'];
+            $sql_c = "select districts.county from districts where districts.id='$did' limit 0,1";
+            $counties = $this->db->query($sql_c)->result_array();
+            $county_id = $counties[0]['county'];
+            $zone = $value['zone'];
+            $new_zone = substr($zone, -1);
+            // $new_zone = null;
+            // if($zone='Zone A'){
+            //     $new_zone = 'A';
+            // }else if($zone='Zone B'){
+            //     $new_zone = 'C';
+            // }else if($zone='Zone C'){
+            //     $new_zone = 'C';
+            // }else if($zone='Zone D'){
+            //     $new_zone = 'D';
+            // }
+
+            $sql_d = "update counties set zone = '$new_zone' where id='$county_id'";
+            echo "$sql_d<br/>";
+            $this->db->query($sql_d);
+        }
+    }
     function migrate_users()
     {
         $sql = "select * from user_old where usertype_id in (7,8,11,13,14,15)";
