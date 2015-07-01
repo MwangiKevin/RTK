@@ -663,7 +663,8 @@ $('#cancel_edit').button().click(function(e)
 {
    hideCancel();
    showPrints();
-   $('.form-control').attr('readonly',true);
+   $('#save1').hide();
+   // $('.form-control').attr('readonly',true);
 
 });
 

@@ -22,8 +22,8 @@ class Lab_orders_model extends CI_Model
 		$current_month_details = $this->date_settings->get_current_month();
 		$first_date = $current_month_details['first_date_full'];
 		$last_date = $current_month_details['last_date_full'];
-		$sql = "select distinct id as order_id,order_date from lab_commodity_orders_temp where facility_code='$mfl' and order_date between '$first_date' AND '$last_date'";		
-		$result = $this->db->query($sql)->result_array();		
+		$sql = "select distinct id as order_id,order_date from lab_commodity_orders where facility_code='$mfl' and order_date between '$first_date' AND '$last_date'";		
+		$result = $this->db->query($sql)->result_array();			
 		return $result;
 	}
 
@@ -213,6 +213,68 @@ class Lab_orders_model extends CI_Model
 				AND order_date between '$first_date' and '$last_date'";		
 		$result = $this->db->query($sql)->result_array();
 		return $result;
+	}	
+
+	function count_all_reported_district($district_id)
+	{
+		$this->load->model('Date_settings_model','date_settings');
+		$current_month_details = $this->date_settings->get_current_month();
+		$previous_month_details = $this->date_settings->get_previous_month();
+		if(isset($month)){           
+            $year = substr($month, -4);
+            $month = substr($month, 0,2);            
+            $monthyear = $year . '-' . $month . '-1';                         
+        }else{
+            $month = $current_month_details['month'];                                 
+            $englishdate = $current_month_details['englishdate'];  
+            $first_date = $current_month_details['first_date_full']; 
+			$last_date = $current_month_details['last_date_full'];
+            $year = $current_month_details['year'];
+			$month = $current_month_details['month'];	                                          
+        }		
+			
+		// $sql = "SELECT count(DISTINCT lab_commodity_orders.facility_code) as facilities
+		// 		FROM   lab_commodity_orders, facilities, districts, counties
+		// 		WHERE facilities.facility_code = lab_commodity_orders.facility_code
+		// 		AND facilities.district = districts.id
+		// 		AND districts.id = '$district_id'
+		// 		AND order_date between '2015-04-01' and '2015-04-31'";	
+		$sql = "SELECT count(DISTINCT lab_commodity_orders.facility_code) as facilities
+				FROM   lab_commodity_orders, facilities, districts, counties
+				WHERE facilities.facility_code = lab_commodity_orders.facility_code
+				AND facilities.district = districts.id
+				AND districts.id = '$district_id'
+		 		AND order_date between '$first_date' and '$last_date'";				
+		$result = $this->db->query($sql)->result_array();
+		return $result[0]['facilities'];
+	}	
+
+	function count_all_reported_county($county_id)
+	{
+		$this->load->model('Date_settings_model','date_settings');
+		$current_month_details = $this->date_settings->get_current_month();
+		$previous_month_details = $this->date_settings->get_previous_month();
+		if(isset($month)){           
+            $year = substr($month, -4);
+            $month = substr($month, 0,2);            
+            $monthyear = $year . '-' . $month . '-1';                         
+        }else{
+            $month = $current_month_details['month'];                                 
+            $englishdate = $current_month_details['englishdate'];  
+            $first_date = $current_month_details['first_date_full']; 
+			$last_date = $current_month_details['last_date_full'];
+            $year = $current_month_details['year'];
+			$month = $current_month_details['month'];	                                          
+        }		
+					
+		$sql = "SELECT count(DISTINCT lab_commodity_orders.facility_code) as facilities
+				FROM   lab_commodity_orders, facilities, districts, counties
+				WHERE facilities.facility_code = lab_commodity_orders.facility_code
+				AND facilities.district = districts.id
+				AND districts.county = counties.id and counties.id = '$county_id'
+		 		AND order_date between '$first_date' and '$last_date'";				
+		$result = $this->db->query($sql)->result_array();
+		return $result[0]['facilities'];
 	}	
 
 	function get_all_district_reports($district_id)

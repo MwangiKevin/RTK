@@ -49,6 +49,16 @@ class Scmlt_management extends CI_Controller {
 
 	}
 
+	function set_up_percentages(){
+		$this->load->model("Percentages_model",'percentage_model');
+		$this->percentage_model->set_up_district_percentages();
+	}
+
+	function update_percentages($id){
+		$this->load->model("Percentages_model",'percentage_model');
+		// $this->percentage_model->set_up_county_percentages();
+		$this->percentage_model->update_county_percentage($id,0);
+	}
 
 	function get_navigation(){		
 		$district_id = $this->session->userdata('district_id');		
@@ -186,6 +196,7 @@ class Scmlt_management extends CI_Controller {
     	}elseif ($date_diff<1) {
     		$alert_message = $overdue_alert;
     	}
+    	$alert_message = 'Test';
 
     	echo json_encode($alert_message);
 
@@ -203,6 +214,7 @@ class Scmlt_management extends CI_Controller {
 	    $facility_code = $_POST['facility_code'];
 
 	    $this->load->model("Lab_orders_model",'orders_model');
+	    $this->load->model("Districts_model",'districts_model');
 	    $count_submitted = $this->orders_model->check_if_reported($facility_code);
 	    if($count_submitted==0)
 	    {
@@ -260,6 +272,7 @@ class Scmlt_management extends CI_Controller {
 		    $order_id = $this->orders_model->save_order($data);
 
 		    $this->load->model("Lab_details_model",'details_model');				
+		    $this->load->model("Percentages_model",'percentage_model');				
 		    // $order_id = $this->details_model->save_order_details($data);
 
 		    $count++;
@@ -268,7 +281,12 @@ class Scmlt_management extends CI_Controller {
 		        $mydata = array('order_id' => $order_id, 'facility_code' => $facility_code, 'commodity_id' => $drug_id[$i], 'beginning_bal' => $b_balance[$i], 'q_received' => $q_received[$i], 'q_used' => $q_used[$i], 'no_of_tests_done' => $tests_done[$i], 'losses' => $losses[$i], 'positive_adj' => $pos_adj[$i], 'negative_adj' => $neg_adj[$i], 'closing_stock' => $physical_count[$i], 'q_expiring' => $q_expiring[$i], 'days_out_of_stock' => $days_out_of_stock[$i], 'q_requested' => $q_requested[$i]);
 		        $this->details_model->save_order_details($mydata);	        
 		    }
+		    $district_dets = $this->districts_model->get_one_id($district_id);
+		   	$county_id = $district_dets['county'];
+		   	$this->percentage_model->update_district_percentage($district_id,1);
+		   	$this->percentage_model->update_county_percentage($county_id,1);
 		   	echo "1";
+
 		}else{
 			echo "2";	    	
 

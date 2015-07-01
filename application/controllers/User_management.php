@@ -39,25 +39,23 @@ class User_management extends CI_Controller{
 			$password=$_POST['password'];	
 		}		
 		
-		// if ($this->_submit_validate() === FALSE) {
-		// 	$this->index();
-		// 	return;
-		// }		
 		$this->load->model("User_model",'user');
 		$result = $this->user->login($username,$password);
-		if(count($result>0))
+		$count = count($result);
+		
+		if($count!=0)
 		{			
-			$user_id = $result['id'];
-			$fname = $result['fname'];
-			$lname = $result['lname'];
+			$user_id = $result[0]['id'];
+			$fname = $result[0]['fname'];
+			$lname = $result[0]['lname'];
 			$full_name = $fname.' '.$lname;
-			$email= $result['email'];
-			$partner= $result['partner'];
-			$district= $result['district'];
-			$county_id= $result['county_id'];
-			$telephone= $result['telephone'];
-			$usertype_id= $result['usertype_id'];
-			$facility= $result['facility'];
+			$email= $result[0]['email'];
+			$partner= $result[0]['partner'];
+			$district= $result[0]['district'];
+			$county_id= $result[0]['county_id'];
+			$telephone= $result[0]['telephone'];
+			$usertype_id= $result[0]['usertype_id'];
+			$facility= $result[0]['facility'];
 			$session_data = array(
 				'user_id'=>$user_id,
 				'fname'=>$fname,
@@ -76,7 +74,8 @@ class User_management extends CI_Controller{
 					
 		}else
 		{
-			$this->index();
+			$this->session->set_flashdata('log_status', 'Username or Password Incorrect. Try Again');
+			redirect("User/login");
 			return;		
 		}
 		
