@@ -22,7 +22,7 @@ class Home_controller extends CI_Controller {
 	 */
 	function index()
 	{		
-		$usertype_id = $this->session->userdata('usertype_id');		
+		$usertype_id = $this->session->userdata('usertype_id');				
 		switch ($usertype_id) {
 			case '1':
 				redirect('Scmlt');				

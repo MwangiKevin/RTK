@@ -67,7 +67,165 @@ class Admin_management extends CI_Controller {
 
     }
 
-public function get_national_trend($month=null)
+    function update_facility_details()
+    {
+        $facility_code = $this->input->post('facility_code');
+        $facility_name = $this->input->post('facility_name');
+        $district_id = $this->input->post('district_id');        
+        $partner = $this->input->post('partner');
+        $conditions = '';
+        if($district_id!=0){
+            $conditions.=" ,district ='$district_id'";
+        }
+        if($partner!=0){
+            $conditions.=" ,partner ='$partner'";
+        }
+        $sql = "update facilities set facility_name = '$facility_name' $conditions where facility_code='$facility_code'";
+        if($this->db->query($sql)){
+            echo "Facility Updated Successfully";
+        }else{
+            echo "Facility Not Updated Successfully";
+        }   
+    }
+    function add_facility_details()
+    {
+        $facility_code = $this->input->post('facility_code');
+        $facility_name = $this->input->post('facility_name');
+        $district_id = $this->input->post('district_id');        
+        $partner = $this->input->post('partner');
+        $owner = $this->input->post('owner');
+        $facility_level = $this->input->post('facility_level');
+        $facility_type = $this->input->post('facility_type');
+        $pepfar_supported = 0;
+        $rtk_enabled = 1;
+        $cd4_enabled = 0;
+        $date_of_activation = time();
+
+        $conditions = '';
+        if($district_id!=0){
+            $conditions.=" ,district ='$district_id'";
+        }
+        if($partner!=0){
+            $conditions.=" ,partner ='$partner'";
+        }
+        $sql = "INSERT INTO `facilities`( `facility_code`, `facility_name`, `district`, `partner`, `owner`, `type`, `level`, `rtk_enabled`,`pepfar_supported`, `cd4_enabled`, `date_of_activation`) 
+                VALUES ('$facility_code','$facility_name','$district_id','$partner','$owner','$facility_type','$facility_level','$rtk_enabled','$pepfar_supported','$cd4_enabled','$date_of_activation')";
+        // echo "$sql"; die;
+        // $this->db->query($sql);
+        if($this->db->query($sql)){
+            echo "Facility Updated Successfully";
+        }else{
+            echo "Facility Not Updated Successfully";
+        }   
+    }
+
+function get_national_counties(){
+    $this->load->model("Counties_model",'counties_model');                                                        
+    $option = '';                                           
+    $option.='<option value="0">Select County</option>';
+    $counties = $this->counties_model->get_all();
+    foreach ($counties as $key => $value) {
+        $id = $value['id'];
+        $county = $value['county'];
+        $option.='<option value="'.$id.'">'.$county.'</option>';
+    }
+
+    echo json_encode($option);
+}
+
+function get_national_subcounties($county_id){
+    $this->load->model("Districts_model",'districts_model');                                                        
+    $option = '';                                           
+    $option.='<option value="0">Select Sub-County</option>';
+    $districts = $this->districts_model->get_all_from_county($county_id);
+    foreach ($districts as $key => $value) {
+        $id = $value['id'];
+        $district = $value['district'];
+        $option.='<option value="'.$id.'">'.$district.'</option>';
+    }
+
+    echo json_encode($option);
+}
+
+function get_national_partners(){
+    $this->load->model("Partners_model",'partners_model');                                                        
+    $option = '';                                           
+    $option.='<option value="0">Select Partner</option>';
+    $partners = $this->partners_model->get_all();
+    foreach ($partners as $key => $value) {
+        $id = $value['ID'];
+        $partner = $value['name'];
+        $option.='<option value="'.$id.'">'.$partner.'</option>';
+    }
+
+    echo json_encode($option);
+}
+function get_national_facilities($zone = null,$county_id=null,$district_id=null,$partner = null)
+{
+    $this->load->model('Facilities_model','facilities_model');    
+    $this->load->model('Partners_model','partners_model');    
+    $conditions = '';
+    if($zone!=0)
+    {
+        $conditions.=" and facilities.zone = Zone '$zone'";
+    }
+    if($county_id!=0)
+    {
+        $conditions.=" and counties.id = '$county_id'";
+    }
+    if($district_id!=0)
+    {
+        $conditions.=" and districts.id = '$district_id'";        
+    }
+    if($partner!=0)
+    {
+        $partner.=" and facilities.partner = '$partner'";        
+    }
+    $facilities = $this->facilities_model->get_all_with_conditions($conditions);    
+    foreach ($facilities as $key => $value) {
+        $id = $value['id'];
+        $facility_name = $value['facility_name'];
+        $facility_code = $value['facility_code'];
+        $partner_id = $value['partner'];
+        $county = $value['county'];
+        $district = $value['district'];
+        $rtk_enabled = $value['rtk_enabled'];
+        $status = '';
+        $link = '';
+        $partner_name = null;
+        if($partner_id!=0){
+            $partner_dets= $this->partners_model->get_one_id($partner_id);
+            $partner_name = $partner_dets['name'];
+        }else{
+            $partner_name = 'N/A';
+        }
+        $set_non_reporting_link = base_url().'Admin_management/change_reporting_status/'.$facility_code.'/0';
+        $set_reporting_link = base_url().'Admin_management/change_reporting_status/'.$facility_code.'/1';
+        if($rtk_enabled==1){
+            $status.= 'Reporting <a href="'.$set_non_reporting_link.'"><span class="glyphicon glyphicon-minus"></span></a>';
+            $link = '<button id="'.$facility_code.'" class="edit_facility_link" value="'.$facility_code.'" data-toggle="modal" data-target="#edit_facility">Edit </button>';
+
+        }else if($rtk_enabled==0){
+            $status.= 'Not Reporting <a href="'.$set_reporting_link.'"><span class="glyphicon glyphicon-plus"></span></a>';            
+            $link = 'N/A';
+
+        }               
+        $output[] = array($county,$district,$partner_name,$facility_code,$facility_name,$status,$link);
+    }
+    // echo "<pre>";
+    // print_r($output);die();
+    echo json_encode($output);
+
+}
+
+function change_reporting_status($mfl,$type)
+{
+    $this->load->model('Facilities_model','facilities_model');        
+    $this->facilities_model->change_reporting_status($mfl,$type);
+    redirect('Admin/facilities');
+}
+
+function get_national_trend($month=null)
 {
     $this->load->model('Percentages_model','percentage_model');
     if(isset($month)){           

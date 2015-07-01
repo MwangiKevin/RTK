@@ -49,7 +49,8 @@
         <h4 class="panel-title ">            
             <span class="glyphicon glyphicon-shopping-cart"></span>
            </span>Activity Log
-        </h4>    
+        </h4>   
+    </a> 
     </span>
   </div> 
 </div>

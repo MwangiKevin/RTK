@@ -24,8 +24,8 @@ class User_model extends CI_Model
 	function login($username, $password)
 	{		
 		$hash_pass = $this->_encrypt_pass($password);
-		$sql = "select * from user where username='$username' or email='$username' and password='$hash_pass' limit 0,1";		
-		$x = $this->db->query($sql)->result_array();		
+		$sql = "select * from user where username='$username' or email='$username' and password='$hash_pass' limit 0,1";				
+		$x = $this->db->query($sql)->result_array();			
 		return $x[0];		
 		
 	}
