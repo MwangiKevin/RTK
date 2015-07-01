@@ -550,3 +550,19 @@ ERROR - 2015-06-18 15:22:50 --> Severity: Notice --> Undefined offset: 1 /opt/la
 ERROR - 2015-06-18 15:22:50 --> Severity: Notice --> Undefined offset: 2 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 474
 ERROR - 2015-06-18 15:22:50 --> Severity: Notice --> Undefined offset: 3 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 474
 ERROR - 2015-06-18 15:22:50 --> Severity: Notice --> Undefined offset: 4 /opt/lampp/htdocs/HCMP/application/controllers/Clc_management.php 474
+ERROR - 2015-06-18 15:28:05 --> Severity: Notice --> Undefined variable: log_status C:\xampp\htdocs\RTK\application\controllers\User_management.php 73
+ERROR - 2015-06-18 15:28:06 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\models\Percentages_model.php 42
+ERROR - 2015-06-18 15:28:55 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 356
+ERROR - 2015-06-18 15:28:55 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 357
+ERROR - 2015-06-18 15:28:55 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 358
+ERROR - 2015-06-18 15:28:55 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 359
+ERROR - 2015-06-18 16:00:02 --> 404 Page Not Found: Home/index
+ERROR - 2015-06-18 16:02:51 --> Severity: Notice --> Undefined variable: log_status C:\xampp\htdocs\RTK\application\controllers\User_management.php 73
+ERROR - 2015-06-18 16:02:51 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\models\Percentages_model.php 42
+ERROR - 2015-06-18 18:29:28 --> Severity: Notice --> Undefined variable: log_status C:\xampp\htdocs\RTK\application\controllers\User_management.php 73
+ERROR - 2015-06-18 18:29:30 --> Severity: Notice --> Undefined variable: log_status C:\xampp\htdocs\RTK\application\controllers\User_management.php 73
+ERROR - 2015-06-18 18:29:35 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\models\Percentages_model.php 42
+ERROR - 2015-06-18 18:34:31 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 356
+ERROR - 2015-06-18 18:34:31 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 357
+ERROR - 2015-06-18 18:34:31 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 358
+ERROR - 2015-06-18 18:34:31 --> Severity: Notice --> Undefined offset: 0 C:\xampp\htdocs\RTK\application\controllers\Clc_management.php 359

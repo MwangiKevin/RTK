@@ -27,10 +27,99 @@ class Migration_controller extends CI_Controller {
     {
         
     }
-    function migrate_orders()
+    function migrate_orders($a,$b)
     {
+        ini_set('max_memory', -1);
+        $sql_orders_old = "select distinct lab_commodity_orders_old.* from lab_commodity_orders_old order by id asc limit $a,$b";
+        $old_orders = $this->db->query($sql_orders_old)->result_array();
+        foreach ($old_orders as $key => $value) {
+            $old_id = $value['id'];
+            $fcode = $value['facility_code'];
+            $order_date = $value['order_date'];
+            $vct = $value['vct'];
+            $pitc = $value['pitc'];
+            $pmtct = $value['pmtct'];
+            $b_screening = $value['b_screening'];
+            $other = $value['other'];
+            $specification = $value['specification'];
+            $rdt_under_tests = $value['rdt_under_tests'];
+            $rdt_under_pos = $value['rdt_under_pos'];
+            $rdt_btwn_tests = $value['rdt_btwn_tests'];
+            $rdt_btwn_pos = $value['rdt_btwn_pos'];
+            $rdt_over_pos = $value['rdt_over_pos'];
+            $rdt_over_tests = $value['rdt_over_tests'];
+            $micro_under_tests = $value['micro_under_tests'];
+            $micro_under_pos = $value['micro_under_pos'];
+            $micro_btwn_tests = $value['micro_btwn_tests'];
+            $micro_btwn_pos = $value['micro_btwn_pos'];
+            $micro_over_tests = $value['micro_over_tests'];
+            $micro_over_pos = $value['micro_over_pos'];
+            $beg_date = $value['beg_date'];
+            $end_date = $value['end_date'];
+            $explanation = $value['explanation'];
+            $moh642 = $value['moh_642'];
+            $moh643 = $value['moh_643'];
+            $compiled_by = $value['compiled_by'];
+            $approved_by = 'N/A';
+            $created_at = $value['created_at'];
+            $report_for = $value['report_for'];
 
+            $explanation = str_replace("'","\'",$explanation);
+            $compiled_by = str_replace("'","\'",$compiled_by);
+            $specification = str_replace("'","\'",$specification);
+
+            $sql_new_orders = "INSERT INTO `lab_commodity_orders`(`id`, `old_id`, `facility_code`, `order_date`, `vct`, `pitc`, `pmtct`,
+                     `b_screening`, `other`, `specification`, `rdt_under_tests`, `rdt_under_pos`, `rdt_btwn_tests`, `rdt_btwn_pos`,
+                      `rdt_over_tests`, `rdt_over_pos`, `micro_under_tests`, `micro_under_pos`, `micro_btwn_tests`, `micro_btwn_pos`,
+                       `micro_over_tests`, `micro_over_pos`, `beg_date`, `end_date`, `explanation`, `moh_642`, `moh_643`, `compiled_by`,
+                        `created_at`, `approved_by`, `report_for`)
+                         VALUES (null,'$old_id','$fcode','$order_date','$vct','$pitc','$pmtct','$b_screening','$other','$specification',
+                            '$rdt_under_tests','$rdt_under_pos','$rdt_btwn_tests','$rdt_btwn_pos','$rdt_over_tests',
+                            '$rdt_over_pos','$micro_under_tests','$micro_under_pos','$micro_btwn_tests','$micro_btwn_pos',
+                            '$micro_over_tests','$micro_over_pos','$beg_date','$end_date','$explanation','$moh642','$moh643',
+                            '$compiled_by','$approved_by','$created_at','$report_for')";
+            
+            $this->db->query($sql_new_orders);
+            
+            
+        }
     }
+
+    function migrate_details($a,$b)
+    {
+        ini_set('max_memory', -1);
+        $sql_orders_old = "select distinct lab_commodity_orders.* from lab_commodity_orders order by id asc limit $a,$b";
+        $old_orders = $this->db->query($sql_orders_old)->result_array();
+        foreach ($old_orders as $key => $values) {
+            $old_id = $values['old_id'];
+            $sql_old_dets = "select * from lab_commodity_details_old where order_id = '$old_id'";
+            $old_dets = $this->db->query($sql_old_dets)->result_array();
+            foreach ($old_dets as $key => $value) {
+                $facility_code = $value['facility_code'];                
+                $commodity_id = $value['commodity_id'];                
+                $beginning_bal = $value['beginning_bal'];                
+                $q_received = $value['q_received'];                
+                $q_used = $value['q_used'];                
+                $no_of_tests_done = $value['no_of_tests_done'];                
+                $losses = $value['losses'];                
+                $positive_adj = $value['positive_adj'];                
+                $negative_adj = $value['negative_adj'];                
+                $closing_stock = $value['closing_stock'];                
+                $q_expiring = $value['q_expiring'];                
+                $days_out_of_stock = $value['days_out_of_stock'];                
+                $q_requested = $value['q_requested'];                
+                $created_at = $value['created_at'];                
+
+
+                $sql_ins = "insert into lab_commodity_details (`id`,`order_id`,`facility_code`,`commodity_id`,`beginning_bal`,`q_received`,`q_used`,`no_of_tests_done`,`losses`,`positive_adj`,`negative_adj`,`closing_stock`,`q_expiring`,`days_out_of_stock`,`created_at`)
+                values(null,'$old_id','$facility_code','$commodity_id','$beginning_bal','$q_received','$q_used','$no_of_tests_done','$losses','$positive_adj','$negative_adj','$closing_stock','$q_expiring','$days_out_of_stock','$created_at')";
+
+                $this->db->query($sql_ins);
+            }      
+            
+        }
+    }
+
     function migrate_users()
     {
         $sql = "select * from user_old where usertype_id in (7,8,11,13,14,15)";
