@@ -17,7 +17,6 @@
 					<th>Last Name</th>
 					<th>Email</th>
 					<th>User Type</th>
-					<th>Facility Name</th>
 					<th>Status</th>
 					<th>Action</th>					
 				</tr>				
@@ -101,7 +100,7 @@
 			    "bInfo":true
 			});				
 			$.ajax({
-				url: "<?php echo base_url() . 'Admin_management/get_national_users'; ?>",
+				url: "<?php echo base_url() . 'User_management/get_national_users'; ?>",
 				dataType: 'json',
 				success: function(s){
 				// console.log(s);
@@ -113,8 +112,7 @@
 					s[i][2],
 					s[i][3],
 					s[i][4],
-					s[i][5],					
-					s[i][6]
+					s[i][5]
 
 					]);
 					} // End For

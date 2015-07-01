@@ -936,5 +936,84 @@ endif;
 		
 
 	}
-			}
+	function get_national_users()
+	{
+    $this->load->model('User_model','users_model');    
+    // $this->load->model('Partners_model','partners_model');    
+    $conditions = '';
+    // if($zone!=0)
+    // {
+    //     $conditions.=" and facilities.zone = Zone '$zone'";
+    // }
+    // if($county_id!=0)
+    // {
+    //     $conditions.=" and counties.id = '$county_id'";
+    // }
+    // if($district_id!=0)
+    // {
+    //     $conditions.=" and districts.id = '$district_id'";        
+    // }
+    // if($partner!=0)
+    // {
+    //     $partner.=" and facilities.partner = '$partner'";        
+    // }
+    $users = $this->users_model->get_national_users_conditions($conditions);    
+    foreach ($users as $key => $value) {
+        $id = $value['id'];
+        $first_name = $value['fname'];
+        $last_name = $value['lname'];
+        $email = $value['email'];
+        $user_type = $value['usertype_id'];
+        $status = $value['status'];
+        $manage = "<a href=". base_url('Admin/user_profile/'.$id).">Edit<a/>";
+        // echo "$manage";die;
+
+        if ($user_type == 1) {
+        	$user_type_txt = 'SCMLT';
+        }
+        else if ($user_type == 2) {
+        	$user_type_txt = 'CLC';
+        }
+        else if ($user_type == 3) {
+        	$user_type_txt = 'Partner';
+        }
+        else if ($user_type == 4) {
+        	$user_type_txt = 'Partner Admin';
+        }
+        else if ($user_type == 5) {
+        	$user_type_txt = 'RTK Manager ';
+        }
+        
+        if ($status == 1) {
+        	$status_txt = 'Active';
+        }
+        else if ($status == 2) {
+        	$status_txt = 'Inactive';
+        }
+        // $partner_name = null;
+        // if($partner_id!=0){
+        //     $partner_dets= $this->partners_model->get_one_id($partner_id);
+        //     $partner_name = $partner_dets['name'];
+        // }else{
+        //     $partner_name = 'N/A';
+        // }
+        // $set_non_reporting_link = base_url().'Admin_management/change_reporting_status/'.$facility_code.'/0';
+        // $set_reporting_link = base_url().'Admin_management/change_reporting_status/'.$facility_code.'/1';
+        // if($rtk_enabled==1){
+        //     $status.= 'Reporting <a href="'.$set_non_reporting_link.'"><span class="glyphicon glyphicon-minus"></span></a>';
+        //     $link = '<button id="'.$facility_code.'" class="edit_facility_link" value="'.$facility_code.'" data-toggle="modal" data-target="#edit_facility">Edit </button>';
+
+        // }else if($rtk_enabled==0){
+        //     $status.= 'Not Reporting <a href="'.$set_reporting_link.'"><span class="glyphicon glyphicon-plus"></span></a>';            
+        //     $link = 'N/A';
+
+        // }               
+        $output[] = array($first_name,$last_name,$email,$user_type_txt,$status_txt,$manage);
+    }
+    // echo "<pre>";
+    // print_r($output);die();
+    echo json_encode($output);
+
+}
+}
 

@@ -36,6 +36,17 @@ class User_model extends CI_Model
 		$new_pass = (md5($salt.$pass));
 		return $new_pass;
 	}
+	function get_national_users_conditions($conditions = null)
+	{
+		if($conditions==0)
+		{
+			$conditions = '';
+		}
+		$sql = "select * from user";		 
+		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
 	
 }
 
