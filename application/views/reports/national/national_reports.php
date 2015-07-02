@@ -266,7 +266,7 @@
 			$.ajax({
 				url: url,
 				dataType: 'json',
-				success: function(s){
+				success: function(s){				
 				oTable.fnClearTable();
 				for(var i = 0; i < s.length; i++) {
 					oTable.fnAddData([
@@ -403,7 +403,13 @@
 				}
 			});
 		}
+
 		});
+$(document).ajaxStart(function(){
+	    $('#loading').show();
+	 }).ajaxStop(function(){
+	    $('#loading').hide();
+	 });
 </script>
 
 

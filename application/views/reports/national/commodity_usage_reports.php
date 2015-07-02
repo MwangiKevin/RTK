@@ -1,22 +1,22 @@
 <div id="clc_contents">
 	<div id="county_national_filter" class="table_divs panel panel-primary">
-	  <div class="panel-heading accordion-heading " data-toggle="" data-parent="#accordion2" href="#national_reports" style="font-size:13px;font-weight:bold" >
-	  	<div class="input-group">		  
-	  	  <select id="type_select" class="form-control" style="width:60%;">	
+	  <div class="panel-heading accordion-heading " data-toggle="" data-parent="#accordion2" href="#national_reports" style="font-size:13px;font-weight:bold" >	  	
+	  	  <select id="type_select" class="form-control" style="width:40%;">	
+	  	  	<option value="0">Select Type</option>	  	
 	  	  	<option value="national">National</option>	  	
 	  	  	<option value="county">County</option>	  		  	  	
 		  </select>
-		  <label class="form-control" style="width:20%;background-color:#ccc;">Select Partner:</label>
+		  <!-- <label class="form-control" style="width:20%;background-color:#ccc;">Select Partner:</label> -->
 		  <!-- <span class="input-group-addon btn-success">Select Partner</span> -->
-		  <select id="partner_filter" class="form-control" style="width:30%;">		  	
-		  </select>	  
-		  <button id="btn_partner_filter" class=" btn btn-success">Filter</button>
-		  <span class="input-group-addon btn-success">Select Partner</span>
+		  <!-- <select id="partner_filter" class="form-control" style="width:30%;">		  	
+		  </select>	   -->
+		  <!-- <button id="btn_partner_filter" class=" btn btn-success" style="float:left">Filter</button> -->
+		  <!-- <span class="input-group btn-success">Select Partner</span>
 		  <select id="partner_filter" class="form-control" style="width:30%;">		  	
 		  </select>
-		  
-		  <button id="btn_partner_filter" class=" btn btn-success">Filter</button>
-		</div>
+		   -->
+		  <!-- <button id="btn_partner_filter" class=" btn btn-success">Filter</button> -->
+		
 	  </div>
 	  
 	</div>

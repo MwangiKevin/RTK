@@ -127,21 +127,21 @@
 	
 
 
-	// $(document).ajaxStart(function(){
-	//     $('#loading').show();
-	//  }).ajaxStop(function(){
-	//     $('#loading').hide();
-	//  });
+	$(document).ajaxStart(function(){
+	    $('#loading').show();
+	 }).ajaxStop(function(){
+	    $('#loading').hide();
+	 });
 </script>
 
 
 	
 </div>
-<div class="modal" id="loading">
+<div class="mymodal" id="loading">
 	
 </div>
 <style type="text/css">
-	.modal
+	.mymodal
 	{
 	    display:    none;
 	    position:   fixed;
@@ -164,7 +164,7 @@
 
 	/* Anytime the body has the loading class, our
 	   modal element will be visible */
-	body.loading .modal {
+	body.loading .mymodal {
 	    display: block;
 	}
 
