@@ -7,7 +7,7 @@
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">
 	  	Users
 	  	&nbsp;
-	  	<button class="btn btn-primary" data-toggle="modal" data-target="#add_facility">Add New</button>	  	
+	  	<button class="btn btn-primary" data-toggle="modal" data-target="#add_user">Add New User</button>	  	
 	  </div>
 	  <div id="main_chart_body" class="panel-body" style="min-height:400px;height:auto">
 	  	<table id="users_table" class="display table table-bordered" cellspacing="0" width="100%" style="font-size:11px;">
@@ -122,6 +122,32 @@
 				}
 			});
 		}
+		$('#user_type').change(function (x)
+		{
+			var user_type_id = $('#user_type').val();
+			if(user_type_id!=0){
+				get_regions(user_type_id);					
+			}else{
+				var mine = '<option value="0"> Select Region</option>';
+				$('#region_values').html(mine);
+			}
+			
+		});
+		function get_regions(user_type_id)
+		{			
+			var base_url = "<?php echo base_url() . 'User_management/get_regions/'; ?>";
+			var url = base_url+user_type_id;
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				success: function(s){
+					$('#region_values').html(s);
+				},
+				error: function(e){
+					console.log(e.responseText);
+				}
+			});
+		}
 	    
 	});
 	
@@ -134,38 +160,43 @@
 	//  });
 </script>
 
-
-	
-</div>
-<div class="modal" id="loading">
-	
-</div>
-<style type="text/css">
-	.modal
-	{
-	    display:    none;
-	    position:   fixed;
-	    z-index:    1000;
-	    top:        0;
-	    left:       0;
-	    height:     100%;
-	    width:      100%;
-	    background: rgba( 255, 255, 255, .8 ) 
-	                url('<?php echo base_url();?>assets/img/new_loader.gif') 
-	                50% 50% 
-	                no-repeat;	    
-	}
-
-	/* When the body has the loading class, we turn
-	   the scrollbar off with overflow:hidden */
-	body.loading {
-	    overflow: hidden;   
-	}
-
-	/* Anytime the body has the loading class, our
-	   modal element will be visible */
-	body.loading .modal {
-	    display: block;
-	}
-
-</style>
+<div id="add_user" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add User</h4>
+            </div>
+            <div class="modal-body">
+                <form id="add_user_form">
+                	<label >First Name</label><br/>
+                	<input type="text" id="fname" class="form-control" width="100%"/><br/>                	
+                	<label >Last Name</label><br/>
+                	<input type="text" id="lname" class="form-control" width="100%" /><br/>  
+                	<label >Phone</label><br/>
+                	<input type="text" id="facility_type_add" class="form-control" width="100%"/><br/> 
+                	<label >Email Address</label><br/>
+                	<input type="text" id="owner_add" class="form-control" width="100%"/><br/> 
+                	<label >User Type</label><br/>                		
+                	<select id="user_type" class="form-control" width="100%">
+	                	<option id="scmlt" value="0">Select User Type</option>                		
+	                	<option id="scmlt" value="1">Sub County Lab Tec</option>                		
+	                	<option id="clc" value="2"> County Lab Coordinator</option>                		
+	                	<option id="partner" value="3">Partner</option>                		
+	                	<option id="partner_admin" value="4">Partner Admin</option>                		
+	                	<option id="rtk_manager" value="5">RTK Manager</option>                		
+                	</select> 
+                	<label >Region</label><br/>                		
+                	<select id="region_values" class="form-control" width="100%">
+                		<option value="0">Select Region</option>
+                	</select> 
+                	<span id="add_form_status"></span>        	
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary my_navs" data-dismiss="modal">Close</button>
+                <button type="button" id="save_add_form" class="btn btn-primary my_navs">Save Changes</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

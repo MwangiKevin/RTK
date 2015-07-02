@@ -4,18 +4,17 @@
 	  	<div class="panel-heading" style="font-size:13px;font-weight:bold">User Profile: <span id="report_period_header"></span></div>
 	  
 	  <div id="main_user_profile" class="panel-body charts">
-	  <div class="panel spanel-heading" style="font-size:13px;font-weight:bold">User Details</div>
-	  	<div class=" user"> *user name</div>
-	  	<div class=" user"> Phone Number</div>
-	  	<div class=" user"> Email</div>
-	  	<div class=" user"> Status</div>
-	  	<div class=" user">Date of Activation</div>
-	  	<div class=" user">User Type</div>
+	  <div class="panel panel-heading" style="font-size:13px;font-weight:bold" >User Details</div>
+	  	<div class=" user"> *user name: <span id="fname"/><span id="last_name"/></div>
+	  	<div class=" user"> Phone Number: <span id="phone"/></div>
+	  	<div class=" user"> Email: <span id="email"/></div>
+	  	<div class=" user"> Status: <span id="status"/></div>
+	  	<div class=" user">User Type:<span id="user_type"/> for <span id=""/></div>
 
 	  	<div class="footer">
-                <button type="button" class="btn btn-primary my_navs" >Reset Password</button>
-                <button type="button" id="save_add_form" class="btn btn-primary">Deactivate</button>
-                <button type="button" id="save_add_form" class="btn btn-primary">Add Sub County</button>
+                <button type="button" class="btn btn-primary my_navs" id="reset_password">Reset Password</button>
+                <button type="button" class="btn btn-primary" id="deactive_user">Deactivate</button>
+                <button type="button" class="btn btn-primary">Add Sub County</button>
             </div>
 
 	  </div>
@@ -76,24 +75,59 @@
 </style>
 
 <script type="text/javascript">
-	$(document).ready(function (e){		
-		// $.ajax({
-		// 	url: "<?php echo base_url() . 'Admin_management/get_national_summary'; ?>",
-		// 	dataType: 'json',
-		// 	success: function(s){		
-		// 		var percentage = s.percentage;
-		// 		console.log(percentage);
-		// 		$('.progress-bar').css('width', percentage+'%').attr('aria-valuenow', percentage);
-		// 		$( "#main_percentage" ).progressbar({
-		// 			value: percentage
-		// 		});
-		// 		$( "#perc" ).html(percentage+' % Reported');
-		// 	},
-		// 	error: function(e){
-		// 		console.log(e.responseText);
-		// 	}
-		// });	
-		
+	$(document).ready(function (e){	
+	get_user_details();	
+		function get_user_details()
+		{
+			// var user_id = $('#user_id').val();			
+			var user_id = "1384";			
+			var baseurl = "<?php echo base_url() . 'User_management/get_national_user_profile/'; ?>";						
+			var url = baseurl+user_id;
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				success: function(s){						
+					$('#fname').html(s[0].first_name);
+					$('#last_name').html(s[0].last_name);			
+					$('#email').html(s[0].email);			
+					$('#phone').html(s[0].phone);			
+					$('#user_type').html(s[0].user_type_txt);			
+					$('#status').html(s[0].status_txt);			
+					$('#regions').html(s[0].regions);			
+					console.log(s[0]);
+					// alert(s.first_name);
+				},
+				error: function(e){
+					console.log(e.responseText);
+				}
+			});
+			
+		}
+		$('#reset_password').click(function(){
+	      var get_user_id = window.location.pathname.split( '/' );
+	      var user_id = get_user_id[4];
+
+	      $.post("<?php echo base_url() . 'User_management/reset_password'; ?>", {
+	        user_id: user_id          
+	      }).done(function(data) {
+	        alert("Password Changed" + data);
+	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"';?>";
+	    });
+	    });
+
+	    $('#deactive_user').click(function(){	      
+	      var get_user_id = window.location.pathname.split( '/' );
+	      var user_id = get_user_id[4];	 
+	      alert("dff");     
+
+	      $.post("<?php echo base_url() . 'User_management/reset_password'; ?>", {
+	        user_id: user_id          
+	      }).done(function(data) {
+	        alert("User Deactivated" + data);
+	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"'; ?>";
+	    });
+
+    });
 	    
 	});
 	
