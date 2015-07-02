@@ -179,6 +179,14 @@ class Facilities_model extends CI_Model
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
+	function get_all_facilities_county($county_id)
+	{		
+		$sql = "select facilities.id,districts.district,facilities.facility_code,facilities.rtk_enabled,facilities.facility_name from 
+				facilities,districts where facilities.district = districts.id and districts.county =  $county_id";		 
+		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
 
 	function count_all_reporting_in_district($district_id)
 	{

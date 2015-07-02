@@ -1014,6 +1014,58 @@ endif;
     echo json_encode($output);
 
 }
+function get_county_users($county_id)
+	{
+    $this->load->model('User_model','users_model');    
+    $this->load->model('Districts_model','districts_model');    
+    
+    $users = $this->users_model->get_county_users($county_id);    
+    
+    foreach ($users as $key => $value) {
+        $id = $value['id'];
+        $first_name = $value['fname'];
+        $last_name = $value['lname'];
+        $email = $value['email'];
+        $user_type = $value['usertype_id'];
+        $status = $value['status'];
+    	
+        $district = $value['district'];
+    	$districts = $this->districts_model->get_one_county($district); 
+    	$district_name =  $districts['district'];  
+
+        $manage = "<a href=". base_url('Clc/user_profile/'.$id).">Edit<a/>";
+        // echo "$manage";die;
+
+        if ($user_type == 1) {
+        	$user_type_txt = 'SCMLT';
+        }
+        else if ($user_type == 2) {
+        	$user_type_txt = 'CLC';
+        }
+        else if ($user_type == 3) {
+        	$user_type_txt = 'Partner';
+        }
+        else if ($user_type == 4) {
+        	$user_type_txt = 'Partner Admin';
+        }
+        else if ($user_type == 5) {
+        	$user_type_txt = 'RTK Manager ';
+        }
+        
+        if ($status == 1) {
+        	$status_txt = 'Active';
+        }
+        else if ($status == 2) {
+        	$status_txt = 'Inactive';
+        }
+               
+        $output[] = array($first_name,$last_name,$email,$user_type_txt,$status_txt,$district_name,$manage);
+    }
+    // echo "<pre>";
+    // print_r($output);die();
+    echo json_encode($output);
+
+}
 function get_national_user_profile($id){
     $this->load->model('User_model','users_model');  
     $users = $this->users_model->get_one_user($id);  

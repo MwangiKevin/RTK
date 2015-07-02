@@ -44,6 +44,14 @@ class User_model extends CI_Model
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
+	function get_county_users($county_id)
+	{
+		
+		$sql = "select * from user where county_id = '$county_id'";		 
+		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
 	function get_one_user($id)
 	{
 		
