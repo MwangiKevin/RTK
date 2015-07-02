@@ -687,6 +687,39 @@ class Clc_management extends CI_Controller {
         
 	    echo json_encode($highest_expiries_details); 
 	}
+	function get_all_county_facilities()
+{
+    $this->load->model('Facilities_model','facilities_model');    
+    $county_id = $this->session->userdata('county_id');
+    $facilities = $this->facilities_model->get_all_facilities_county($county_id);    
+    foreach ($facilities as $key => $value) {
+        $id = $value['id'];
+        $facility_name = $value['facility_name'];
+        $facility_code = $value['facility_code'];
+        $district = $value['district'];
+        $district_id = $value['district_id'];
+        $rtk_enabled = $value['rtk_enabled'];
+        $status = '';
+        $link = '';
+        
+        $set_non_reporting_link = base_url().'Admin_management/change_reporting_status/'.$facility_code.'/0';
+        $set_reporting_link = base_url().'Admin_management/change_reporting_status/'.$facility_code.'/1';
+        if($rtk_enabled==1){
+            $status.= 'Reporting <a href="'.$set_non_reporting_link.'"><span class="glyphicon glyphicon-minus"></span></a>';
+            $link ='<a href='. base_url().'Clc/view_facilities/'.$district_id.'>View</a>';
+
+        }else if($rtk_enabled==0){
+            $status.= 'Not Reporting <a href="'.$set_reporting_link.'"><span class="glyphicon glyphicon-plus"></span></a>';            
+            $link = 'N/A';
+
+        }               
+        $output[] = array($district,$facility_code,$facility_name,$status,$link);
+    }
+    // echo "<pre>";
+    // print_r($output);die();
+    echo json_encode($output);
+
+}
 
 
 }

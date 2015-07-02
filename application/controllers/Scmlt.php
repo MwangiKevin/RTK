@@ -205,7 +205,7 @@ class Scmlt extends CI_Controller {
 		// ini_set(MAX_EXECUTION_TIME, -1);
 		$a = 0;
 		$b = 50;
-		while($b<=65050){
+		while($b<=75050){
 		// while($b<=){
 		
 			$this->load->model("Lab_orders_model",'orders_model');		
@@ -213,7 +213,7 @@ class Scmlt extends CI_Controller {
 
 			$orders = $this->orders_model->get_all_old($a,$b);
 			foreach ($orders as $key => $order) {
-				$order_id = $order['id'];
+				$order_id = $order['order_id'];
 				$facility_code = $order['facility_code'];
 				$order_date = $order['order_date'];
 				$vct = $order['vct'];

@@ -36,18 +36,41 @@ class User_model extends CI_Model
 		$new_pass = (md5($salt.$pass));
 		return $new_pass;
 	}
-	function get_national_users_conditions($conditions = null)
+	function get_national_users_conditions()
 	{
-		if($conditions==0)
-		{
-			$conditions = '';
-		}
-		$sql = "select * from user";		 
+		
+		$sql = "select * from user limit 0,5";		 
 		
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
-	
+	function get_county_users($county_id)
+	{
+		
+		$sql = "select * from user where county_id = '$county_id'";		 
+		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
+	function get_one_user($id)
+	{
+		
+		$sql = "select * from user where id = $id";		 
+		
+		$result = $this->db->query($sql)->result_array();
+		return $result;
+	}
+	function reset_password($user_id){
+		$passW = '123456';
+		$new_pass =$this->_encrypt_pass($passW);
+
+		$sql = "update user set password='$new_pass' where id = '$user_id'";
+	    $this->db->query($sql);
+	}
+	function deactivate_user($user_id){
+		$sql = "update user set status='0' where id = '$user_id'";
+	    $this->db->query($sql);
+	}
 }
 
 

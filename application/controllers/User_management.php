@@ -1014,5 +1014,157 @@ endif;
     echo json_encode($output);
 
 }
+function get_county_users($county_id)
+	{
+    $this->load->model('User_model','users_model');    
+    $this->load->model('Districts_model','districts_model');    
+    
+    $users = $this->users_model->get_county_users($county_id);    
+    
+    foreach ($users as $key => $value) {
+        $id = $value['id'];
+        $first_name = $value['fname'];
+        $last_name = $value['lname'];
+        $email = $value['email'];
+        $user_type = $value['usertype_id'];
+        $status = $value['status'];
+    	
+        $district = $value['district'];
+    	$districts = $this->districts_model->get_one_county($district); 
+    	$district_name =  $districts['district'];  
+
+        $manage = "<a href=". base_url('Clc/user_profile/'.$id).">Edit<a/>";
+        // echo "$manage";die;
+
+        if ($user_type == 1) {
+        	$user_type_txt = 'SCMLT';
+        }
+        else if ($user_type == 2) {
+        	$user_type_txt = 'CLC';
+        }
+        else if ($user_type == 3) {
+        	$user_type_txt = 'Partner';
+        }
+        else if ($user_type == 4) {
+        	$user_type_txt = 'Partner Admin';
+        }
+        else if ($user_type == 5) {
+        	$user_type_txt = 'RTK Manager ';
+        }
+        
+        if ($status == 1) {
+        	$status_txt = 'Active';
+        }
+        else if ($status == 2) {
+        	$status_txt = 'Inactive';
+        }
+               
+        $output[] = array($first_name,$last_name,$email,$user_type_txt,$status_txt,$district_name,$manage);
+    }
+    // echo "<pre>";
+    // print_r($output);die();
+    echo json_encode($output);
+
+}
+function get_national_user_profile($id){
+    $this->load->model('User_model','users_model');  
+    $users = $this->users_model->get_one_user($id);  
+
+    
+        $id = $users[0]['id'];
+        $first_name = $users[0]['fname'];
+        $last_name = $users[0]['lname'];
+        $email = $users[0]['email'];
+        $user_type = $users[0]['usertype_id'];
+        $phone = $users[0]['telephone'];
+        $status = $users[0]['status'];
+        $county_id = $users[0]['county_id'];
+        $district_id = $users[0]['district'];
+        $partner_id = $users[0]['partner'];
+        $regions = '';
+
+		if ($user_type == 1) {
+        	$user_type_txt = 'SCMLT';
+        	$sql = "select district from districts where id = '$district_id'";
+        	$result = $this->db->query($sql)->result_array();
+        // echo "<pre/>";print_r($result);
+        	$regions = $result[0]['district'];
+        }
+        else if ($user_type == 2) {
+        	$user_type_txt = 'CLC';
+        	$sql = "select county from counties where id = '$county_id'";
+        	$result = $this->db->query($sql)->result_array();
+        	$regions = $result[0]['county'];
+        }
+        else if ($user_type == 3) {
+        	$user_type_txt = 'Partner';        	
+        }
+        else if ($user_type == 4) {
+        	$user_type_txt = 'Partner Admin';
+        }
+        else if ($user_type == 5) {
+        	$user_type_txt = 'RTK Manager ';
+        }
+        
+        if ($status == 1) {
+        	$status_txt = 'Active';
+        }
+        else if ($status == 2) {
+        	$status_txt = 'Inactive';
+        }
+       // echo "<pre>"; print_r($regions);
+        $output[] = array('first_name'=>$first_name,"last_name"=>$last_name,"email"=>$email,"phone"=>$phone,
+        			"user_type_txt"=>$user_type_txt,"status_txt"=>$status_txt, "regions"=> $regions);
+
+    $output=str_replace('"', "'", $output);
+    echo json_encode($output);
+
+}
+function reset_password(){
+	$user_id = $_POST['user_id'];
+    $this->load->model('User_model','users_model');    
+    $users = $this->users_model->reset_password($user_id);  		
+}
+
+function deactivate_user(){
+	$user_id = $_POST['user_id'];
+    $this->load->model('User_model','users_model');    
+    $users = $this->users_model->deactivate_user($user_id);  		
+}
+
+function get_regions_add_user($user_type){
+
+	if ($user_type == 1) {
+		$this->load->model("Districts_model",'districts_model');                                                        
+	    $option = '';                                           
+	    $districts = $this->districts_model->get_all();
+	    foreach ($districts as $key => $value) {
+	        $id = $value['id'];
+	        $district = $value['district'];
+	        $option='<option value="'.$id.'">'.$district.'</option>';
+	    }
+	    print_r($option);		
+	}
+	else if ($user_type == 2) {
+		$this->load->model("Counties_model",'counties_model');                                                        
+	    $option = '';                                           
+	    $districts = $this->counties_model->get_all();
+	    foreach ($districts as $key => $value) {
+	        $id = $value['id'];
+	        $county_name = $value['county'];
+	        $option='<option value="'.$id.'">'.$county_name.'</option>';
+    }
+
+	}
+	else if ($user_type == 5) {
+		                                                
+	    $option = '';                                           
+	    $option='<option value="0">National</option>';
+	}
+
+    echo json_encode($option);
+}
+
+	
 }
 

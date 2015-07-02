@@ -1,12 +1,28 @@
 <div id="clc_contents">	
-	<div id="main_filter" class="graphs table_divs panel panel-info" style="margin-top:-10px;">		  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Main Filter</div>
-	  <!-- <div class="panel-body"></div> -->
-	</div>
-
+	
 	<div id="main_graph" class="graphs table_divs panel panel-success">		  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">National County Reporting Summary for: <span id="report_period_header"></span></div>
-	  <div id="main_chart_body" class="panel-body" style="height:1800px;"></div>
+	  	<div class="panel-heading" style="font-size:13px;font-weight:bold">User Profile: <span id="report_period_header"></span></div>
+	  
+	  <div id="main_user_profile" class="panel-body charts">
+	  <div class="panel panel-heading" style="font-size:13px;font-weight:bold" >User Details</div>
+	  	<div class=" user"> *user name: <span id="fname"/><span id="last_name"/></div>
+	  	<div class=" user"> Phone Number: <span id="phone"/></div>
+	  	<div class=" user"> Email: <span id="email"/></div>
+	  	<div class=" user"> Status: <span id="status"/></div>
+	  	<div class=" user">User Type:<span id="user_type"/> for <span id=""/></div>
+
+	  	<div class="footer">
+                <button type="button" class="btn btn-primary my_navs" id="reset_password">Reset Password</button>
+                <button type="button" class="btn btn-primary" id="deactive_user">Deactivate</button>
+                <button type="button" class="btn btn-primary">Add Sub County</button>
+            </div>
+
+	  </div>
+	  <div id="activity_log" class="panel-body charts">
+	  	<div class="panel spanel-heading" style="font-size:13px;font-weight:bold">Activity Log</div>
+	  	
+	  	
+	  </div>
 	</div>
 </div>
 <style type="text/css">
@@ -18,6 +34,12 @@
 		float: left;
 		margin-left: 3%;
 		margin-top: -1%;
+	}
+	.user{
+		height: 30px;
+		width: 200px;
+		font-size: 13px;
+
 	}
 
 	#main_graph{
@@ -42,117 +64,70 @@
 	}
 
 	.charts{
-		height: 300px;
+		height: 450px;
 		width: 47%;
 		border: 1px dotted green;
 		float: left;
-		margin-left: 3%;
+		margin-left: 2%;
 		margin-top: 2%;
 	}	
 	
 </style>
 
 <script type="text/javascript">
-	$(document).ready(function (e){		
-		// $.ajax({
-		// 	url: "<?php echo base_url() . 'Admin_management/get_national_summary'; ?>",
-		// 	dataType: 'json',
-		// 	success: function(s){		
-		// 		var percentage = s.percentage;
-		// 		console.log(percentage);
-		// 		$('.progress-bar').css('width', percentage+'%').attr('aria-valuenow', percentage);
-		// 		$( "#main_percentage" ).progressbar({
-		// 			value: percentage
-		// 		});
-		// 		$( "#perc" ).html(percentage+' % Reported');
-		// 	},
-		// 	error: function(e){
-		// 		console.log(e.responseText);
-		// 	}
-		// });	
-		load_main_graph();
-		function load_main_graph()
+	$(document).ready(function (e){	
+	get_user_details();	
+		function get_user_details()
 		{
+			// var user_id = $('#user_id').val();			
+			var user_id = "1384";			
+			var baseurl = "<?php echo base_url() . 'User_management/get_national_user_profile/'; ?>";						
+			var url = baseurl+user_id;
 			$.ajax({
-			url: "<?php echo base_url() . 'Admin_management/get_main_graph'; ?>",
-			dataType: 'json',
-			success: function(s){		
-				var counties = s.counties;
-				var percentages_current = s.current_month;
-				var percentages_last = s.last_month;
-				var percentages_last1 = s.last_month1;
-				var months_list = s.months_list;
-				var header_month = s.months_list[3];
-				$('#report_period_header').html(header_month);
-				console.log(s);		
-				 $('#main_chart_body').highcharts({
-			            credits: {
-			      			enabled: false
-			      		},
-			            chart: {
-			                type: 'bar'
-			            },
-			            title: {
-			                text: 'Live Data from RTK System'
-			            },
-			            subtitle: {
-			                text: 'RTK Data'
-			            },
-			            xAxis: {
-			                categories: counties
-			            },
-			            yAxis: {
-			                min: 0,
-			                max:100,
-			                title: {
-			                    text: 'Percentage Reporting'
-			                }
-			            },
-			            legend: {
-			                layout: 'vertical',
-			                align: 'right',
-			                verticalAlign: 'top',
-			                x: -40,
-			                y: 100,
-			                floating: true,
-			                borderWidth: 1,
-			                backgroundColor: '#FFFFFF',
-			                shadow: true
-			            },
-			            tooltip: {
-			                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-			                pointFormat: '<tr><td style="color:{series.color};padding:0;font-size:11px;">{series.name}: </td>' +
-			                    '<td style="padding:0;font-size:11px;"><b>{point.y:.1f} %</b></td></tr>',
-			                footerFormat: '</table>',
-			                shared: true,
-			                useHTML: true
-			            },
-			            plotOptions: {
-			                column: {
-			                    pointPadding: 0.2,
-			                    borderWidth: 0
-			                }
-			            },
-			            series: [{
-			                name: months_list[0],
-			                data: percentages_current
-			    
-			            },{
-			                name: months_list[1],
-			                data: percentages_last
-			    
-			            },  {
-			                name: months_list[2],
-			                data: percentages_last1
-			    
-			            }]
-			        });						
-			},
-			error: function(e){
-				console.log(e.responseText);
-			}
-		});	
+				url: url,
+				dataType: 'json',
+				success: function(s){						
+					$('#fname').html(s[0].first_name);
+					$('#last_name').html(s[0].last_name);			
+					$('#email').html(s[0].email);			
+					$('#phone').html(s[0].phone);			
+					$('#user_type').html(s[0].user_type_txt);			
+					$('#status').html(s[0].status_txt);			
+					$('#regions').html(s[0].regions);			
+					console.log(s[0]);
+					// alert(s.first_name);
+				},
+				error: function(e){
+					console.log(e.responseText);
+				}
+			});
+			
 		}
+		$('#reset_password').click(function(){
+	      var get_user_id = window.location.pathname.split( '/' );
+	      var user_id = get_user_id[4];
+
+	      $.post("<?php echo base_url() . 'User_management/reset_password'; ?>", {
+	        user_id: user_id          
+	      }).done(function(data) {
+	        alert("Password Changed" + data);
+	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"';?>";
+	    });
+	    });
+
+	    $('#deactive_user').click(function(){	      
+	      var get_user_id = window.location.pathname.split( '/' );
+	      var user_id = get_user_id[4];	 
+	      alert("dff");     
+
+	      $.post("<?php echo base_url() . 'User_management/reset_password'; ?>", {
+	        user_id: user_id          
+	      }).done(function(data) {
+	        alert("User Deactivated" + data);
+	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"'; ?>";
+	    });
+
+    });
 	    
 	});
 	

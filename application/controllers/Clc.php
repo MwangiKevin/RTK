@@ -108,5 +108,39 @@ class Clc extends CI_Controller {
 		$this->load->view($template,$data);
 
 	}
+	function users()
+	{		
+		$this->load->model("Counties_model",'county');		
+		$county_id = $this->session->userdata('county_id');
+		$county_details = $this->county->get_one_id($county_id);
+		$county_name = $county_details['county'];
+
+
+		$template='clc/template';
+		$data['title'] = 'CLC Users ';
+		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
+		$data['content_view'] = 'clc/users';
+		$data['location'] = 'You are on RTK-> County -> Users';
+		$data['active_link'] = 'users';		
+		$this->load->view($template,$data);
+
+	}
+	function facilities()
+	{		
+		$this->load->model("Counties_model",'county');		
+		$county_id = $this->session->userdata('county_id');
+		$county_details = $this->county->get_one_id($county_id);
+		$county_name = $county_details['county'];
+
+
+		$template='clc/template';
+		$data['title'] = 'CLC Facilities ';
+		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
+		$data['content_view'] = 'clc/facilities_all';
+		$data['location'] = 'You are on RTK-> County -> Facilities';
+		$data['active_link'] = 'facilities';		
+		$this->load->view($template,$data);
+
+	}
 }
 ?>

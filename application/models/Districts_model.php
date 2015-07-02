@@ -19,6 +19,12 @@ class Districts_model extends CI_Model
 		$result = $this->db->query($sql)->result_array();		
 		return $result[0];
 	}
+	function get_one_county($id)
+	{
+		$sql = "select * from districts where county='$id'";		
+		$result = $this->db->query($sql)->result_array();		
+		return $result[0];
+	}
 
 	function get_details_from_id($id)
 	{

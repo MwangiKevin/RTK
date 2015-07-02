@@ -101,7 +101,7 @@ class Admin extends CI_Controller {
 	function users()
 	{		
 		$template='admin/template_management';
-		$data['title'] = 'Users Management';
+		$data['title'] = 'Admin Management';
 		$data['banner_text'] = 'Rapid Test Kit National Users';
 		$data['content_view'] = 'admin/users';
 		$data['location'] = 'You are on RTK-> National Users';
@@ -112,10 +112,10 @@ class Admin extends CI_Controller {
 	function user_profile()
 	{		
 		$template='admin/template_management';
-		$data['title'] = 'User Profile';
+		$data['title'] = 'Admin Management';
 		$data['banner_text'] = 'Rapid Test Kit National Users';
 		$data['content_view'] = 'admin/user_profile';
-		$data['location'] = 'You are on RTK-> National User Profile';
+		$data['location'] = 'You are on RTK-> User Profile';
 		$data['active_link'] = 'management';		
 		$this->load->view($template,$data);
 

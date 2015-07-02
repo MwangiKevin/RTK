@@ -48,12 +48,12 @@
   </div> 
   <div id="report" class="accordion-body collapse" style="padding-left:2%;">
       <div class="panel-body">    
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
+        <a href="<?php echo site_url('Clc/users'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
         </span>User Management</a>
         
       </div>
       <div class="panel-body">     
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
+        <a href="<?php echo site_url('Clc/facilities'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
         </span>Facilities Mapping</a>    
       </div>
       <div class="panel-body">
