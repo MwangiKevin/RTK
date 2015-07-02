@@ -27,6 +27,44 @@ class Lab_orders_model extends CI_Model
 		return $result;
 	}
 
+	function get_non_reported_facilities($county_id)
+	{	
+		$this->load->model('Date_settings_model','date_settings');
+		$current_month_details = $this->date_settings->get_current_month();
+		$first_date = $current_month_details['first_date_full'];
+		$last_date = $current_month_details['last_date_full'];
+		$sql_fac = "select distinct facilities.facility_code
+			from facilities,districts,counties where 
+			facilities.rtk_enabled = '1' and facilities.district = districts.id and districts.county = '$county_id'";
+			
+		$sql_exist = "select distinct lab_commodity_orders.facility_code
+			from lab_commodity_orders,facilities,districts where 
+			lab_commodity_orders.facility_code = facilities.facility_code and 
+			facilities.district = districts.id and districts.county = '$county_id' and order_date between '$first_date' and '$last_date'";
+		
+		$facilities = $this->db->query($sql_fac)->result_array();
+		$existing = $this->db->query($sql_exist)->result_array();
+		$facilities_array = array();
+		$existing_array = array();		
+		foreach ($facilities as $key => $value) {
+			$mfl = $value['facility_code'];
+			array_push($facilities_array, $mfl);
+		}
+		foreach ($existing as $key => $value) {
+			$mfl = $value['facility_code'];
+			array_push($existing_array, $mfl);
+		}
+		$non_existing = array_diff($facilities_array, $existing_array);
+		foreach ($non_existing as $key) {
+			$mfl = $key;
+			$sql = "select facility_name from facilities where facility_code = '$mfl'";
+			$result_final = $this->db->query($sql)->result_array();
+			$facility_name = $result_final[0]['facility_name'];			
+			$final_array[] = array('mfl'=>$mfl,'facility_name'=>$facility_name);
+		}
+		return $final_array;
+	}
+
 	function get_order_details($order_id)
 	{	
 		$sql = "select * from lab_commodity_orders where id='$order_id'";		

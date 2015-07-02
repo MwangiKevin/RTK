@@ -109,10 +109,10 @@
 	<div id="non-reported" class="table_divs_non_reported panel panel-success">
 	  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities Not-Reported</div>
-	  	<table id="non-reported" class="display table table-bordered" cellspacing="0" width="100%">
+	  	<table id="non_reported_facilities" class="display table table-bordered" cellspacing="0" width="100%">
 			<thead>
 				<tr class="header_tr">
-					<th colspan="4" id="stock_period"><b>Facilities Not Reported for April 2015</b></th>
+					<th colspan="4" id="stock_period"><b>Facilities Not Reported for June 2015</b></th>
 				</tr>
 				<tr>
 					<th>MFL</th>
@@ -225,6 +225,7 @@
 		get_highest_stocks(4);
 		get_highest_stocks(5);
 		get_highest_stocks(6);
+		get_non_reported_facilities();
 		function get_highest_stocks(comm){
 			var tbl_name = '';			
 			if(comm==4){
@@ -299,6 +300,35 @@
 					s[i][0],
 					s[i][1],
 					s[i][2]
+					]);
+					} // End For
+				},
+				error: function(e){
+					console.log(e.responseText);
+				}
+			});
+		}		
+
+		function get_non_reported_facilities(){			
+			
+			var url = "<?php echo base_url() . 'Clc_management/get_non_reported_facilities/'; ?>";						
+			oTable_name = $('#non_reported_facilities').dataTable(
+			{	
+				"bPaginate":false,	
+				"aaSorting": [[0, "asc"]],    
+			    "bFilter": false,
+			    "bSearchable":false,
+			    "bInfo":false
+			});	
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				success: function(s){				
+				oTable_name.fnClearTable();
+				for(var i = 0; i < s.length; i++) {
+					oTable_name.fnAddData([
+					s[i][0],
+					s[i][1]
 					]);
 					} // End For
 				},

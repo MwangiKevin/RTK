@@ -529,6 +529,24 @@ class Clc_management extends CI_Controller {
 		}
 		echo json_encode($option);
 	}
+	function get_non_reported_facilities()
+	{
+		$this->load->model("Lab_orders_model",'lab_orders');	
+		$county_id = $this->session->userdata('county_id');					
+		$facilities = $this->lab_orders->get_non_reported_facilities($county_id);		
+		if(count($facilities)!=0){
+			foreach ($facilities as $key => $value) {
+				$mfl = $value['mfl'];
+				$facility_name = $value['facility_name'];
+				$output[] = array($mfl,$facility_name);
+			}
+		}else{
+				$output[] = array('N/A','N/A');
+
+		}
+
+		echo json_encode($output);
+	}
 
 	function get_clc_counties()
 	{
