@@ -70,8 +70,8 @@ class Percentages_model extends CI_Model
 
 		$sql ="select * from rtk_county_percentage
     			where county_id = '$county_id'  and month = '$month_db'";
-		$result = $this->db->query($sql)->result_array();
-		return $result[0];
+		$result = $this->db->query($sql)->result_array();		
+		return $result;
 	}
 
 	function get_all_county_percentage_month($month)

@@ -6,9 +6,10 @@
 	  <div class="btn-group" role="group" style="width:100%" aria-label="...">
 	  	  <label type="" class="btn btn-default" style="float:left;background-color:green;color:#fff;height:30px;font-size:10px;">Switch Commodity</label>
 		  <select id="comm_select" type="button" class="btn btn-default" style="height:30px;float:left;font-size:10px;">		  	
-		  </select>		  
+		  </select>			  
 		  <button id="comm_filter" type="button" class="btn btn-success" style="float:left;height:30px;font-size:10px;">Filter</button>
 		</div>
+		<input type="hidden" id="my_district_id" />	  
 	  <div id="commodity_usage" class="charts-inner"></div>
 	</div>	
 	
@@ -25,7 +26,7 @@
 					<th>MOS Central</th>					
 				</tr>
 				<tr>
-					<th colspan="4" id="stock_period"><b>Stocks as At End of April 2015</b></th>
+					<th colspan="4"><b>Stocks as At End of <span id="stock_period"></span></b></th>
 				</tr>
 			</thead>			
 		</table>
@@ -112,10 +113,9 @@
 		});
 
 		$('#comm_filter').click(function(g){
-			var district_id = g.target.id;						
-			var comm = $('#comm_select').val();
-			alert(district_id);
-			// get_consumption_data(district_id,comm);					
+			var district_id = $('#my_district_id').val();						
+			var comm = $('#comm_select').val();			
+			get_consumption_data(district_id,comm);					
 		});
 
 		function get_district_details(district_id)
@@ -126,8 +126,12 @@
 				url: url,
 				dataType: 'json',
 				success: function(s){		
-					console.log(s);			
-					$('#location').html(s);
+					var location = s.mylocation;
+					var district_id = s.district_id;
+					var last_month = s.last_month;
+					$('#location').html(location);
+					$('#my_district_id').val(district_id);
+					$('#stock_period').text(last_month);
 				},
 				error: function(e){
 					console.log(e.responseText);
@@ -143,8 +147,7 @@
 			$.ajax({
 				url: url,
 				dataType: 'json',
-				success: function(s){		
-					console.log(s);			
+				success: function(s){							
 					$('#comm_select').html(s);
 				},
 				error: function(e){
@@ -178,30 +181,10 @@
 				}
 			});
 		}
-		
-		function get_early_vs_late(district_id)
-		{		
-			var baseurl = "<?php echo base_url() . 'Clc_management/sub_county_early_vs_late/'; ?>";
-			var url = baseurl+district_id;
-			$.ajax({
-				url: url,
-				dataType: 'json',
-				success: function(s){
-					var late_reports = s.late_reports;			
-					var early_reports = s.early_reports;
-					var data = null;
-					var month_text = s.englishdate;				
-					if((late_reports==0)&&(early_reports==0)){
-						data = [{name:'No Reports Submitted', color:'blue', y:null}];	
-					}else if((late_reports==0)&&(early_reports!=0)){
-						data = [{name:'Early', color:'green', y:early_reports}];					
-					}else if((late_reports!=0)&&(early_reports==0)){
-						data = [{name:'Late', color:'red', y:late_reports}];					
-					}else if((late_reports!=0)&&(early_reports!=0)){
-						data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
-					}
-					
-					$('#early_vs_late').highcharts({
+
+		function generate_early_vs_late(data,month_text)
+		{
+			$('#early_vs_late').highcharts({
 			        chart: {
 			            type: 'pie',
 			        },
@@ -217,6 +200,35 @@
 			            data: data
 			        }]
 			    });
+		}
+		function get_early_vs_late(district_id)
+		{		
+			var baseurl = "<?php echo base_url() . 'Clc_management/sub_county_early_vs_late/'; ?>";
+			var url = baseurl+district_id;
+			$.ajax({
+				url: url,
+				dataType: 'json',
+				success: function(s){
+					var late_reports = s.late_reports;			
+					var early_reports = s.early_reports;
+					var data = null;
+					var month_text = s.englishdate;				
+					if((late_reports==0)&&(early_reports==0)){
+						$('#early_vs_late').text('Sorry. There is no Data to Display');
+						$('#early_vs_late').css('padding','15%');
+						$('#early_vs_late').css('color','green');
+					}else if((late_reports==0)&&(early_reports!=0)){						
+						data = [{name:'Early', color:'green', y:early_reports}];					
+						generate_early_vs_late(data,month_text);
+					}else if((late_reports!=0)&&(early_reports==0)){
+						data = [{name:'Late', color:'red', y:late_reports}];					
+						generate_early_vs_late(data,month_text);
+					}else if((late_reports!=0)&&(early_reports!=0)){
+						data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
+						generate_early_vs_late(data,month_text);
+					}
+					
+					
 				},
 				error: function(e){
 					console.log(e.responseText);
@@ -233,6 +245,7 @@
 				url: url,
 				dataType: 'json',
 				success: function(s){
+					var commodity_name = s.commodity_name;
 					var months = s.months;
 					var opening = s.opening;
 					var tests_done = s.tests_done;
@@ -246,7 +259,7 @@
 				            type: 'column'
 				        },
 				        title: {
-				            text: 'Screening Determine Consumption Data'
+				            text: commodity_name
 				        },
 				        subtitle: {
 				            text: 'Source: RTK System'

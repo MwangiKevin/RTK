@@ -117,6 +117,40 @@
                 console.log(e.responseText);
             }            
         });        
+        $.ajax({
+            url: "<?php echo base_url() . 'Clc_management/get_clc_counties'; ?>",
+            dataType: 'json',
+            success: function(s){                
+                var counties = s;                                      
+                if(counties!=null){
+                    $('#switch_county').html(s);                
+                }else{
+                    $('#switch_county_main').hide();
+                }
+                
+            },
+            error: function(e){
+                console.log(e.responseText);
+            }            
+        });     
+
+        $('#switch_county').change(function(){
+            var request_from = 'view_facilities';
+            var base_url = "<?php echo base_url() . 'Switcher/switch_county'; ?>";
+            var switched_to = $('#switch_county').val();
+            var url = base_url+'/'+request_from+'/'+switched_to;
+            $.ajax({
+                url:url,
+                dataType: 'json',
+                success: function(s){                
+                   window.location = s.redirect;
+                },
+                error: function(e){
+                    console.log(e.responseText);
+                }            
+            });               
+                   
+        });
     });
     
 </script>

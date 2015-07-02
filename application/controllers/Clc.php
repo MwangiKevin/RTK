@@ -90,7 +90,7 @@ class Clc extends CI_Controller {
 		$this->load->model("Counties_model",'county');		
 		$county_id = $this->session->userdata('county_id');		
 		$county_details = $this->county->get_one_id($county_id);
-		$county_name = $county_details['county'];
+		$county_name = $county_details['county'];		
 		$facilities = $this->facilities_model->get_all_in_district($district_id);			
 		foreach ($facilities as $key => $value) {
 			$mfl = $value['facility_code'];

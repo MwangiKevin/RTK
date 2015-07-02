@@ -121,26 +121,10 @@
 				console.log(e.responseText);
 			}
 		});
-		$.ajax({
-			url: "<?php echo base_url() . 'Clc_management/get_early_vs_late'; ?>",
-			dataType: 'json',
-			success: function(s){
-				var late_reports = s.late_reports;			
-				var early_reports = s.early_reports;
-				var data = null;
-				var month_text = s.englishdate;				
-				if((late_reports==0)&&(early_reports==0)){
-					data = [{name:'No Reports Submitted', color:'blue', y:null}];	
-				}else if((late_reports==0)&&(early_reports!=0)){
-					data = [{name:'Early', color:'green', y:early_reports}];					
-				}else if((late_reports!=0)&&(early_reports==0)){
-					data = [{name:'Late', color:'red', y:late_reports}];					
-				}else if((late_reports!=0)&&(early_reports!=0)){
-					data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
-				}
 
-				// var data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
-				$('#early_vs_late').highcharts({
+		function generate_early_vs_late(data,month_text)
+		{
+			$('#early_vs_late').highcharts({
 		        chart: {
 		            type: 'pie',
 		        },
@@ -156,6 +140,32 @@
 		            data: data
 		        }]
 		    });
+		}
+		$.ajax({
+			url: "<?php echo base_url() . 'Clc_management/get_early_vs_late'; ?>",
+			dataType: 'json',
+			success: function(s){
+				var late_reports = s.late_reports;			
+				var early_reports = s.early_reports;
+				var data = null;
+				var month_text = s.englishdate;				
+				if((late_reports==0)&&(early_reports==0)){
+					$('#early_vs_late').text('Sorry. There is no data to Display');
+					$('#early_vs_late').css('padding','12%');
+					$('#early_vs_late').css('color','green');
+				}else if((late_reports==0)&&(early_reports!=0)){
+					data = [{name:'Early', color:'green', y:early_reports}];		
+					generate_early_vs_late(data,month_text);			
+				}else if((late_reports!=0)&&(early_reports==0)){
+					data = [{name:'Late', color:'red', y:late_reports}];					
+					generate_early_vs_late(data,month_text);			
+				}else if((late_reports!=0)&&(early_reports!=0)){
+					data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
+					generate_early_vs_late(data,month_text);			
+				}
+
+				// var data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
+				
 			},
 			error: function(e){
 				console.log(e.responseText);
@@ -200,16 +210,9 @@
 				console.log(e.responseText);
 			}
 		});
-		$.ajax({
-			url: "<?php echo base_url() . 'Clc_management/get_trend_graph'; ?>",
-			dataType: 'json',
-			success: function(s){
-				var month_text = s.month_text;
-				var cumulative_result = s.cumulative_result;
-				var jsonx = s.jsonx;
-				var jsony = s.jsony;
-				var jsonx1 = s.jsonx1;
-				$('#main_trend').highcharts({
+		function generate_trend_graph(month_text,jsonx,jsony,jsonx1)
+		{
+			$('#main_trend').highcharts({
                 chart: {
                     type: 'line'
                 },
@@ -252,6 +255,19 @@
                     data: jsonx
                 }]
             });
+		}
+		$.ajax({
+			url: "<?php echo base_url() . 'Clc_management/get_trend_graph'; ?>",
+			dataType: 'json',
+			success: function(s){
+				var month_text = s.month_text;
+				var cumulative_result = s.cumulative_result;
+				var jsonx = s.jsonx;
+				var jsony = s.jsony;
+				var jsonx1 = s.jsonx1;
+
+				generate_trend_graph(month_text,jsonx,jsony,jsonx1);
+				
 			},
 			error: function(e){
 				console.log(e.responseText);
