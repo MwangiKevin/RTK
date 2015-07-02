@@ -51,9 +51,21 @@ class Admin_management extends CI_Controller {
             $percentage_current = $this->db->query($sqlc)->result_array();
             $percentage_past = $this->db->query($sqlp)->result_array();
             $percentage_past1= $this->db->query($sqlp1)->result_array();
-            $p_c = intval($percentage_current[0]['percentage']);
-            $p_p = intval($percentage_past[0]['percentage']);
-            $p_p1 = intval($percentage_past1[0]['percentage']);
+
+            $p_c = 0;
+            $p_p = 0;
+            $p_p1 = 0;
+            if(count($percentage_current)!=0){
+                $p_c = intval($percentage_current[0]['percentage']);
+            }
+            if(count($percentage_past)!=0){
+                $p_p = intval($percentage_past[0]['percentage']);
+            }
+            if(count($percentage_past1)!=0){
+                $p_p1 = intval($percentage_past1[0]['percentage']);
+            }            
+            
+            
 
             array_push($counties_list, $county_name);
             array_push($percentages_current_month, $p_c);
@@ -253,18 +265,39 @@ function get_national_trend($month=null)
     $yArr = array();
     $xArr1 = array();
     $cumulative_result = 0;
-    foreach ($reporting_rates as $value) {
-        $count = intval($value['count']);
-        $order_date = substr($value['order_date'], -2);
-        $order_date = date('jS', strtotime($value['order_date']));
-        $cumulative_result +=$count;
+    $reported = 0;
+    $facilities = 0;
+    $reporting_rate = 0;
+    if(count($reporting_rates)!=0){
+         foreach ($reporting_rates as $value) {
+            $count = intval($value['count']);
+            $order_date = substr($value['order_date'], -2);
+            $order_date = date('jS', strtotime($value['order_date']));
+            $cumulative_result +=$count;
+            array_push($xArr1, $cumulative_result);
+            array_push($yArr, $order_date);
+            array_push($xArr, $count);
+        }  
+        $reported = intval($percentage_results['reported']);
+        $facilities = intval($percentage_results['facilities']);
+        $reporting_rate = ceil(($reported/$facilities)*100);
+    }else{          
+        $count = 0;
+        $order_date = date('d');                
+        $order_date = date('jS', strtotime($order_date));
+        $cumulative_result =0;
         array_push($xArr1, $cumulative_result);
+
         array_push($yArr, $order_date);
         array_push($xArr, $count);
-    }  
-    $reported = intval($percentage_results['reported']);
-    $facilities = intval($percentage_results['facilities']);
-    $reporting_rate = ceil(($reported/$facilities)*100);
+
+        $reported = 0;
+        $facilities = 0;
+        $reporting_rate = 0;
+            
+    }
+    
+   
     
     $jsony = $yArr;
     $jsonx = $xArr;

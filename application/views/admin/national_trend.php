@@ -84,7 +84,7 @@
 		function load_main_graph()
 		{
 			$.ajax({
-			url: "<?php echo base_url() . 'Admin_management/get_national_trend/042015/'; ?>",
+			url: "<?php echo base_url() . 'Admin_management/get_national_trend/062015/'; ?>",
 			dataType: 'json',
 			success: function(s){		
 				var jsony = s.jsony;

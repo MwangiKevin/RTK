@@ -56,9 +56,20 @@ class Rtk_reports_management extends CI_Controller
                 $perc_c =  $this->db->query($sql_c)->result_array();
                 $perc_p =  $this->db->query($sql_p)->result_array();
                 $perc_p1 =  $this->db->query($sql_p1)->result_array();
-                $current_p = $perc_c[0]['percentage'];
-                $previous_p = $perc_p[0]['percentage'];
-                $previous_p1 = $perc_p1[0]['percentage'];                
+                $current_p = 0;
+                $previous_p = 0;
+                $previous_p1 = 0;
+
+                if(count($perc_c)!=0){
+                    $current_p = $perc_c[0]['percentage'];
+                }
+                if(count($previous_p)!=0){
+                    $previous_p = $perc_p[0]['percentage'];
+                }
+                if(count($perc_p1)!=0){
+                    $previous_p1 = $perc_p1[0]['percentage'];
+                }                
+                
                 $output[] = array($county,$previous_p1,$previous_p,$current_p);
             }     
         }else{
@@ -104,10 +115,34 @@ class Rtk_reports_management extends CI_Controller
             $commodity_name = $value['commodity_name'];
             $commodity_id = $value['id'];
             $commodity_summary = $this->get_stock_summary_details(null,$commodity_id,$first_date,$last_date);
-            $beginning_bal = $commodity_summary['sum_opening'];
-            $used = $commodity_summary['sum_used'];
-            $tests = $commodity_summary['sum_tests'];
-            $closing_stock = $commodity_summary['sum_closing_bal'];
+            $beginning_bal = 0;
+            $used = 0;
+            $tests = 0;
+            $closing_stock = 0;
+            if(count($commodity_summary)!=0){
+                $beginning_bal = $commodity_summary['sum_opening'];
+                $used = $commodity_summary['sum_used'];
+                $tests = $commodity_summary['sum_tests'];
+                $closing_stock = $commodity_summary['sum_closing_bal'];
+                if($beginning_bal==null){
+                    $beginning_bal = 0;
+                }
+                if($used==null){
+                    $used = 0;
+                }
+                if($tests==null){
+                    $tests = 0;
+                }
+                if($closing_stock==null){
+                    $closing_stock = 0;
+                }
+            }else{
+                $beginning_bal = 0;
+                $used = 0;
+                $tests = 0;
+                $closing_stock = 0;
+            }
+            
             $output[] = array($commodity_name,$beginning_bal,$used,$tests,$closing_stock);
         }
         //  echo "<pre>";
@@ -226,13 +261,18 @@ class Rtk_reports_management extends CI_Controller
                 AND lab_commodity_details.created_at BETWEEN '$firstdate' AND '$lastdate' $conditions
                 AND lab_commodity_details.commodity_id = '$commodity_id' 
                 having q_expiring>0 order by lab_commodity_details.q_expiring desc,facilities.facility_code asc limit 0,10";
-        $highest_expiries = $this->db->query($sql)->result_array();        
-        for ($i=0; $i <count($highest_expiries) ; $i++) {            
-            $mfl = $highest_expiries[$i]['facility_code'];                    
-            $expiries = $highest_expiries[$i]['q_expiring'];                    
-            $facility_name = $highest_expiries[$i]['facility_name'];                                
-            $highest_expiries_details[$i] = array($mfl,$facility_name,$expiries);            
+        $highest_expiries = $this->db->query($sql)->result_array();
+        if(count($highest_expiries)!=0){
+            for ($i=0; $i <count($highest_expiries) ; $i++) {            
+                $mfl = $highest_expiries[$i]['facility_code'];                    
+                $expiries = $highest_expiries[$i]['q_expiring'];                    
+                $facility_name = $highest_expiries[$i]['facility_name'];                                
+                $highest_expiries_details[$i] = array($mfl,$facility_name,$expiries);            
+            }
+        }else{
+            $highest_expiries_details[0] = array('N/A','N/A',0);            
         }
+        
         
         echo json_encode($highest_expiries_details); 
     }
@@ -289,47 +329,50 @@ class Rtk_reports_management extends CI_Controller
             $sql = "SELECT distinct counties.county,districts.district,facilities.facility_code, facilities.facility_name  FROM counties,districts,facilities,lab_commodity_details WHERE  lab_commodity_details.facility_code = facilities.facility_code AND facilities.district = districts.id  AND districts.county = counties.id AND lab_commodity_details.created_at BETWEEN '$firstdate' AND '$lastdate'";
 
             $dets = $this->db->query($sql)->result_array();
-            
-            foreach ($dets as $key => $value) {
-                $county = $value['county'];
-                $district = $value['district'];            
-                $facility_code = $value['facility_code'];            
-                $facility_name = $value['facility_name'];                 
-                $sqls = "select distinct q_used from lab_commodity_details where facility_code='$facility_code' and created_at between '$firstdate' and '$lastdate' and commodity_id='4'"; 
+            if(count($dets)!=0){
+                foreach ($dets as $key => $value) {
+                    $county = $value['county'];
+                    $district = $value['district'];            
+                    $facility_code = $value['facility_code'];            
+                    $facility_name = $value['facility_name'];                 
+                    $sqls = "select distinct q_used from lab_commodity_details where facility_code='$facility_code' and created_at between '$firstdate' and '$lastdate' and commodity_id='4'"; 
 
-                $sqlc = "select distinct q_used from lab_commodity_details where facility_code='$facility_code' and created_at between '$firstdate' and '$lastdate' and commodity_id='5'"; 
+                    $sqlc = "select distinct q_used from lab_commodity_details where facility_code='$facility_code' and created_at between '$firstdate' and '$lastdate' and commodity_id='5'"; 
 
-                $sqlt = "select distinct q_used from lab_commodity_details where facility_code='$facility_code' and created_at between '$firstdate' and '$lastdate' and commodity_id='6'";                 
+                    $sqlt = "select distinct q_used from lab_commodity_details where facility_code='$facility_code' and created_at between '$firstdate' and '$lastdate' and commodity_id='6'";                 
 
-                $q_useds = $this->db->query($sqls)->result_array();                                                         
-                $q_usedt = $this->db->query($sqlt)->result_array();                                         
-                $q_usedc = $this->db->query($sqlc)->result_array();                                                   
-                if(count($q_useds)>0){
-                    $s = $q_useds[0]['q_used'];
-                }else{
-                    $s = 0;
+                    $q_useds = $this->db->query($sqls)->result_array();                                                         
+                    $q_usedt = $this->db->query($sqlt)->result_array();                                         
+                    $q_usedc = $this->db->query($sqlc)->result_array();                                                   
+                    if(count($q_useds)>0){
+                        $s = $q_useds[0]['q_used'];
+                    }else{
+                        $s = 0;
+                    }
+
+                    if(count($q_usedt)>0){
+                        $t = $q_usedt[0]['q_used'];
+                    }else{
+                        $t = 0;
+                    }
+                    if(count($q_usedc)>0){
+                        $c = $q_usedc[0]['q_used'];
+                    }else{
+                        $c = 0;
+                    }   
+                    // $s = $q_useds[0]['q_used'];
+                    // $c = $q_usedc[0]['q_used'];
+                    // $t = $q_usedt[0]['q_used'];
+                    
+                    // $commodity_usage[] = array($q_useds,$q_usedc,$q_usedt);
+                    $output[] = array($county,$district,$facility_code,$facility_name,$s,$c,$t);
+
+                    
                 }
+            }else{
+                 $output[0] = array('N/A','N/A','N/A','N/A','N/A','N/A','N/A');
 
-                if(count($q_usedt)>0){
-                    $t = $q_usedt[0]['q_used'];
-                }else{
-                    $t = 0;
-                }
-                if(count($q_usedc)>0){
-                    $c = $q_usedc[0]['q_used'];
-                }else{
-                    $c = 0;
-                }   
-                // $s = $q_useds[0]['q_used'];
-                // $c = $q_usedc[0]['q_used'];
-                // $t = $q_usedt[0]['q_used'];
-                
-                // $commodity_usage[] = array($q_useds,$q_usedc,$q_usedt);
-                $output[] = array($county,$district,$facility_code,$facility_name,$s,$c,$t);
-
-                
             }
-
             // die();
             // echo "<pre>";
             // print_r($output);// die();
