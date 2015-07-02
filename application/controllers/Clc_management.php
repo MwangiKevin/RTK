@@ -32,7 +32,7 @@ class Clc_management extends CI_Controller {
 		$previous_month_details =$this->date_settings->get_previous_month();	
 		$districts = array();
         $reported = array();
-        $nonreported = array();
+        $nonreported = array();       
         foreach ($reporting_rates as $key => $value) {
             array_push($districts, $value['district']);  
             $percentage_reported = intval($value['percentage']);
@@ -118,18 +118,32 @@ class Clc_management extends CI_Controller {
         $yArr = array();
         $xArr1 = array();
         $cumulative_result = 0;        
-        $reporting_rates = $this->orders->reporting_rates($county_id,$year,$month);        
-        foreach ($reporting_rates as $value) {
-            $count = intval($value['count']);
-            $order_date = substr($value['order_date'], -2);
-            $order_date = date('jS', strtotime($value['order_date']));
+        $reporting_rates = $this->orders->reporting_rates($county_id,$year,$month);      
+        if(count($reporting_rates)!=0)
+        {
+        	foreach ($reporting_rates as $value) {
+	            $count = intval($value['count']);
+	            $order_date = substr($value['order_date'], -2);
+	            $order_date = date('jS', strtotime($value['order_date']));
 
-            $cumulative_result +=$count;
-            array_push($xArr1, $cumulative_result);
+	            $cumulative_result +=$count;
+	            array_push($xArr1, $cumulative_result);
 
-            array_push($yArr, $order_date);
-            array_push($xArr, $count);
+	            array_push($yArr, $order_date);
+	            array_push($xArr, $count);
+	        }
+        }else{        	
+	            $count = 0;
+	            $order_date = date('d');	            
+	            $order_date = date('jS', strtotime($order_date));
+	            $cumulative_result =0;
+	            array_push($xArr1, $cumulative_result);
+
+	            array_push($yArr, $order_date);
+	            array_push($xArr, $count);
+	        
         }
+        
         
         $final_array = array('cumulative_result'=>$cumulative_result,
         					 'jsony'=>$yArr,
@@ -144,8 +158,14 @@ class Clc_management extends CI_Controller {
 	{
 		$this->load->model("Percentages_model",'percentages');	
 		$county_id = $this->session->userdata('county_id');					
-		$percentage_details = $this->percentages->get_county_percentage($county_id);		
-		$percentage = intval($percentage_details['percentage']);
+		$percentage_details = $this->percentages->get_county_percentage($county_id);
+		$percentage = null;
+		if(count($percentage_details)!=0){
+			$percentage = intval($percentage_details['percentage']);				
+		}else{
+			$percentage = 0;
+		}
+		
 		$output = array('percentage'=>$percentage);
 		echo json_encode($output);
 
@@ -158,22 +178,45 @@ class Clc_management extends CI_Controller {
 		$this->load->model("Lab_details_model",'lab_details');	
 		$this->load->model("Amcs_model",'amc_details');	
 		$county_id = $this->session->userdata('county_id');					
-		$facil_amcs = $this->amc_details->get_county_amc($county_id);		
-		$facil_endbals = $this->lab_details->get_ending_balance_county($county_id);	
+		$facil_amcs = $this->amc_details->get_county_amc($county_id);				
+		$facil_endbals = $this->lab_details->get_ending_balance_county($county_id);			
 		$count = count($facil_amcs);
-    	$stock_details = array();
-    	for ($i=0; $i < $count; $i++) { 
-	        $comm_id = $facil_amcs[$i]['id'];
-	        $comm_name = $facil_amcs[$i]['commodity_name'];
-	        $amc = $facil_amcs[$i]['amc'];
-	        $endbal = $facil_endbals[$i]['end_bal'];
-	        if($amc==0){
+    	$stock_details = array();		
+		if(count($facil_endbals)!=0)
+		{
+			for ($i=0; $i < $count; $i++) { 
+		        $comm_id = $facil_amcs[$i]['id'];
+		        $comm_name = $facil_amcs[$i]['commodity_name'];
+		        $amc = $facil_amcs[$i]['amc'];
+		        $endbal = $facil_endbals[$i]['end_bal'];
+		        if($amc==0){
+		        	$ratio = 0;
+		        }else{
+		        	$ratio = round(($endbal/$amc),0);
+		        }
+		        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
+		    }  	
+
+		}else
+		{
+			$comm_id = $facil_amcs[0]['id'];
+	        $comm_name = $facil_amcs[0]['commodity_name'];
+	        $amc = $facil_amcs[0]['amc'];
+	        $endbal = 0;
+	        if($endbal==0){
 	        	$ratio = 0;
 	        }else{
-	        	$ratio = round(($endbal/$amc),0);
-	        }
-	        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
-	    }  	
+	        	if($amc==0){
+		        	$ratio = 0;
+		        }else{
+		        	$ratio = round(($endbal/$amc),0);
+		        }
+
+	        }        
+	        
+	        $stock_details[0] = array($comm_name,$amc,$endbal,$ratio);
+		}
+    	
 	    echo json_encode($stock_details);
 	    
 	}
@@ -191,6 +234,11 @@ class Clc_management extends CI_Controller {
 	            $facility_name = $highest_stocks[$i]['facility_name'];                                
 		        $highest_stocks_details[$i] = array($mfl,$facility_name,$endbal);            
 	        }
+	    }else{
+	    	$mfl = 'N/A';
+            $endbal = 0;
+            $facility_name = 'N/A';
+	        $highest_stocks_details[0] = array($mfl,$facility_name,$endbal);     
 	    }
 	    echo json_encode($highest_stocks_details);        
 	}
@@ -263,12 +311,22 @@ class Clc_management extends CI_Controller {
 		$facility_code = $this->input->post('facility_code');
 		$facility_name = $this->input->post('facility_name');
 		$district_id = $this->input->post('district_id');
-		$sql = "update facilities set facility_name = '$facility_name', district = '$district_id' where facility_code='$facility_code'";
-		if($this->db->query($sql)){
-			echo "Facility Updated Successfully";
+		if($district_id==0){
+			$sql = "update facilities set facility_name = '$facility_name' where facility_code='$facility_code'";	
+			if($this->db->query($sql)){
+				echo "Facility Updated Successfully";
+			}else{
+				echo "Facility Not Updated Successfully";
+			}
 		}else{
-			echo "Facility Not Updated Successfully";
-		}	
+			$sql = "update facilities set facility_name = '$facility_name', district = '$district_id' where facility_code='$facility_code'";	
+			if($this->db->query($sql)){
+				echo "Facility Updated Successfully";
+			}else{
+				echo "Facility Not Updated Successfully";
+			}
+		}		
+			
 	}
 
 	function get_edit_facility_form($mfl)
@@ -323,7 +381,8 @@ class Clc_management extends CI_Controller {
 		
 		$this->load->model("Districts_model",'districts_model');										
 		$this->load->model("Amcs_model",'amc_details');	
-		$county_id = $this->session->userdata('county_id');					
+		$county_id = $this->session->userdata('county_id');	
+		$last_month = date('F Y', strtotime("first day of previous month"));
 		if($district_id==0)
 		{
 			$districts_details = $this->districts_model->get_first_from_county($county_id);			
@@ -335,7 +394,8 @@ class Clc_management extends CI_Controller {
 			$district_name = $value['district'];	
 			$fac_link = '<a href="'.site_url().'Clc/view_facilities/'.$id.'">View Facilities</a>';				
 			$location = 'You are on RTK-> County -> '.$district_name.' Sub-County  ['.$fac_link.']';	
-			echo json_encode($location);
+			$output = array('last_month'=>$last_month,'mylocation'=>$location,'district_id'=>$id);			
+			echo json_encode($output);
 		}			
 			
 		
@@ -343,11 +403,15 @@ class Clc_management extends CI_Controller {
 
 
 	function commodity_usage($district,$com_id=null) {
+		$commodity_id = null;
 	    if(isset($com_id)){
 	        $commodity_id = $com_id;
 	    }else{
 	        $commodity_id = 4;
 	    }
+	    $this->load->model('Lab_commodities_model','lab_commodities_model');
+	    $lab_commodities_details = $this->lab_commodities_model->get_all_from_id($commodity_id);
+	    $commodity_name = $lab_commodities_details[0]['commodity_name'];
 	    $data = array();
 	    $lastday = date('Y-m-d', strtotime("last day of previous month"));
 
@@ -387,12 +451,19 @@ class Clc_management extends CI_Controller {
 	    $month_one_data = $this->district_totals($year_current, $current_month, $district,$commodity_id);	   	
 	   	$month_two_data = $this->district_totals($year_previous_1, $previous_month_1, $district,$commodity_id);
    		$month_three_data = $this->district_totals($year_previous_2, $previous_month_2, $district,$commodity_id);
-
-   		$opening = array(intval($month_one_data[0]['sum_opening']),intval($month_two_data[0]['sum_opening']),intval($month_three_data[0]['sum_opening']));
-   		$used = array(intval($month_one_data[0]['sum_used']),intval($month_two_data[0]['sum_used']),intval($month_three_data[0]['sum_used']));
-   		$tests_done = array(intval($month_one_data[0]['sum_tests']),intval($month_two_data[0]['sum_tests']),intval($month_three_data[0]['sum_tests']));
-   		$closing_bal = array(intval($month_one_data[0]['sum_closing_bal']),intval($month_two_data[0]['sum_closing_bal']),intval($month_three_data[0]['sum_closing_bal']));   		
-   		$output=array('months'=>$month_text,'opening'=>$opening,'used'=>$used,'tests_done'=>$tests_done,'closing_bal'=>$closing_bal);   		
+   		if(count($month_one_data)!=0){
+   			$opening = array(intval($month_one_data[0]['sum_opening']),intval($month_two_data[0]['sum_opening']),intval($month_three_data[0]['sum_opening']));
+	   		$used = array(intval($month_one_data[0]['sum_used']),intval($month_two_data[0]['sum_used']),intval($month_three_data[0]['sum_used']));
+	   		$tests_done = array(intval($month_one_data[0]['sum_tests']),intval($month_two_data[0]['sum_tests']),intval($month_three_data[0]['sum_tests']));
+	   		$closing_bal = array(intval($month_one_data[0]['sum_closing_bal']),intval($month_two_data[0]['sum_closing_bal']),intval($month_three_data[0]['sum_closing_bal']));   		
+   		}else{
+   			$opening = array(0,0,0);
+	   		$used = array(0,0,0);
+	   		$tests_done = array(0,0,0);
+	   		$closing_bal = array(0,0,0);   		
+   		}
+   		
+   		$output=array('commodity_name'=>$commodity_name,'months'=>$month_text,'opening'=>$opening,'used'=>$used,'tests_done'=>$tests_done,'closing_bal'=>$closing_bal);   		
    		echo json_encode($output);
 	}
 
@@ -454,11 +525,26 @@ class Clc_management extends CI_Controller {
 		foreach ($commodities as $key => $value) {
 			$id = $value['id'];
 			$name = $value['commodity_name'];
-			$option.='<option id="'.$id.'">'.$name.'</option>';
+			$option.='<option value="'.$id.'">'.$name.'</option>';
 		}
 		echo json_encode($option);
 	}
 
+	function get_clc_counties()
+	{
+		$this->load->model("Counties_model",'counties_model');	
+		$user_id = $this->session->userdata('user_id');				
+		$county_details = $this->counties_model->get_rca_county($user_id);				
+		$option='<option value="0"> Select County </option>';		
+		foreach ($county_details as $key => $value) {
+			$county_id = $value['county'];			
+			$county_other_details = $this->counties_model->get_one_id($county_id);				
+			$county_name = $county_other_details['county'];
+			$option.='<option value="'.$county_id.'">'.$county_name.'</option>';
+		}
+		
+		echo json_encode($option);
+	}
 
 	function fac_county_get_dets($district_id,$mfl = null)
 	{	
@@ -477,7 +563,7 @@ class Clc_management extends CI_Controller {
 			$id = $value['id'];
 			$facility_name = $value['facility_name'];							
 			$facility_code = $value['facility_code'];							
-			$fname_link = $facility_name.'(<input id="facility_code_hidden" type="hidden" value="'.$facility_code.'"/><i> MFL:'.$facility_code.'</i>)';			
+			$fname_link = $facility_name.' (<input id="facility_code_hidden" type="hidden" value="'.$facility_code.'"/><i>MFL:'.$facility_code.'</i>)';			
 			$location = 'You are on RTK-> County -> '.$district_name.' Sub-County -> '.$facility_name.' (Facility)';	
 			$output = array('facility_name'=>$fname_link,'location'=>$location);
 			echo json_encode($output);
@@ -504,18 +590,29 @@ class Clc_management extends CI_Controller {
 		$facil_endbals = $this->lab_details->get_ending_balance_district($district_id);	
 		$count = count($facil_amcs);
     	$stock_details = array();
-    	for ($i=0; $i < $count; $i++) { 
-	        $comm_id = $facil_amcs[$i]['id'];
-	        $comm_name = $facil_amcs[$i]['commodity_name'];
-	        $amc = $facil_amcs[$i]['amc'];
-	        $endbal = $facil_endbals[$i]['end_bal'];
-	        if($amc==0){
-	        	$ratio = 0;
-	        }else{
-	        	$ratio = round(($endbal/$amc),0);
-	        }
-	        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
-	    }  	
+    	if(count($facil_endbals)!=0)
+    	{
+    		for ($i=0; $i < $count; $i++) { 
+		        $comm_id = $facil_amcs[$i]['id'];
+		        $comm_name = $facil_amcs[$i]['commodity_name'];
+		        $amc = $facil_amcs[$i]['amc'];
+		        $endbal = $facil_endbals[$i]['end_bal'];
+		        if($amc==0){
+		        	$ratio = 0;
+		        }else{
+		        	$ratio = round(($endbal/$amc),0);
+		        }
+		        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
+		    }  	
+    	}else{    		
+	        $comm_id = 0;
+	        $comm_name = 'N/A';
+	        $amc = 0;
+	        $endbal = 0;	        
+	        $ratio = 0;	        
+	        $stock_details[0] = array($comm_name,$amc,$endbal,$ratio);
+	    }  	    	
+    	
 	    echo json_encode($stock_details);
 	    
 	}
@@ -554,12 +651,21 @@ class Clc_management extends CI_Controller {
 		$this->load->model("Lab_details_model",'lab_details');			
 		$county_id = $this->session->userdata('county_id');					
 		$highest_expiries = $this->lab_details->get_county_highest_expiries($commodity_id,$county_id);
-		for ($i=0; $i <count($highest_expiries) ; $i++) {            
-            $mfl = $highest_expiries[$i]['facility_code'];                    
-            $expiries = $highest_expiries[$i]['q_expiring'];                    
-            $facility_name = $highest_expiries[$i]['facility_name'];                                
-	        $highest_expiries_details[$i] = array($mfl,$facility_name,$expiries);            
-        }
+		if(count($highest_expiries)!=0)
+		{
+			for ($i=0; $i <count($highest_expiries) ; $i++) {            
+	            $mfl = $highest_expiries[$i]['facility_code'];                    
+	            $expiries = $highest_expiries[$i]['q_expiring'];                    
+	            $facility_name = $highest_expiries[$i]['facility_name'];                                
+		        $highest_expiries_details[$i] = array($mfl,$facility_name,$expiries);            
+	        }
+		}else{
+			$mfl = 'N/A';                    
+            $expiries = 0;
+            $facility_name = 'N/A' ;
+	        $highest_expiries_details[0] = array($mfl,$facility_name,$expiries); 
+		}
+		
         
 	    echo json_encode($highest_expiries_details); 
 	}

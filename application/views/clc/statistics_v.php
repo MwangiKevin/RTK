@@ -5,7 +5,7 @@
 	  	<table id="stock_card_table" class="display table" cellspacing="0" width="100%">
 			<thead>
 				<tr class="header_tr">
-					<th colspan="4" id="stock_period"><b>Stocks as At End of April 2015</b></th>
+					<th colspan="4" id="stock_period"><b>Stocks as At End of June 2015</b></th>
 				</tr>
 				<tr class="header_tr">					
 					<th>Commodity Name</th>

@@ -14,7 +14,7 @@ class Lab_details_model extends CI_Model
 
 	function get_all_old($order_id) 
 	{
-		$sql = "select * from lab_commodity_details_old where order_id = '$order_id' order by id asc";
+		$sql = "select * from lab_commodity_details where order_id = '$order_id' order by id asc";
 		$details = $this->db->query($sql)->result_array();
 		return $details;
 	}
@@ -71,8 +71,8 @@ class Lab_details_model extends CI_Model
         		AND facilities.rtk_enabled = '1' AND facilities.district = districts.id 
         		AND districts.county = counties.id AND counties.id = '$county_id'
 				GROUP BY lab_commodities.id
-				ORDER BY lab_commodities.id ASC";		
-	    $result = $this->db->query($sql)->result_array();
+				ORDER BY lab_commodities.id ASC";				
+	    $result = $this->db->query($sql)->result_array();	  
 	    return $result;
 	}
 
@@ -154,25 +154,25 @@ class Lab_details_model extends CI_Model
                 counties.county,
                 counties.id,
                 lab_commodities.commodity_name,
-                SUM(lab_commodity_details_old.beginning_bal) AS sum_opening,
-                SUM(lab_commodity_details_old.q_received) AS sum_received,
-                SUM(lab_commodity_details_old.q_used) AS sum_used,
-                SUM(lab_commodity_details_old.no_of_tests_done) AS sum_tests,
-                SUM(lab_commodity_details_old.closing_stock) AS sum_closing_bal,
-                SUM(lab_commodity_details_old.q_requested) AS sum_requested,
-                SUM(lab_commodity_details_old.q_expiring) AS sum_expiring
+                SUM(lab_commodity_details.beginning_bal) AS sum_opening,
+                SUM(lab_commodity_details.q_received) AS sum_received,
+                SUM(lab_commodity_details.q_used) AS sum_used,
+                SUM(lab_commodity_details.no_of_tests_done) AS sum_tests,
+                SUM(lab_commodity_details.closing_stock) AS sum_closing_bal,
+                SUM(lab_commodity_details.q_requested) AS sum_requested,
+                SUM(lab_commodity_details.q_expiring) AS sum_expiring
             FROM
                 lab_commodities,
-                lab_commodity_details_old,
+                lab_commodity_details,
                 facilities,
                 districts,
                 counties
             WHERE
-                lab_commodity_details_old.commodity_id = lab_commodities.id
-                    AND lab_commodity_details_old.facility_code = facilities.facility_code
+                lab_commodity_details.commodity_id = lab_commodities.id
+                    AND lab_commodity_details.facility_code = facilities.facility_code
                     AND facilities.district = districts.id
                     AND districts.county = counties.id
-                    AND lab_commodity_details_old.created_at BETWEEN '$firstdate' AND '$lastdate'";                   
+                    AND lab_commodity_details.created_at BETWEEN '$firstdate' AND '$lastdate'";                   
             //         and lab_commodities.id between 0 and 6
             // group by counties.id,lab_commodities.id";            
             //$returnable = $this->db->query($sql)->result_array();

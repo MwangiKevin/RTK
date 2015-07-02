@@ -14,8 +14,7 @@ class Scmlt extends CI_Controller {
 	 * 		http://example.com/index.php/welcome/index
 	 *	- or -
 	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
+	 * config/routes.php, it's displayejjjhj
 	 * So any other public methods not prefixed with an underscore will
 	 * map to /index.php/welcome/<method_name>
 	 * @see http://codeigniter.com/user_guide/general/urls.html
@@ -111,8 +110,8 @@ class Scmlt extends CI_Controller {
 		$lab_commodities = $this->categories->get_active();
 		$lab_details_begining_bal = $this->lab_details->get_begining_balance($mfl);	
 		$facility_details = $this->facilities->get_one_mfl($mfl);
-		$facility_name = $facility_details['facility_name'];
-		$facility_code = $facility_details['facility_code'];	
+		$facility_name = $facility_details[0]['facility_name'];
+		$facility_code = $facility_details[0]['facility_code'];	
 
 		$previous_month_details =$this->date_settings->get_previous_month();
 
@@ -196,7 +195,7 @@ class Scmlt extends CI_Controller {
 	{		
 		$this->load->model("Lab_orders_model",'orders_model');	;
 		$order_details = $this->orders_model->get_latest_lab_orders($mfl);			
-		$link = 'Scmlt/view_report/'.$order_details['order_id'];
+		$link = 'Scmlt/view_report/'.$order_details[0]['order_id'];
 		redirect($link);		
 	}
 

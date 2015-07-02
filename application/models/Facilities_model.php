@@ -179,6 +179,23 @@ class Facilities_model extends CI_Model
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}
+
+	function count_all_reporting_in_district($district_id)
+	{
+		$sql = "select count(distinct facility_code) as facilities from facilities where rtk_enabled='1' and district = '$district_id'";		
+		$result = $this->db->query($sql)->result_array();
+		$count = intval($result[0]['facilities']);
+		return $count;
+	}
+
+	function count_all_reporting_in_county($county_id)
+	{
+		$sql = "select count(distinct facility_code) as facilities from facilities,districts,counties 
+				where rtk_enabled='1' and facilities.district = districts.id and districts.county = counties.id and counties.id = '$county_id'";		
+		$result = $this->db->query($sql)->result_array();
+		$count = intval($result[0]['facilities']);
+		return $count;
+	}
 }
 
 ?>

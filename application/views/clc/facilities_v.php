@@ -95,6 +95,8 @@
 <script type="text/javascript">
 	$(document).ready(function (e){					
 		$('.menu_link').click(function(f){
+			$('#fname').html('');					
+			$('#fcdrr_details').html('');					
 			var mfl = f.target.id;
 			get_facility_details(mfl);			
 			get_monthly_records(mfl);			
@@ -108,9 +110,6 @@
 			if(facility_name=='')
 			{
 				$('#edit_form_status').html('Please Fill in the Facility Name.');
-			}else if(district_id==0)
-			{
-				$('#eit_form_status').html('Please Select the Sub-County before Saving.');
 			}else{
 				$.post("<?php echo base_url() . 'Clc_management/update_facility_details'; ?>", {
 		           facility_code: fcode,                        
@@ -186,10 +185,7 @@
 		
 	});
 
-	$('#edit_facility').click(function(e){
-
-	});
-
+	
 
 	// $(document).ajaxStart(function(){
 	//     $('#loading').show();

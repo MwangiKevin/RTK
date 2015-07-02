@@ -145,25 +145,8 @@ $(document).ready(function (e){
 				console.log(e.responseText);
 			}
 		});
-	$.ajax({
-		url: "<?php echo base_url() . 'Scmlt_management/get_statistics'; ?>",
-		dataType: 'json',
-		success: function(s){
-			var late_reports = s.late_reports;			
-			var early_reports = s.early_reports;
-			var data = null;
-			if((late_reports==0)&&(early_reports==0)){
-				data = [{name:'No Reports Submitted', color:'blue', y:null}];	
-			}else if((late_reports==0)&&(early_reports!=0)){
-				data = [{name:'Early', color:'green', y:early_reports}];					
-			}else if((late_reports!=0)&&(early_reports==0)){
-				data = [{name:'Late', color:'red', y:late_reports}];					
-			}else if((late_reports!=0)&&(early_reports!=0)){
-				data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
-			}
-
-			// var data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
-			$('#own_late_vs_timely').highcharts({
+	function load_early_late_chart(data){
+		$('#own_late_vs_timely').highcharts({
 	        chart: {
 	            type: 'pie',
 	        },
@@ -178,7 +161,27 @@ $(document).ready(function (e){
 	            name: 'Reports',
 	            data: data
 	        }]
-	    });
+	  	  });
+	}
+	$.ajax({
+		url: "<?php echo base_url() . 'Scmlt_management/get_statistics'; ?>",
+		dataType: 'json',
+		success: function(s){
+			var late_reports = s.late_reports;			
+			var early_reports = s.early_reports;
+			var data = null;
+			if((late_reports==0)&&(early_reports==0)){
+				$('#own_late_vs_timely').html('Sorry. There is no data to display');	
+			}else if((late_reports==0)&&(early_reports!=0)){
+				data = [{name:'Early', color:'green', y:early_reports}];					
+				load_early_late_chart(data);
+			}else if((late_reports!=0)&&(early_reports==0)){
+				data = [{name:'Late', color:'red', y:late_reports}];					
+				load_early_late_chart(data);				
+			}else if((late_reports!=0)&&(early_reports!=0)){
+				data = [{name:'Late', color:'red', y:late_reports},{name:'Early', color:'green', y:early_reports}];
+				load_early_late_chart(data);				
+			}
 		},
 		error: function(e){
 			console.log(e.responseText);
@@ -193,7 +196,20 @@ $(document).ready(function (e){
 			var categories = s[0].districts;    	
 			var percentages = s[0].percentage;    	
 			var data = {"name":"Percentage","data":percentages};    		
-			$('#bar_percentages').highcharts({
+			if((categories!=0)&&(percentages!=0)){
+				load_perc_graph(categories,data);
+			}else{
+				$('#bar_percentages').html('Sorry. There is no data to display');
+			}
+			
+		},
+		error: function(e){
+			console.log(e.responseText);
+		}
+	});
+    
+    function load_perc_graph(categories,data){
+    	$('#bar_percentages').highcharts({
 				colors: ['green'],
 		        chart: {
 		            renderTo: 'container',
@@ -219,12 +235,7 @@ $(document).ready(function (e){
 		        },
 		        series: [data]
 		    });
-		},
-		error: function(e){
-			console.log(e.responseText);
-		}
-	});
-    
+    }
 // 
 	
 });		

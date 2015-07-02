@@ -28,15 +28,12 @@ class User extends CI_Controller {
 
 	function login()
 	{	
-		$log_status = $this->session->userdata('log_status');
-		if(!empty($log_status)){
-			redirect('Home');	
-		}else{
-			$data['title'] = 'Login';
-			$data['banner_text'] = 'Rapid Test Kit System - Login';
-			$data['content_view'] = 'login_v';
-			$this->load->view('template/template',$data);
-		}
+	
+		$data['title'] = 'Login';
+		$data['banner_text'] = 'Rapid Test Kit System - Login';
+		$data['content_view'] = 'login_v';
+		$this->load->view('template/template',$data);
+		
 		
 	}
 

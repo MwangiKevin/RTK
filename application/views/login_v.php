@@ -4,8 +4,10 @@
 
 echo form_open('User_management/submit'); ?>
 <div id="login" class="" >
-
-<div class="form-group" style="margin-top: 2.3em;">
+<span id="log_status" class="validate_stuff form-control label-danger" style="margin-top: 2%;width:100%;;color:#ffffff;" id="login_response">	
+</span>
+<br/>
+<div class="form-group" style="margin-top: 1.3em;">
 <label for="exampleInputEmail1">Email address</label>
 <input type="text" class="form-control input-lg" name="username" id="username" placeholder="Enter email" required="required">
 </div>
@@ -17,6 +19,8 @@ echo form_open('User_management/submit'); ?>
 <input type="submit" class="btn btn-primary btn-lg" name="register" id="register" value="Log in">
 
 <a class="" style="margin-left: 2%;margin-top: 2%;" href="<?php echo base_url().'user_management/forget_pass'?>" id="modalbox">Can't access your account ?</a>
+
+
 </div>
 
 </div>
@@ -29,3 +33,11 @@ echo form_open('User_management/submit'); ?>
     font-size: 16px;
   }
 </style>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#log_status').hide();
+		<?php if($this->session->flashdata('log_status')){ ?>
+			$("#log_status").html("<?php echo $this->session->flashdata('log_status'); ?>").show();		
+		<?php } ?>			
+	});
+</script>

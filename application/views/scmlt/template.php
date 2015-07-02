@@ -155,7 +155,7 @@ $(document).ready(function (e){
 				$( "#report_graph_test" ).progressbar({
 					value: percentage
 				});
-				$( "#perc" ).html(percentage+' %');
+				$( "#perc" ).html(percentage+' % ');
 			}
 		},
 		error: function(e){
