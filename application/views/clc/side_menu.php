@@ -53,7 +53,7 @@
         
       </div>
       <div class="panel-body">     
-        <a href="<?php echo site_url('Clc/sub_county'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
+        <a href="<?php echo site_url('Clc/facilities'); ?>" href="#collapseTwo" id="stocking_levels"><span class="glyphicon glyphicon-shopping-cart">
         </span>Facilities Mapping</a>    
       </div>
       <div class="panel-body">

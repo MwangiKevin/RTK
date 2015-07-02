@@ -136,7 +136,7 @@ class Clc extends CI_Controller {
 		$template='clc/template';
 		$data['title'] = 'CLC Facilities ';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
-		$data['content_view'] = 'clc/facilities';
+		$data['content_view'] = 'clc/facilities_all';
 		$data['location'] = 'You are on RTK-> County -> Facilities';
 		$data['active_link'] = 'facilities';		
 		$this->load->view($template,$data);
