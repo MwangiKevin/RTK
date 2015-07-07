@@ -4,7 +4,7 @@
 
 echo form_open('User_management/submit'); ?>
 <div id="login" class="" >
-<span id="log_status" class="validate_stuff form-control label-danger" style="margin-top: 2%;width:100%;;color:#ffffff;" id="login_response">	
+<span id="log_status" class="validate_stuff form-control label-danger" style="margin-top: 2%;width:100%;;color:#ffffff;" id="login_response" hidden>	
 </span>
 <br/>
 <div class="form-group" style="margin-top: 1.3em;">

@@ -68,7 +68,9 @@ class User_management extends CI_Controller{
 	       		'telephone'=>$telephone,
 	       		'usertype_id'=>$usertype_id,       		
 	       		'facility'=>$facility,	     
-	       		'log_status'=>$log_status);			
+	       		'log_status'=>$log_status,			
+	       		'switched_from_main'=>'',			
+	       		'switched_from_sec'=>'');			
 			$this ->session->set_userdata($session_data);
 			redirect("Home_controller");
 					

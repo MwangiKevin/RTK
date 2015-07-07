@@ -38,9 +38,9 @@
     <a href="<?php echo site_url('Admin/stock_status'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
         <h4 class="panel-title ">            
             <span class="glyphicon glyphicon-shopping-cart"></span>
-           </span>Stock Status
-        </h4>    
-    </span>
+           <span>Stock Status</span>
+        </h4> 
+    </a>       
   </div> 
 </div>
 

@@ -175,48 +175,45 @@ class Clc_management extends CI_Controller {
 
 	function get_stock_card()
 	{
-		$this->load->model("Lab_details_model",'lab_details');	
-		$this->load->model("Amcs_model",'amc_details');	
-		$county_id = $this->session->userdata('county_id');					
-		$facil_amcs = $this->amc_details->get_county_amc($county_id);				
-		$facil_endbals = $this->lab_details->get_ending_balance_county($county_id);			
-		$count = count($facil_amcs);
-    	$stock_details = array();		
-		if(count($facil_endbals)!=0)
+		$year  = date('Y');
+		$month  = date('m');		
+		$this->load->model("Lab_details_model",'lab_details');			
+		$county_id = $this->session->userdata('county_id');							
+		$facil_details= $this->lab_details->get_total_summary_county($year,$month,$county_id);	    	
+		if(count($facil_details)!=0)
 		{
-			for ($i=0; $i < $count; $i++) { 
-		        $comm_id = $facil_amcs[$i]['id'];
-		        $comm_name = $facil_amcs[$i]['commodity_name'];
-		        $amc = $facil_amcs[$i]['amc'];
-		        $endbal = $facil_endbals[$i]['end_bal'];
-		        if($amc==0){
-		        	$ratio = 0;
-		        }else{
-		        	$ratio = round(($endbal/$amc),0);
-		        }
-		        $stock_details[$i] = array($comm_name,$amc,$endbal,$ratio);
-		    }  	
+			for ($i=0; $i < count($facil_details); $i++) { 
+				$stock_details_mine = $facil_details[$i];
+				foreach ($stock_details_mine as $key => $value) {										
+			        $comm_name = $value['commodity_name'];
+			        $sum_opening = $value['sum_opening'];
+			        $sum_received = $value['sum_received'];
+			        $sum_used = $value['sum_used'];
+			        $sum_tests = $value['sum_tests'];
+			        $sum_closing_bal = $value['sum_closing_bal'];
+			        $sum_requested = $value['sum_requested'];
+			        $sum_pos_adj = $value['positive_adj'];
+			        $sum_neg_adj = $value['negative_adj'];
+			        $sum_expiring = $value['sum_expiring'];	
+
+			        $sum_opening = ($sum_opening =='' ? 0 : $sum_opening);			        
+			        $sum_received = ($sum_received =='' ? 0 : $sum_received);			        
+			        $sum_used = ($sum_used =='' ? 0 : $sum_used);			        
+			        $sum_tests = ($sum_tests =='' ? 0 : $sum_tests);			        
+			        $sum_closing_bal = ($sum_closing_bal =='' ? 0 : $sum_closing_bal);			        
+			        $sum_requested = ($sum_requested =='' ? 0 : $sum_requested);			        
+			        $sum_expiring = ($sum_expiring =='' ? 0 : $sum_expiring);			        
+			        $sum_pos_adj = ($sum_pos_adj =='' ? 0 : $sum_pos_adj);			        
+			        $sum_neg_adj = ($sum_neg_adj =='' ? 0 : $sum_neg_adj);			        
+			    }  	
+			    $stock_details[] = array($comm_name,$sum_opening,$sum_received,$sum_used,$sum_tests,$sum_pos_adj,$sum_neg_adj,$sum_closing_bal);
+			}			
 
 		}else
-		{
-			$comm_id = $facil_amcs[0]['id'];
-	        $comm_name = $facil_amcs[0]['commodity_name'];
-	        $amc = $facil_amcs[0]['amc'];
-	        $endbal = 0;
-	        if($endbal==0){
-	        	$ratio = 0;
-	        }else{
-	        	if($amc==0){
-		        	$ratio = 0;
-		        }else{
-		        	$ratio = round(($endbal/$amc),0);
-		        }
-
-	        }        
+		{	
 	        
-	        $stock_details[0] = array($comm_name,$amc,$endbal,$ratio);
-		}
-    	
+	        $stock_details[0] = array(0,0,0,0,0,0,0,0);
+		}		
 	    echo json_encode($stock_details);
 	    
 	}

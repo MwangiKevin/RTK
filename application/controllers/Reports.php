@@ -41,19 +41,25 @@ class Reports extends CI_Controller
     function scmlt_home(){
         $data['content_view'] = "reports/scmlt/national_reports";
         $data['title'] = "SCMLT Reports";
-        $data['link'] = "home";        
+        $data['link'] = "home";      
+        $data['banner_text'] = 'Rapid Test Kit System Reports';        
+        $data['location'] = 'You are on RTK-> Reports ->SCMLT';   
         $this->load->view('reports/template/template', $data);
     }
     function clc_home(){
         $data['content_view'] = "reports/clc/national_reports";
         $data['title'] = "CLC Reports";
-        $data['link'] = "home";        
+        $data['link'] = "home";       
+        $data['banner_text'] = 'Rapid Test Kit System Reports';        
+        $data['location'] = 'You are on RTK-> Reports ->CMCL'; 
         $this->load->view('reports/template/template', $data);
     }
     function admin_home(){
         $data['content_view'] = "reports/national/national_reports";
         $data['title'] = "Administrator Reports";
         $data['link'] = "home";        
+        $data['banner_text'] = 'Rapid Test Kit System Reports';        
+        $data['location'] = 'You are on RTK-> Reports ->Administrator';
         $this->load->view('reports/template/template', $data);
     }
 
@@ -62,7 +68,8 @@ class Reports extends CI_Controller
     $data['content_view'] = "reports/national/county_reports";
     $data['title'] = "Reports";
     $data['link'] = "home";
-    
+    $data['banner_text'] = 'Rapid Test Kit System Reports';        
+    $data['location'] = 'You are on RTK-> Reports ->National Administrator';     
     $this->load->view('reports/template/template', $data);
 
 	}
@@ -71,7 +78,8 @@ class Reports extends CI_Controller
     $data['content_view'] = "reports/national/partner_reports";
     $data['title'] = "Reports";
     $data['link'] = "home";
-    
+    $data['banner_text'] = 'Rapid Test Kit System Reports';        
+    $data['location'] = 'You are on RTK-> Reports ->National Partner'; 
     $this->load->view('reports/template/template', $data);
 
 	}
@@ -80,7 +88,8 @@ class Reports extends CI_Controller
     $data['content_view'] = "reports/national/commodity_usage_reports";
     $data['title'] = "Reports";
     $data['link'] = "home";
-    
+    $data['banner_text'] = 'Rapid Test Kit System Commodity Usage';        
+    $data['location'] = 'You are on RTK-> Reports ->National Administrator'; 
     $this->load->view('reports/template/template', $data);
 
 	}

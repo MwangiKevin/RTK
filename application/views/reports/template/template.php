@@ -9,7 +9,13 @@
 	</div>
 	<div id="banner">
 		<div id="banner_text" style="width:90%;font-size:13px;height:20px;float:left;">
-			
+			<?php 
+				echo $banner_text;
+			?>
+
+			<?php 
+				echo '<span id="location">'.$location.'</span>';
+			?>
 		</div>	
 		<div id="alert" style="margin-top:2%;width:99%;float:left;margin-left:1%;">			
 		</div>	

@@ -79,6 +79,25 @@ class Admin_management extends CI_Controller {
 
     }
 
+
+    function get_counties_districts(){
+        $option_county='<option value="0">---Select County --</option>';
+        $option_district= '<option value="0">---Select Sub-County --</option>';
+        $this->load->model("Districts_model",'districts_model');   
+        $this->load->model("Counties_model",'counties_model');                   
+
+        $districts = $this->districts_model->get_all();
+        $counties = $this->counties_model->get_all();
+        foreach ($districts as $key => $value) {
+            $option_district .= '<option value = "' . $value['id'] . '">' . $value['district'] . '</option>';
+        } 
+        foreach ($counties as $key => $value) {
+            $option_county .= '<option value = "' . $value['id'] . '">' . $value['county'] . '</option>';
+        }   
+        $output = array('counties_list'=>$option_county,'districts_list'=>$option_district);        
+        echo json_encode($output);
+    }
+
     function update_facility_details()
     {
         $facility_code = $this->input->post('facility_code');
