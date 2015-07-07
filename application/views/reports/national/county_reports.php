@@ -299,7 +299,7 @@
 			var oTable = $('#stock_summary').dataTable(
 			{	
 				"bPaginate":false,	
-				"aaSorting": [[0, "asc"]],    
+				"aaSorting": [],    
 			    "bFilter": false,
 			    "bSearchable":false,
 			    "bInfo":false

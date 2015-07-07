@@ -9,9 +9,13 @@
 				</tr>
 				<tr class="header_tr">					
 					<th>Commodity Name</th>
-					<th>AMC</th>
-					<th>Stock on Hand at Facility</th>
-					<th>MOS Central</th>					
+					<th>Beginning Balance</th>
+					<th>Quantity Received</th>
+					<th>Quantity Used</th>
+					<th>Total Tests</th>
+					<th>Positive Adjustments</th>
+					<th>Negative Adjustments</th>
+					<th>Ending Balance</th>					
 				</tr>				
 			</thead>			
 		</table>
@@ -63,7 +67,7 @@
 	</div>		
 	<div id="highest_expiries" class="table_divs_expiries panel panel-success" style="width:49%;">
 	  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities with Highest Expiries</div>
+	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities with Highest Expiries (next 6 Months)</div>
 	  	<table id="screening_expiries" class="highest_expiries_table display table" cellspacing="0" width="100%">
 				<thead>
 					<tr class="header_tr">
@@ -198,7 +202,7 @@
 		var oTable = $('#stock_card_table').dataTable(
 		{	
 			"bPaginate":false,	
-			"aaSorting": [[0, "asc"]],    
+			"aaSorting": [],    
 		    "bFilter": false,
 		    "bSearchable":false,
 		    "bInfo":false
@@ -214,7 +218,11 @@
 				s[i][0],
 				s[i][1],
 				s[i][2],
-				s[i][3]
+				s[i][3],
+				s[i][4],
+				s[i][5],
+				s[i][6],
+				s[i][7]
 				]);
 				} // End For
 			},
@@ -222,10 +230,10 @@
 				console.log(e.responseText);
 			}
 		});
-		get_highest_stocks(4);
-		get_highest_stocks(5);
-		get_highest_stocks(6);
-		get_non_reported_facilities();
+		// get_highest_stocks(4);
+		// get_highest_stocks(5);
+		// get_highest_stocks(6);
+		// get_non_reported_facilities();
 		function get_highest_stocks(comm){
 			var tbl_name = '';			
 			if(comm==4){
@@ -266,9 +274,9 @@
 			});
 		}			
 
-		get_highest_expiries(4);
-		get_highest_expiries(5);
-		get_highest_expiries(6);
+		// get_highest_expiries(4);
+		// get_highest_expiries(5);
+		// get_highest_expiries(6);
 		function get_highest_expiries(comm){
 			var tbl_name = '';			
 			if(comm==4){

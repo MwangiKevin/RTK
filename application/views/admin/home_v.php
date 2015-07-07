@@ -1,8 +1,4 @@
-<div id="clc_contents">	
-	<div id="main_filter" class="graphs table_divs panel panel-info" style="margin-top:-10px;">		  <!-- Default panel contents -->
-	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Main Filter</div>
-	  <!-- <div class="panel-body"></div> -->
-	</div>
+<div id="clc_contents">		
 
 	<div id="main_graph" class="graphs table_divs panel panel-success">		  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">National County Reporting Summary for: <span id="report_period_header"></span></div>
