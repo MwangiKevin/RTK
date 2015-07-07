@@ -31,7 +31,7 @@ class Clc extends CI_Controller {
 
 
 		$template='clc/template';
-		$data['title'] = 'CLC Home ';
+		$data['title'] = 'CMLC Home ';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
 		$data['content_view'] = 'clc/home_v';
 		$data['location'] = 'You are on RTK-> County -> Home';
@@ -49,7 +49,7 @@ class Clc extends CI_Controller {
 
 
 		$template='clc/template';
-		$data['title'] = 'CLC Statistics ';
+		$data['title'] = 'CMLC Statistics ';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
 		$data['content_view'] = 'clc/statistics_v';
 		$data['location'] = 'You are on RTK-> County -> Statistics';
@@ -74,7 +74,7 @@ class Clc extends CI_Controller {
 			$menu_list[]=array('id'=>$id,'menu'=>$link);
 		}				
 		$template='clc/template_sub';
-		$data['title'] = 'CLC Sub_Counties ';
+		$data['title'] = 'CMLC Sub_Counties ';
 		$data['menu'] = $menu_list;
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
 		$data['content_view'] = 'clc/subcounty_v';				
@@ -99,7 +99,7 @@ class Clc extends CI_Controller {
 			$menu_list[]=array('id'=>$mfl,'menu'=>$link);
 		}				
 		$template='clc/template_fac';
-		$data['title'] = 'CLC Facilities ';
+		$data['title'] = 'CMLC Facilities ';
 		$data['menu'] = $menu_list;
 		$data['district_id'] = $district_id;
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
@@ -117,7 +117,7 @@ class Clc extends CI_Controller {
 
 
 		$template='clc/template';
-		$data['title'] = 'CLC Users ';
+		$data['title'] = 'CMLC Users ';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
 		$data['content_view'] = 'clc/users';
 		$data['location'] = 'You are on RTK-> County -> Users';
@@ -134,7 +134,7 @@ class Clc extends CI_Controller {
 
 
 		$template='clc/template';
-		$data['title'] = 'CLC Facilities ';
+		$data['title'] = 'CMLC Facilities ';
 		$data['banner_text'] = 'Rapid Test Kit System - '.$county_name.' County';
 		$data['content_view'] = 'clc/facilities_all';
 		$data['location'] = 'You are on RTK-> County -> Facilities';

@@ -17,8 +17,22 @@
 				echo '<span id="location"></span>';
 			?>
 		</div>	
-		<div id="alert" style="margin-top:2%;width:99%;float:left;margin-left:1%;">			
-		</div>	
+		<div id="alert_main" style="margin-top:2%;width:99%;float:left;margin-left:1%;">			
+			<div id="alert" style="float:left;">
+			</div>
+			<div id="switcher" style="float:right;margin-right:8%;">
+			<?php 
+				$switched_from = $this->session->userdata('switched_from_main');
+				if($switched_from!=''){?>
+					<a href="<?php echo base_url().'Switcher/switch_back_admin'?>" style="display_block;float:left;margin-right:5%;">
+						<button id="switch_identity" class="form-control btn btn-primary" style="width:100%;height:auto;font-size:11px;">Switch back to Admin </button>						
+					</a>								
+			<?php }	
+
+			?>
+			</div>
+
+		</div>		
 	</div>
 	
 	<div id="content">		

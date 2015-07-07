@@ -152,7 +152,7 @@ class Scmlt_management extends CI_Controller {
 			$option .= '<option value = "' . $value['id'] . '">' . $value['district'] . '</option>';
 		}	
 		$count_assigned = count($assigned_district);		
-		$select ='<option value="0">---sSwitch Sub-County---</option>';
+		$select ='<option value="0">---Switch Sub-County---</option>';
 		$select .=$option;		
 
 		$district_dets = array('count_assigned'=>$count_assigned,'districts'=>$select);
@@ -180,26 +180,41 @@ class Scmlt_management extends CI_Controller {
 		$this->load->model("Facilities_model",'facility');		
 		$this->load->model("Date_settings_model",'date_settings');
 		$facility_details = $this->facility->get_all_in_district($district_id);		
-		$deadline_details = $this->date_settings->get_deadline_details($facility_details[0]['zone']);		
+		$deadline_details = $this->date_settings->get_deadline_details($facility_details[0]['zone']);				
 		$deadline_date = $deadline_details[0]['deadline'];		
 		$five_day_alert = $deadline_details[0]['5_day_alert'];		
 		$one_day_alert = $deadline_details[0]['report_day_alert'];		
 		$overdue_alert = $deadline_details[0]['overdue_alert'];			    
 	    $current_month_details =$this->date_settings->get_current_month();
 	    $current_date = $current_month_details['today'];
-	    $date_diff = $deadline_date - $current_date;
-
+	    $date_diff = $deadline_date - $current_date;	   
+	    $alert_message = '';
 	    if($date_diff==5){
     		$alert_message = $five_day_alert;
     	}elseif ($date_diff==1) {
     		$alert_message = $one_day_alert;
     	}elseif ($date_diff<1) {
     		$alert_message = $overdue_alert;
-    	}
-    	$alert_message = 'Test';
-
+    	}else{
+    		$alert_message = 'You have '.$date_diff.' days remaining before the Reporting Deadline. Kindly Finish reporting on Time';
+    	}	    	
     	echo json_encode($alert_message);
 
+	}
+
+	
+	function get_alerts()
+	{
+		$district_id = $this->session->userdata('district_id');				
+		$this->load->model("Alerts_model",'alerts_model');
+		$alert_details = $this->alerts_model->get_district_alerts();		
+		$count = count($alert_details);
+	    $alert_message = '';		
+		if($count!=0){
+			$alert_message = $alert_details[0]['message'];
+    	}
+    	$output  = array('alert_count' => $count,'message'=>$alert_message);	    	
+    	echo json_encode($output);
 	}
 
 	function submit_report()

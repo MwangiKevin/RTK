@@ -82,6 +82,25 @@
 				console.log(e.responseText);
 			}
 		});
+		$('#switch_sub').change(function(){
+            var request_from = 'orders';
+            var base_url = "<?php echo base_url() . 'Switcher/switch_district'; ?>";
+            var switched_to = $('#switch_sub').val();
+            var url = base_url+'/'+request_from+'/'+switched_to;
+            $.ajax({
+                url:url,
+                dataType: 'json',
+                success: function(s){                
+                   window.location = s.redirect;
+                   // console.log(s);
+                },
+                error: function(e){
+                    console.log(e.responseText);
+                }            
+            });               
+                   
+        });  
+		
 		
 	});
 	$(document).ajaxStart(function(){

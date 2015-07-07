@@ -1,5 +1,5 @@
 <div class="panel-group " id="accordion" style="padding: 0;">   
-<div class="panel panel-default active-panel alert"  id="system_alert_div" style="margin-top:4px;">    
+<div class="panel panel-default panel"  id="system_alert_div" style="margin-top:4px;">    
     <p class="panel-title alert"  id="system_alert"></p>    
 </div>
 <div class="panel panel-default" id="switch_sub_main">    
@@ -113,7 +113,8 @@
     $(document).ready(function()
     {
         $('#submit_reports_sub').hide();    
-        $('#system_alerts').hide();    
+        $('#system_alert_div').hide();    
+        $('#switch_sub_main').hide();    
         $('.toggleSpan').addClass('glyphicon-chevron-down');      
         $('#sub_reports').click(function(){        
             $('#submit_reports_sub').toggle('fast');
@@ -122,10 +123,11 @@
         $.ajax({
             url: "<?php echo base_url() . 'Scmlt_management/get_scmlt_districts'; ?>",
             dataType: 'json',
-            success: function(s){
+            success: function(s){                
                 var count_dists = s.count_assigned;
-                if(count_dists>0){
-                    $('#switch_sub').html(s.districts);                
+                if(count_dists!=0){
+                    $('#switch_sub').html(s.districts);   
+                    $('#switch_sub_main').show();                                 
                 }else{
                     $('#switch_sub_main').hide();
                 }
@@ -134,7 +136,8 @@
             error: function(e){
                 console.log(e.responseText);
             }            
-        });        
+        });             
+        
     });
     
 </script>

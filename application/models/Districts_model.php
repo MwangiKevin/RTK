@@ -42,8 +42,8 @@ class Districts_model extends CI_Model
 
 	function get_scmlt_districts($user_id)
 	{
-		$sql = "SELECT * from scmlt_districts,districts where scmlt_districts.district=districts.id
-            	and scmlt_districts.dmlt='$user_id'";
+		$sql = "SELECT * from dmlt_districts,districts where dmlt_districts.district=districts.id
+            	and dmlt_districts.dmlt='$user_id'";
         $result = $this->db->query($sql)->result_array();
         return $result;
 	}
@@ -65,6 +65,13 @@ class Districts_model extends CI_Model
 		$sql = "SELECT districts.* FROM districts,counties WHERE districts.county= '$county_id' LIMIT 0,1";
         $result = $this->db->query($sql)->result_array();
         return $result;
+	}
+
+	function get_dmlt_districts($user_id)
+	{
+		$sql = "select district from dmlt_districts where dmlt = '$user_id'";
+		$result = $this->db->query($sql)->result_array();
+		return $result;
 	}
 }
 
