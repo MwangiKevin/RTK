@@ -1069,7 +1069,8 @@ function get_county_users($county_id)
 function get_national_user_profile($id){
     $this->load->model('User_model','users_model');  
     $users = $this->users_model->get_one_user($id);  
-
+//     echo "<pre>";
+// print_r($users); die;
     
         $id = $users[0]['id'];
         $first_name = $users[0]['fname'];
@@ -1082,7 +1083,7 @@ function get_national_user_profile($id){
         $district_id = $users[0]['district'];
         $partner_id = $users[0]['partner'];
         $regions = '';
-
+		$user_type_txt = '';
 		if ($user_type == 1) {
         	$user_type_txt = 'SCMLT';
         	$sql = "select district from districts where id = '$district_id'";
@@ -1105,6 +1106,9 @@ function get_national_user_profile($id){
         else if ($user_type == 5) {
         	$user_type_txt = 'RTK Manager ';
         }
+         else if ($user_type == 6) {
+        	$user_type_txt = 'Allocation Committee ';
+        }
         
         if ($status == 1) {
         	$status_txt = 'Active';
@@ -1113,8 +1117,8 @@ function get_national_user_profile($id){
         	$status_txt = 'Inactive';
         }
        // echo "<pre>"; print_r($regions);
-        $output[] = array('first_name'=>$first_name,"last_name"=>$last_name,"email"=>$email,"phone"=>$phone,
-        			"user_type_txt"=>$user_type_txt,"status_txt"=>$status_txt, "regions"=> $regions);
+        $output[] = array('first_name'=>$first_name,'last_name'=>$last_name,'email'=>$email,'phone'=>$phone,
+        			'user_type_txt'=>$user_type_txt,'status_txt'=>$status_txt, 'regions'=> $regions);
 
     $output=str_replace('"', "'", $output);
     echo json_encode($output);

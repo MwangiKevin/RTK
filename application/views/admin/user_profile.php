@@ -79,8 +79,9 @@
 	get_user_details();	
 		function get_user_details()
 		{
-			// var user_id = $('#user_id').val();			
-			var user_id = "1384";			
+			var get_user_id = window.location.pathname.split( '/' );
+	      	var user_id = get_user_id[4];
+	      	alert(user_id);
 			var baseurl = "<?php echo base_url() . 'User_management/get_national_user_profile/'; ?>";						
 			var url = baseurl+user_id;
 			$.ajax({

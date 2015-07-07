@@ -153,12 +153,13 @@
 	
 
 
-	// $(document).ajaxStart(function(){
-	//     $('#loading').show();
-	//  }).ajaxStop(function(){
-	//     $('#loading').hide();
-	//  });
+	$(document).ajaxStart(function(){
+	    $('#loading').show();
+	 }).ajaxStop(function(){
+	    $('#loading').hide();
+	 });
 </script>
+
 
 <div id="add_user" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
     <div class="modal-dialog">
@@ -200,3 +201,39 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
+=======
+
+	
+</div>
+<div class="mymodal" id="loading">
+	
+</div>
+<style type="text/css">
+	.mymodal
+	{
+	    display:    none;
+	    position:   fixed;
+	    z-index:    1000;
+	    top:        0;
+	    left:       0;
+	    height:     100%;
+	    width:      100%;
+	    background: rgba( 255, 255, 255, .8 ) 
+	                url('<?php echo base_url();?>assets/img/new_loader.gif') 
+	                50% 50% 
+	                no-repeat;	    
+	}
+
+	/* When the body has the loading class, we turn
+	   the scrollbar off with overflow:hidden */
+	body.loading {
+	    overflow: hidden;   
+	}
+
+	/* Anytime the body has the loading class, our
+	   modal element will be visible */
+	body.loading .mymodal {
+	    display: block;
+	}
+
+</style>
