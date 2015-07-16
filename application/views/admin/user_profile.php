@@ -13,6 +13,7 @@
 
 	  	<div class="footer">
                 <button type="button" class="btn btn-primary my_navs" id="reset_password">Reset Password</button>
+                <button type="button" class="btn btn-primary" id="active_user">Acivate</button>
                 <button type="button" class="btn btn-primary" id="deactive_user">Deactivate</button>
                 <button type="button" class="btn btn-primary">Add Sub County</button>
             </div>
@@ -76,12 +77,11 @@
 
 <script type="text/javascript">
 	$(document).ready(function (e){	
-	get_user_details();	
+		get_user_details();	
 		function get_user_details()
 		{
 			var get_user_id = window.location.pathname.split( '/' );
 	      	var user_id = get_user_id[4];
-	      	alert(user_id);
 			var baseurl = "<?php echo base_url() . 'User_management/get_national_user_profile/'; ?>";						
 			var url = baseurl+user_id;
 			$.ajax({
@@ -101,8 +101,7 @@
 				error: function(e){
 					console.log(e.responseText);
 				}
-			});
-			
+			});			
 		}
 		$('#reset_password').click(function(){
 	      var get_user_id = window.location.pathname.split( '/' );
@@ -111,26 +110,38 @@
 	      $.post("<?php echo base_url() . 'User_management/reset_password'; ?>", {
 	        user_id: user_id          
 	      }).done(function(data) {
-	        alert("Password Changed" + data);
+	        alert("Password Changed" + data);	
+	        // alert(user_id);
 	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"';?>";
+	   	 });
 	    });
-	    });
+	   
 
 	    $('#deactive_user').click(function(){	      
 	      var get_user_id = window.location.pathname.split( '/' );
-	      var user_id = get_user_id[4];	 
-	      alert("dff");     
+	      var user_id = get_user_id[4];		        
 
-	      $.post("<?php echo base_url() . 'User_management/reset_password'; ?>", {
+	      $.post("<?php echo base_url() . 'User_management/deactivate_user'; ?>", {
 	        user_id: user_id          
 	      }).done(function(data) {
 	        alert("User Deactivated" + data);
 	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"'; ?>";
-	    });
+	      });
+    	});
 
+    	 $('#active_user').click(function(){	      
+	      var get_user_id = window.location.pathname.split( '/' );
+	      var user_id = get_user_id[4];		        
+
+	      $.post("<?php echo base_url() . 'User_management/activate_user'; ?>", {
+	        user_id: user_id          
+	      }).done(function(data) {
+	        alert("User Activated");
+	        window.location = "<?php echo base_url() . 'Admin/user_profile/"+user_id+"'; ?>";
+	      });
+    	});
     });
 	    
-	});
 	
 
 

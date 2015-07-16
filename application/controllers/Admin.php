@@ -120,6 +120,17 @@ class Admin extends CI_Controller {
 		$this->load->view($template,$data);
 
 	}
+	function settings()
+	{		
+		$template='admin/template_management';
+		$data['title'] = 'Admin Management';
+		$data['banner_text'] = 'Rapid Test Kit National Settings';
+		$data['content_view'] = 'admin/settings';
+		$data['location'] = 'You are on RTK-> Settings';
+		$data['active_link'] = 'management';		
+		$this->load->view($template,$data);
+
+	}
 
 	function sub_county()
 	{		

@@ -37,8 +37,18 @@
     <div class="panel-heading" id="admin_management">
         <a href="<?php echo site_url('Admin/facilities'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
             <h4 class="panel-title">            
-                <span class="glyphicon glyphicon-cog"></span>
+                <span class="glyphicon glyphicon-th"></span>
                 Facilities Management
+            </h4>
+        </a>
+    </div>
+</div>
+<div class="panel panel-default" >
+    <div class="panel-heading" id="admin_management">
+        <a href="<?php echo site_url('Admin/settings'); ?>" href="#collapseTwo" id="stocking_levels" style="color:#000;text-decoration:none;display:block;">        
+            <h4 class="panel-title">            
+                <span class="glyphicon glyphicon-cog"></span>
+                Settings
             </h4>
         </a>
     </div>

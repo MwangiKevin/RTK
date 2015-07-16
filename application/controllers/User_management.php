@@ -1138,38 +1138,87 @@ function deactivate_user(){
     $users = $this->users_model->deactivate_user($user_id);  		
 }
 
-function get_regions_add_user($user_type){
+function activate_user(){
+	$user_id = $_POST['user_id'];
+    $this->load->model('User_model','users_model');    
+    $users = $this->users_model->activate_user($user_id);  		
+}
+
+function get_regions($user_type){
 
 	if ($user_type == 1) {
 		$this->load->model("Districts_model",'districts_model');                                                        
 	    $option = '';                                           
+			$option.='<option value="0">Select Sub County</option>';
 	    $districts = $this->districts_model->get_all();
 	    foreach ($districts as $key => $value) {
 	        $id = $value['id'];
 	        $district = $value['district'];
-	        $option='<option value="'.$id.'">'.$district.'</option>';
+	        $option.='<option value="'.$id.'">'.$district.'</option>';
 	    }
-	    print_r($option);		
+    echo json_encode($option);
 	}
 	else if ($user_type == 2) {
 		$this->load->model("Counties_model",'counties_model');                                                        
 	    $option = '';                                           
-	    $districts = $this->counties_model->get_all();
-	    foreach ($districts as $key => $value) {
+	    $option.='<option value="0">Select County</option>';
+	    $counties = $this->counties_model->get_all();
+	    foreach ($counties as $key => $value) {
 	        $id = $value['id'];
-	        $county_name = $value['county'];
-	        $option='<option value="'.$id.'">'.$county_name.'</option>';
-    }
+	        $county = $value['county'];
+	        $option.='<option value="'.$id.'">'.$county.'</option>';
+	    }
 
+    echo json_encode($option);
 	}
-	else if ($user_type == 5) {
+	else if ($user_type == 3 ||$user_type == 4||$user_type == 5) {
 		                                                
 	    $option = '';                                           
 	    $option='<option value="0">National</option>';
+    	
+    	echo json_encode($option);
 	}
 
-    echo json_encode($option);
 }
+
+function add_user_details()
+    {
+        $fname = $this->input->post('fname');
+        $lname = $this->input->post('lname');
+        $phone = $this->input->post('phone');        
+        $email = $this->input->post('email');
+        $user_type = $this->input->post('user_type');
+        $region_value = $this->input->post('region_value');
+        $date_of_activation = time();
+        
+        //hash the default password
+        $password = 123456;
+    	$salt = '#*seCrEt!@-*%';
+    	$new_password=(md5($salt . $password));
+
+        if ($phone == '') {
+        	$phone = 'N/A';
+        }
+        //conditions based on the user type (*not finished on the region)
+        $conditions = '';
+        $district = 0;
+        $county_id = 0;
+        if ($user_type == 1) {
+        	$district = $region_value;
+        }else if ($user_type == 2) {
+        	$county_id = $region_value;        	
+        }
+
+        $sql = "INSERT INTO `user`(`fname`, `lname`, `email`, `username`, `password`, `usertype_id`, `telephone`, `district`, `partner`, `facility`, `created_at`, `updated_at`, `status`, `county_id`, `log_status`, `verified`) 
+        		VALUES ('$fname','$lname','$email','$email','$new_password','$user_type','$phone','$district',0,0,'$date_of_activation',0,1,$county_id,0,0)";
+        // echo "$sql"; die;
+        // $this->db->query($sql);
+        if($this->db->query($sql)){
+            echo "User added Successfully";
+        }else{
+            echo "User not added Successfully";
+        }   
+    }
 
 	
 }

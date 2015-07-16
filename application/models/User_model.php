@@ -71,6 +71,10 @@ class User_model extends CI_Model
 		$sql = "update user set status='0' where id = '$user_id'";
 	    $this->db->query($sql);
 	}
+	function activate_user($user_id){
+		$sql = "update user set status='1' where id = '$user_id'";
+	    $this->db->query($sql);
+	}
 }
 
 

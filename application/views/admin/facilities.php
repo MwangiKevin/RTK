@@ -305,8 +305,6 @@
 
 	
 </script>
-
-
 	
 </div>
 <div id="edit_facility" class="modal fade in" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">

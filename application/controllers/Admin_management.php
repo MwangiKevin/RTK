@@ -382,6 +382,62 @@ function get_stock_status(){
     // $this->load->view('rtk/template', $data);
 }
 
+//System's settings
+function get_deadlines(){
+    $this->load->model("Settings_model","settings_model");
+    $deadlines_details = $this->settings_model->deadlines();
+    foreach ($deadlines_details as $key => $value) {
+        $id = $value ['id'];
+        $deadline = $value ['deadline'];
+        $status = $value ['status'];
+        $zone = $value ['zone'];
+        $modified_by = $value['fname']." ".$value['lname'];
+        // $lname = $value['lname'];
+        $action = '<button id="'.$id.'" class="edit_deadline_link" value="'.$id.'" data-toggle="modal" data-target="#Edit_Deadline">Edit </button>';
+        if ($status ==0) {
+          $status = "Active";
+      }else{
+        $status = "Inactive";
+      }
+    $output[] = array($deadline,$status,$zone,$modified_by,$action); 
+        
+    }
+    echo json_encode($output);        
+}
+function update_deadline() 
+    {
+        $user_id = $this->session->userdata('user_id');
+        $id = $_POST['id'];
+        $deadline = $_POST['deadline'];
+        $status = $_POST['status'];       
 
+        $sql = "update rtk_settings set deadline='$deadline',status = '$status',user_id='$user_id' where id='$id'";
+        $this->db->query($sql);
+        // $object_id = $edit_id;
+        // $this->logData('8', $object_id);
+        echo "Deadline Updated succesfully";
+    }
+function get_admin_alerts(){
+    $this->load->model("Settings_model","settings_model");
+    $alerts_details = $this->settings_model->alerts();
+    // echo "<pre>";print_r($alerts_details);
+
+    foreach ($alerts_details as $key => $value) {
+        $id = $value ['id'];
+        $message = $value ['message'];
+        $status = $value ['status'];
+        $type = $value ['type'];
+        $applicable_to = $value['description'];
+        // $lname = $value['lname'];
+        $action = '<button id="'.$id.'" class="edit_deadline_link" value="'.$id.'" data-toggle="modal" data-target="#Edit_Alerts">Edit </button>';
+        if ($status ==0) {
+          $status = "Active";
+      }else{
+        $status = "Inactive";
+      }
+    $output[] = array($message,$type,$status,$applicable_to,$action); 
+    }
+echo json_encode($output);
+}
 }
 ?>

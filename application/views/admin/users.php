@@ -72,22 +72,7 @@
 
 <script type="text/javascript">
 	$(document).ready(function (e){		
-		// $.ajax({
-		// 	url: "<?php echo base_url() . 'Admin_management/get_national_summary'; ?>",
-		// 	dataType: 'json',
-		// 	success: function(s){		
-		// 		var percentage = s.percentage;
-		// 		console.log(percentage);
-		// 		$('.progress-bar').css('width', percentage+'%').attr('aria-valuenow', percentage);
-		// 		$( "#main_percentage" ).progressbar({
-		// 			value: percentage
-		// 		});
-		// 		$( "#perc" ).html(percentage+' % Reported');
-		// 	},
-		// 	error: function(e){
-		// 		console.log(e.responseText);
-		// 	}
-		// });	
+			
 		load_facilities();
 		
 		function load_facilities()
@@ -148,16 +133,40 @@
 				}
 			});
 		}
+		$('#save_add_form').click(function(p)
+		{
+			p.preventDefault();
+			var fname = $('#fname').val();
+			var lname = $('#lname').val();
+			var phone = $('#phone').val();
+			var email = $('#email').val();
+			var user_type = $('#user_type').val();
+			var region_value = $('#region_values').val();
+			
+			if(email==''){
+				$('#add_form_status').text('The Email Address must be Filled in');
+			}else if(user_type==0){
+				$('#add_form_status').text('The User Type must be Filled in');
+			}else{
+				$.post("<?php echo base_url() . 'User_management/add_user_details'; ?>", {
+		           fname: fname,                        
+		           lname: lname,                        
+		           phone: phone,                        		           		           
+		           email: email,                        		           
+		           user_type: user_type,                        		           
+		           region_value: region_value                        		           
+		        }).done(function(data) {		
+					$('#add_form_status').html(data);
+					var url = "<?php echo base_url() . 'Admin/users/'; ?>";						
+		        	// window.location = url;
+		        });
+			}
+			
+		});
 	    
 	});
 	
 
-
-	$(document).ajaxStart(function(){
-	    $('#loading').show();
-	 }).ajaxStop(function(){
-	    $('#loading').hide();
-	 });
 </script>
 
 
@@ -175,12 +184,12 @@
                 	<label >Last Name</label><br/>
                 	<input type="text" id="lname" class="form-control" width="100%" /><br/>  
                 	<label >Phone</label><br/>
-                	<input type="text" id="facility_type_add" class="form-control" width="100%"/><br/> 
+                	<input type="text" id="phone" class="form-control" width="100%"/><br/> 
                 	<label >Email Address</label><br/>
-                	<input type="text" id="owner_add" class="form-control" width="100%"/><br/> 
+                	<input type="text" id="email" class="form-control" width="100%"/><br/> 
                 	<label >User Type</label><br/>                		
                 	<select id="user_type" class="form-control" width="100%">
-	                	<option id="scmlt" value="0">Select User Type</option>                		
+	                	<option id="none" value="0">Select User Type</option>                		
 	                	<option id="scmlt" value="1">Sub County Lab Tec</option>                		
 	                	<option id="clc" value="2"> County Lab Coordinator</option>                		
 	                	<option id="partner" value="3">Partner</option>                		
@@ -201,7 +210,6 @@
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
-=======
 
 	
 </div>
