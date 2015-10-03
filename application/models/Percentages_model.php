@@ -74,6 +74,47 @@ class Percentages_model extends CI_Model
 		return $result;
 	}
 
+	function update_county_percentages_month($month=null){
+    if(isset($month)){           
+        $year = substr($month, -4);
+        $month = substr($month, 0,2);            
+        $monthyear = $month.$year;                    
+        $firstdate = $year.'-'.$month.'-01';
+        $lastdate = $year.'-'.$month.'-31';
+    }
+    $r = "delete from rtk_county_percentage where month='$monthyear'";
+    $this->db->query($r);
+    $sql = "select id from counties";
+
+    $result = $this->db->query($sql)->result_array();
+     foreach ($result as $key => $value) {
+        $id = $value['id'];               
+        $sql = "select count(distinct facilities.facility_code) as facilities from
+        facilities,
+        districts
+        where
+        facilities.district = districts.id
+        and districts.county = '$id'
+        and facilities.rtk_enabled = 1";
+        $facilities = $this->db->query($sql)->result_array();                    
+        $facility_count = $facilities[0]['facilities'];
+
+		$sql2 = "SELECT count(distinct lo.facility_code) as reported
+				FROM lab_commodity_orders lo, facilities f, districts d 
+				where lo.facility_code = f.facility_code and f.district = d.id and f.rtk_enabled = 1
+				and d.county = '$id' and lo.order_date between '$firstdate' and '$lastdate'";
+		$reported_counties = $this->db->query($sql2)->result_array();
+		$reported = $reported_counties[0]['reported'];         
+        $percentage = round(($reported/$facility_count)*100);
+        if($percentage>100){
+        	$percentage = 100;
+        }
+        echo "County $id Reported $reported, Total $facility_count Percentage $percentage <br/>";
+        $q = "insert into rtk_county_percentage (county_id, facilities,reported,percentage,month) values ($id,$facility_count,$reported,$percentage,'$monthyear')";
+        $this->db->query($q);
+    }
+}
+
 	function get_all_county_percentage_month($month)
 	{
 		$sql = "SELECT sum(facilities) as facilities, sum(reported) as reported FROM `rtk_county_percentage` WHERE month='$month'";		

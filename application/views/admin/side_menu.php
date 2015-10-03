@@ -1,7 +1,4 @@
-<div class="panel-group " id="accordion" style="padding: 0;">   
-<div class="panel panel-default active-panel alert"  id="system_alert_div" style="margin-top:4px;">    
-    <p class="panel-title alert"  id="system_alert"></p>    
-</div>
+<div class="panel-group " id="accordion" style="padding: 0;"> 
 
 <div class="panel panel-default"  >
     <div class="panel-heading" id="summary" >

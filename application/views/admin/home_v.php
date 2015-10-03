@@ -131,7 +131,7 @@
 			            },
 			            series: [{
 			                name: months_list[0],
-			                data: percentages_current			                
+			                data: percentages_last1			                
 			    
 			            },{
 			                name: months_list[1],
@@ -139,7 +139,7 @@
 			    
 			            },  {
 			                name: months_list[2],
-			               	data: percentages_last1			                
+			               	data: percentages_current			                
 			    
 			            }]
 			        });						

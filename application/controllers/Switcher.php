@@ -32,15 +32,20 @@ class Switcher extends CI_Controller {
 
 	function switch_district($switched_from,$switched_to)
 	{	
-		$this->load->model("Districts_model",'districts_model');				
+		$this->load->model("Districts_model",'districts_model');		
 		$this->session->set_userdata('district_id', $switched_to);			
 		echo json_encode( array( 'redirect' => $switched_from ) );		
 	}
 
 	function switch_admin($switched_type,$switched_to)
 	{	
+		$this->load->model("Districts_model",'districts_model');		
+		
 		if($switched_type=='scmlt'){
 			$this->session->set_userdata('district_id', $switched_to);	
+			$district_details = $this->districts_model->get_one_id($switched_to);				
+			$county_id = $district_details['county'];
+			$this->session->set_userdata('county_id', $county_id);			
 			$this->session->set_userdata('usertype_id', 1);	
 			$this->session->set_userdata('switched_from_main', 'admin');	
 		}else if($switched_type=='clc'){

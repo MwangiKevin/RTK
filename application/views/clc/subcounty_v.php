@@ -165,7 +165,7 @@
 				url: url,
 				dataType: 'json',
 				success: function(s){
-				// console.log(s);
+				console.log(s);
 				oTable.fnClearTable();
 				for(var i = 0; i < s.length; i++) {
 					oTable.fnAddData([
@@ -324,6 +324,7 @@
 				url: url,
 				dataType: 'json',
 				success: function(s){
+					// console.log(s);
 					var nonreported = s.nonreported_facilities;			
 					var reported = s.reported_facilities;
 					var data = null;

@@ -122,7 +122,10 @@
                     <tr>
                         <td colspan = "14" style = "text-align:left"><b><?php echo $lab_category['category_name']; ?></b></td>            
                     </tr>                    
-                    <?php foreach ($all_details as $detail) {?>
+                    <?php foreach ($all_details as $detail) {
+        // echo "<pre>";    prints_r($all_details);die;
+
+                        ?>
                         <tr commodity_id="<?php echo $checker ?>"><input type="hidden" id="commodity_id[<?php echo $checker?>]" name="commodity_id[<?php echo $checker?>]" value="<?php echo $detail['commodity_id']; ?>" >
                         <input type="hidden" id="facilityCode" name="facilityCode">
                         <input type="hidden" id="district" name="district" value="<?php echo $district_id; ?>">
@@ -656,7 +659,8 @@ function showCancel()
 
 function hideCancel()
 {
-    $('#cancel_edit').hide();        
+    $('#cancel_edit').hide(); 
+    $('.form-control').attr('readonly',true);     
 }
 
 $('#cancel_edit').button().click(function(e)

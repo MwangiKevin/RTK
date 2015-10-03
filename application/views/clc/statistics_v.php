@@ -1,11 +1,11 @@
-<div id="clc_contents">
+<div id="clc_contents" style="text-align:centre">
 	<div id="stock_card" class="table_divs panel panel-success">
 	  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Stock Card</div>
 	  	<table id="stock_card_table" class="display table" cellspacing="0" width="100%">
 			<thead>
 				<tr class="header_tr">
-					<th colspan="4" id="stock_period"><b>Stocks as At End of June 2015</b></th>
+					<th colspan="8" id="stock_period"><b>Stocks as At End of June 2015</b></th>
 				</tr>
 				<tr class="header_tr">					
 					<th>Commodity Name</th>
@@ -113,7 +113,7 @@
 	<div id="non-reported" class="table_divs_non_reported panel panel-success">
 	  <!-- Default panel contents -->
 	  <div class="panel-heading" style="font-size:13px;font-weight:bold">Facilities Not-Reported</div>
-	  	<table id="non_reported_facilities" class="display table table-bordered" cellspacing="0" width="100%">
+	  	<table id="non_reported_facilities" class="display table table-bordered" cellspacing="0" width="100%" >
 			<thead>
 				<tr class="header_tr">
 					<th colspan="4" id="stock_period"><b>Facilities Not Reported for June 2015</b></th>
@@ -225,15 +225,16 @@
 				s[i][7]
 				]);
 				} // End For
+				$('#stock_card_table').css('text-align', 'center');
 			},
 			error: function(e){
 				console.log(e.responseText);
 			}
 		});
-		// get_highest_stocks(4);
-		// get_highest_stocks(5);
-		// get_highest_stocks(6);
-		// get_non_reported_facilities();
+		get_highest_stocks(4);
+		get_highest_stocks(5);
+		get_highest_stocks(6);
+		get_non_reported_facilities();
 		function get_highest_stocks(comm){
 			var tbl_name = '';			
 			if(comm==4){
@@ -267,16 +268,19 @@
 					s[i][2]
 					]);
 					} // End For
+
 				},
 				error: function(e){
 					console.log(e.responseText);
 				}
 			});
+			$('#'+tbl_name).css('text-align', 'center');
+
 		}			
 
-		// get_highest_expiries(4);
-		// get_highest_expiries(5);
-		// get_highest_expiries(6);
+		get_highest_expiries(4);
+		get_highest_expiries(5);
+		get_highest_expiries(6);
 		function get_highest_expiries(comm){
 			var tbl_name = '';			
 			if(comm==4){
@@ -315,6 +319,8 @@
 					console.log(e.responseText);
 				}
 			});
+			$('#'+tbl_name).css('text-align', 'center');
+
 		}		
 
 		function get_non_reported_facilities(){			
@@ -344,6 +350,8 @@
 					console.log(e.responseText);
 				}
 			});
+			$('#non_reported_facilities').css('text-align', 'center');
+
 		}			
 		
 	});
@@ -388,6 +396,9 @@
 	   modal element will be visible */
 	body.loading .modal {
 	    display: block;
+	}
+	table.td{
+		text-align: center;
 	}
 
 </style>

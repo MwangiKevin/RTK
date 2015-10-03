@@ -14,14 +14,14 @@ class Date_settings_model extends CI_Model
 
 	function get_deadline_details($zone)
 	{
-		$sql = "select * from rtk_settings where zone='$zone' and status='0'";
+		$sql = "select * from rtk_settings where zone='Zone $zone' and status='0'";
 		$result = $this->db->query($sql)->result_array();					
 		return $result;
 	}
 
 	function get_deadline_date($zone)
 	{
-		$sql = "select deadline from rtk_settings where zone='$zone' and status='0'";
+		$sql = "select deadline from rtk_settings where zone='Zone $zone' and status='0'";
 		$result = $this->db->query($sql)->result_array();			
 		$deadline = $result[0]['deadline'];
 		return $deadline;
@@ -95,6 +95,7 @@ class Date_settings_model extends CI_Model
 
             $first_day_text = date('D F Y', strtotime("first day of this month"));
             $last_day_text= date('D F Y', strtotime("last day of this month"));
+            $month_text = date("F", strtotime($month));
         }
 		
         $englishdate = date('F, Y', strtotime("first day of this month"));
@@ -117,6 +118,7 @@ class Date_settings_model extends CI_Model
     							'today'=>$today,
     							'today_text'=>$today_text,
                                 'englishdate'=>$englishdate,
+                                'month_text'=>$month_text,
                                 'year'=>$year,
                                 'month'=>$month);
     	return $current_month;

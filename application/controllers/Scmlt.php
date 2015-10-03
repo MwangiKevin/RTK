@@ -160,6 +160,9 @@ class Scmlt extends CI_Controller {
 		$mfl = $order_details['facility_code'];		
 		$lab_commodities = $this->categories->get_active();
 
+	    // echo "<pre>";    print_r($lab_details_all);die;
+
+
 		$lab_details_begining_bal = $this->lab_details->get_begining_balance($mfl);	
 		$facility_details = $this->facilities->get_one_mfl($mfl);		
 		$facility_name = $facility_details[0]['facility_name'];

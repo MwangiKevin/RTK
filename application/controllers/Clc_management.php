@@ -159,9 +159,9 @@ class Clc_management extends CI_Controller {
 		$this->load->model("Percentages_model",'percentages');	
 		$county_id = $this->session->userdata('county_id');					
 		$percentage_details = $this->percentages->get_county_percentage($county_id);
-		$percentage = null;
+		$percentage = 0;
 		if(count($percentage_details)!=0){
-			$percentage = intval($percentage_details['percentage']);				
+			$percentage = intval($percentage_details[0]['percentage']);				
 		}else{
 			$percentage = 0;
 		}
@@ -179,7 +179,10 @@ class Clc_management extends CI_Controller {
 		$month  = date('m');		
 		$this->load->model("Lab_details_model",'lab_details');			
 		$county_id = $this->session->userdata('county_id');							
-		$facil_details= $this->lab_details->get_total_summary_county($year,$month,$county_id);	    	
+		$facil_details= $this->lab_details->get_total_summary_county($year,$month,$county_id);	
+
+		echo"<pre>";print_r($facil_details);die;
+
 		if(count($facil_details)!=0)
 		{
 			for ($i=0; $i < count($facil_details); $i++) { 
@@ -216,6 +219,13 @@ class Clc_management extends CI_Controller {
 		}		
 	    echo json_encode($stock_details);
 	    
+	}
+
+	function set_up_percentages($month)
+	{
+		$this->load->model("Percentages_model",'percentage_model');		
+		$this->percentage_model->update_county_percentages_month($month);	
+
 	}
 
 
@@ -600,8 +610,8 @@ class Clc_management extends CI_Controller {
 			$district_id = $districts_details[0]['id'];
 			$district_name = $districts_details[0]['district'];
 		}	
-						
-		$facil_amcs = $this->amc_details->get_district_amc($district_id);		
+				
+		$facil_amcs = $this->amc_details->get_district_amc($district_id);				
 		$facil_endbals = $this->lab_details->get_ending_balance_district($district_id);	
 		$count = count($facil_amcs);
     	$stock_details = array();

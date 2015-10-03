@@ -42,7 +42,9 @@ class Facilities_model extends CI_Model
 
 	function get_all_in_district($district_id)
 	{
-		$sql = "select * from facilities where rtk_enabled='1' and district='$district_id'";		
+		$sql = "select facilities.*, counties.zone from facilities, districts, counties
+		 where facilities.district = districts.id and districts.county = counties.id and
+		  rtk_enabled='1' and facilities.district='$district_id'";		
 		$result = $this->db->query($sql)->result_array();
 		return $result;
 	}

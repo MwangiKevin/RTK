@@ -35,8 +35,8 @@ class Lab_details_model extends CI_Model
         		AND lab_commodity_details.commodity_id = lab_commodities.id
         		AND lab_commodity_categories.id = lab_commodities.category
         		AND facilities.district = districts.id
-        		AND lab_commodity_details.order_id = lab_commodity_orders.id
-        		AND lab_commodity_orders.id = '$order_id'";
+        		AND lab_commodity_details.order_id = lab_commodity_orders.old_id
+        		AND lab_commodity_orders.old_id = '$order_id'";
         $result = $this->db->query($sql)->result_array();
         return $result;
 	}
@@ -46,10 +46,16 @@ class Lab_details_model extends CI_Model
 		$result_bal = array();
 	    $start_date_bal = date('Y-m-d', strtotime("first day of previous month"));
 	    $end_date_bal = date('Y-m-d', strtotime("last day of previous month"));
-	    $sql_bal = "SELECT lab_commodity_details.closing_stock from lab_commodity_orders, lab_commodity_details 
-	    where lab_commodity_orders.id = lab_commodity_details.order_id 
-	    and lab_commodity_orders.order_date between '$start_date_bal' and '$end_date_bal' 
-	    and lab_commodity_orders.facility_code='$mfl'";
+	    // $sql_bal = "SELECT lab_commodity_details.closing_stock from lab_commodity_orders, lab_commodity_details 
+	    // where lab_commodity_orders.old_id = lab_commodity_details.order_id 
+	    // and lab_commodity_orders.order_date between '$start_date_bal' and '$end_date_bal' 
+	    // and lab_commodity_orders.facility_code='$mfl'";
+        $sql_bal = "SELECT lab_commodity_details.closing_stock from lab_commodity_orders, lab_commodity_details, lab_commodities 
+        where lab_commodity_orders.old_id = lab_commodity_details.order_id 
+        and lab_commodity_orders.order_date between '$start_date_bal' and '$end_date_bal' 
+        and lab_commodity_orders.facility_code='$mfl'
+         AND lab_commodity_details.commodity_id = lab_commodities.id 
+        AND lab_commodities.category =1";
 
 	    $res_bal = $this->db->query($sql_bal)->result_array();
 
@@ -81,16 +87,48 @@ class Lab_details_model extends CI_Model
 	    $firstdate = date('Y-m-d', strtotime("first day of previous month"));
 	    $lastdate = date('Y-m-d', strtotime("last day of previous month"));
 	    $sql = "SELECT lab_commodities.id, lab_commodities.commodity_name,SUM(lab_commodity_details.closing_stock) AS end_bal
-				FROM lab_commodities,lab_commodity_details,districts, counties, facilities
+				FROM lab_commodities,lab_commodity_details,districts, facilities
 				WHERE  lab_commodities.category = '1' AND lab_commodity_details.commodity_id = lab_commodities.id
         		AND lab_commodity_details.created_at BETWEEN '$firstdate' AND '$lastdate'
         		AND  lab_commodity_details.facility_code = facilities.facility_code 
         		AND facilities.rtk_enabled = '1' AND facilities.district = '$district_id'
 				GROUP BY lab_commodities.id
-				ORDER BY lab_commodities.id ASC";		
+				ORDER BY lab_commodities.id ASC";	
+        // echo "$sql";die;
 	    $result = $this->db->query($sql)->result_array();
+        // echo "<pre>";
+        // print_r($result);die();
 	    return $result;
 	}
+    function get_ending_balance_national(){
+    if (!isset($month)) {
+        $month = date('mY', strtotime('-0 month'));
+    }
+
+    $year = substr($month, -4);
+    $month = substr_replace($month, "", -4);              
+    $firstdate = $year . '-' . $month . '-01';
+    $num_days = cal_days_in_month(CAL_GREGORIAN, $month, $year);
+    $lastdate = $year . '-' . $month .'-'. $num_days;
+
+    $sql = "SELECT 
+                lab_commodities.id,
+                lab_commodities.commodity_name,
+                SUM(lab_commodity_details.closing_stock) AS end_bal
+            FROM
+                lab_commodities,
+                lab_commodity_details
+            WHERE
+                lab_commodities.category = '1'
+                    AND lab_commodity_details.commodity_id = lab_commodities.id
+                    AND lab_commodity_details.created_at BETWEEN '$firstdate' AND '$lastdate'
+            GROUP BY lab_commodities.id
+            ORDER BY lab_commodities.id ASC";
+    // echo "$sql"; die;
+    
+    $result = $this->db->query($sql)->result_array();
+    return $result;
+    }
 
 	function save_order_details($data){
 		$this->db->insert('lab_commodity_details', $data); 		
@@ -253,7 +291,7 @@ class Lab_details_model extends CI_Model
         // array_push($returnable, $res2);
 
         $sql4 = $sql . " AND lab_commodities.id = 4";
-        // echo $sql4;die();
+        // echo $sql4;//die();
         $res3 = $this->db->query($sql4)->result_array();
         array_push($returnable, $res3);
 

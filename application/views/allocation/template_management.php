@@ -4,7 +4,7 @@
 <div id="inner_wrapper"> 
 	<div id="side_menu">
 		<?php 
-			include_once('side_menu.php');
+			include_once('side_menu_management.php');
 		?>
 	</div>
 	<div id="banner">
@@ -17,7 +17,8 @@
 				echo '<span id="location">'.$location.'</span>';
 			?>
 		</div>	
-				
+		<div id="alert" style="margin-top:2%;width:99%;float:left;margin-left:1%;">			
+		</div>	
 	</div>
 	
 	<div id="content">		
@@ -57,7 +58,7 @@
 		border:1px solid #ccc;
 		background-color: #f5f5f5;
 		position: fixed;
-		margin-top: 6%;
+		margin-top: 5%;
 		/*color: #ccc;*/
 		box-shadow: 1px 1px 12px #888888;
 		overflow-y:scroll;
@@ -93,7 +94,7 @@
 		float: left;
 		/*border: solid 1px #000;*/
 		/*border-color: green;*/
-		margin-left: 23%;
+		margin-left: 21%;
 		margin-top: 5%;
 		overflow: none;
 	}
@@ -132,3 +133,27 @@
 		color:#ffffff;
 	}
 </style>
+<script type="text/javascript">
+$(document).ready(function (e){
+	var total = 0;
+	var reported = 0;
+	var nonreported = 0;
+	var percentage = 0;
+	
+	$('#system_alert_div').hide();
+	
+
+	var active_link = '<?php echo $active_link;?>';
+	clear_active_links();
+	$('#'+active_link).addClass('currently_active_panel');
+	function clear_active_links()
+	{
+		$('#orders').removeClass('active_link');
+		$('#allocations').removeClass('active_link');
+		$('#statistics').removeClass('active_link');
+		$('#home').removeClass('active_link');
+	}
+		
+});
+
+</script>

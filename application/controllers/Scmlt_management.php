@@ -52,6 +52,7 @@ class Scmlt_management extends CI_Controller {
 	function set_up_percentages(){
 		$this->load->model("Percentages_model",'percentage_model');
 		$this->percentage_model->set_up_district_percentages();
+		$this->percentage_model->set_up_county_percentages();
 	}
 
 	function update_percentages($id){
@@ -99,7 +100,8 @@ class Scmlt_management extends CI_Controller {
 	    $current_date = $current_month_details['today'];
 	    $date_diff = $deadline_date - $current_date;
 	    $reported = 0;
-	    $nonreported = 0;	    
+	    $nonreported = 0;	
+
 	    foreach ($facility_details as $key => $value) {
 	    	$mfl = $value['facility_code'];
 	    	$facility_name = $value['facility_name'];
@@ -285,6 +287,8 @@ class Scmlt_management extends CI_Controller {
 		    $data = array('facility_code' => $facility_code,'compiled_by' => $compiled_by,'approved_by' => $approved_by, 'order_date' => $order_date, 'vct' => $vct, 'pitc' => $pitc, 'pmtct' => $pmtct, 'b_screening' => $b_screening, 'other' => $other, 'specification' => $specification, 'rdt_under_tests' => $rdt_under_tests, 'rdt_under_pos' => $rdt_under_pos, 'rdt_btwn_tests' => $rdt_btwn_tests, 'rdt_btwn_pos' => $rdt_btwn_pos, 'rdt_over_tests' => $rdt_over_tests, 'rdt_over_pos' => $rdt_over_pos, 'micro_under_tests' => $micro_under_tests, 'micro_under_pos' => $micro_under_pos, 'micro_btwn_tests' => $micro_btwn_tests, 'micro_btwn_pos' => $micro_btwn_pos, 'micro_over_tests' => $micro_over_tests, 'micro_over_pos' => $micro_over_pos, 'beg_date' => $beg_date, 'end_date' => $end_date, 'explanation' => $explanation, 'moh_642' => $moh_642, 'moh_643' => $moh_643, 'report_for' => $lastmonth);
 		    $this->load->model("Lab_orders_model",'orders_model');				
 		    $order_id = $this->orders_model->save_order($data);
+		    $update_data = array('old_id'=>$order_id);
+		    $this->orders_model->update_order($update_data,$order_id);
 
 		    $this->load->model("Lab_details_model",'details_model');				
 		    $this->load->model("Percentages_model",'percentage_model');				
@@ -294,7 +298,8 @@ class Scmlt_management extends CI_Controller {
 
 		    for ($i = 0; $i < $commodity_count; $i++) {            
 		        $mydata = array('order_id' => $order_id, 'facility_code' => $facility_code, 'commodity_id' => $drug_id[$i], 'beginning_bal' => $b_balance[$i], 'q_received' => $q_received[$i], 'q_used' => $q_used[$i], 'no_of_tests_done' => $tests_done[$i], 'losses' => $losses[$i], 'positive_adj' => $pos_adj[$i], 'negative_adj' => $neg_adj[$i], 'closing_stock' => $physical_count[$i], 'q_expiring' => $q_expiring[$i], 'days_out_of_stock' => $days_out_of_stock[$i], 'q_requested' => $q_requested[$i]);
-		        $this->details_model->save_order_details($mydata);	        
+		        $this->details_model->save_order_details($mydata);	
+		     // echo "<pre>";   print_r($mydata);        
 		    }
 		    $district_dets = $this->districts_model->get_one_id($district_id);
 		   	$county_id = $district_dets['county'];
@@ -591,7 +596,8 @@ class Scmlt_management extends CI_Controller {
 		$this->load->model("Percentages_model",'percentage_model');		
 		$this->load->model("Districts_model",'districts');		
 		$county_id = $this->session->userdata('county_id');
-		$districts_in_county = $this->districts->get_all_from_county($county_id);		
+		$districts_in_county = $this->districts->get_all_from_county($county_id);	
+			
 		foreach ($districts_in_county as $key => $district) {
 			$district_id = $district['id'];			
 			$district_name = $district['district'];

@@ -116,6 +116,8 @@
                 </tr>
                 <?php
                 $checker = 0;
+                // echo "<pre>";
+                // print_r($lab_commodities_categories);die;
                 foreach ($lab_categories as $lab_category) {
                     ?>
                     <tr>
@@ -144,7 +146,6 @@
                 }
             }
             ?>
-            <tr>
                 <td colspan = "14"><br/></td>
             </tr>
             <tr>                    

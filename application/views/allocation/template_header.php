@@ -44,9 +44,9 @@
     </head>
 <body screen_capture_injected="true" style="">
 
-    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <div class="navbar-header">
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation" style="position:fixed">
+        <div class="container-fluid" >
+            <div class="navbar-header" >
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -62,7 +62,7 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right" >
-                    <li><a class="" href="<?php echo site_url() . 'Home'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>              
+                    <li><a class="" href="<?php echo site_url() . 'Home_controller'; ?>" ><span class="glyphicon glyphicon-home" ></span>HOME</a> </li>              
                     <?php                    
                     $log_status = $this->session->userdata('log_status');
                     if($log_status==0){?>                    
